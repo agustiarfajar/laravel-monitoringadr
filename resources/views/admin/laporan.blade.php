@@ -101,9 +101,25 @@
             <h5 class="card-title">Laporan KPI Bulanan</h5>
                 <div style="text-align: left">
                   <!-- Tombol Export to Excel -->
-                      <a href="{{ url('export-laporan-kpi') }}">
-                        <button class="btn btn-success">Export to Excel</button>
-                      </a>
+                      <?php 
+                      if(isset($_GET['start-date']))
+                      {
+                          $tgl_mulai = $_GET['start-date'];
+                          $tgl_selesai = $_GET['end-date'];
+
+                          ?>
+                          <a href="{{ url('export-laporan-kpi?start-date=') }}<?= $tgl_mulai; ?>&end-date=<?= $tgl_selesai; ?>">
+                            <button class="btn btn-success">Export to Excel</button>
+                          </a>
+                          <?php
+                      } else {
+                        ?>
+                          <a href="{{ url('export-laporan-kpi') }}">
+                            <button class="btn btn-success">Export to Excel</button>
+                          </a>
+                        <?php
+                      }
+                      ?>
                 </div>
         </div>
 
@@ -116,10 +132,10 @@
                               <div class="mb-3">
                                   <label for="date-range" class="form-label">Rentang Tanggal</label>
                                   <div class="input-group">
-                                      <input type="date" class="form-control " name="start-date" id="start-date" placeholder="From">
-                                      <span class="input-group-text"><i class="bi bi-arrow-right"></i></span>
-                                      <input type="date" class="form-control " name="end-date" id="end-date" placeholder="To">
-                                      <button type="submit" name="submit" class="btn btn-primary" onclick="validateDateRange(event)">Buat</button>
+                                        <input type="date" class="form-control" name="start-date" id="start-date" placeholder="From">
+                                        <span class="input-group-text"><i class="bi bi-arrow-right"></i></span>
+                                        <input type="date" class="form-control" name="end-date" id="end-date" placeholder="To">
+                                        <button type="button" id="btnFilter" class="btn btn-primary">Buat</button>
                                   </div>
                                   <div id="date-error" class="text-danger"></div>
                                   
@@ -132,7 +148,7 @@
         <div class="row mb-2" id="barang_bulanan_content">
             <!-- Content specific to "Laporan Barang Bulanan" -->
                 <div class="col-12">
-                <table class="table datatable">
+                <table class="table datatable" id="table_laporan">
                     <thead>
                           <tr>
                               <th scope="col">#</th>
@@ -152,73 +168,67 @@
                     </thead>
                     <tbody>
                       @php $i = 1; @endphp
-                      @foreach($result as $row)
-                      <tr>
-                        <td>{{ $i++ }}</td>
-                        <td>
-                          @if(substr($row->no_faktur, 0, 2) == 'SJ')
-                            {{ ($row->tgl_diterima_site != null) ?  $row->tgl_diterima_site : '-'}}
-                          @elseif(substr($row->no_faktur, 0, 2) == 'SP')
-                            {{ ($row->tgl_kirim_pemasok != null) ? $row->tgl_kirim_pemasok : '-' }}
-                          @endif
-                        </td>
-                        <td>{{ $row->tgl_surat_jalan }}</td>
-                        <td>{{ ($row->tgl_diterima_site != null) ?  $row->tgl_diterima_site : '-'}}</td>
-                        <td>
-                          {{ (substr($row->no_faktur, 0, 2) == 'SJ' ? 'SHO' : 'SSP') }}
-                        </td>
-                        <td>{{ $row->no_faktur }}</td>
-                        <td>{{ $row->perusahaan }}</td>
-                        <td>{{ $row->item }}</td>
-                        <td>{{ $row->supplier }}</td>
-                        <td>{{ $row->ekspedisi }}</td>
-                        <td>{{ $row->nomor_po }}</td>
-                        <td>{{ $row->jumlah }}</td>
-                        <td>{{ $row->unit }}</td>
-                      </tr>
-                      @endforeach
-                          <!-- <tr>
-                              <td>1</td>
-                              <td>2023-07-02</td>
-                              <td>2023-07-03</td>
-                              <td>2023-07-04</td>
-                              <td>SJ/2023/0001</td>
-                              <td>PT KASIH AGRO MANDIRI PKS</td>
-                              <td>RELAY RXM4AB2P7 6A 230Vac SCHNEIDER</td>
-                              <td>CV.DJAKARTA ELETRIKAL CENTRE</td>
-                              <td>Bus Laju Prima</td>
-                              <td>PO:WE001592 PR:WE001016</td>
-                              <td>10</td>
-                              <td>Pcs</td>
-                          </tr>
+                      <?php 
+                        if(isset($_GET['start-date']))
+                        {
+                            ?>
+                            @foreach($result_filter as $row)
+                            <tr>
+                              <td>{{ $i++ }}</td>
+                              <td>
+                                @if(substr($row->no_faktur, 0, 2) == 'SJ')
+                                  {{ ($row->tgl_diterima_site != null) ?  $row->tgl_diterima_site : '-'}}
+                                @elseif(substr($row->no_faktur, 0, 2) == 'SP')
+                                  {{ ($row->tgl_kirim_pemasok != null) ? $row->tgl_kirim_pemasok : '-' }}
+                                @endif
+                              </td>
+                              <td>{{ $row->tgl_surat_jalan }}</td>
+                              <td>{{ ($row->tgl_diterima_site != null) ?  $row->tgl_diterima_site : '-'}}</td>
+                              <td>
+                                {{ (substr($row->no_faktur, 0, 2) == 'SJ' ? 'SHO' : 'SSP') }}
+                              </td>
+                              <td>{{ $row->no_faktur }}</td>
+                              <td>{{ $row->perusahaan }}</td>
+                              <td>{{ $row->item }}</td>
+                              <td>{{ $row->supplier }}</td>
+                              <td>{{ $row->ekspedisi }}</td>
+                              <td>{{ $row->nomor_po }}</td>
+                              <td>{{ $row->jumlah }}</td>
+                              <td>{{ $row->unit }}</td>
+                            </tr>
+                            @endforeach
+                            <?php
+                        } else {
+                          ?>
+                          @foreach($result as $row)
                           <tr>
-                              <td>2</td>
-                              <td>2023-07-05</td>
-                              <td>2023-07-06</td>
-                              <td>2023-07-07</td>
-                              <td>SJ/2023/0002</td>
-                              <td>PT KASIH AGRO MANDIRI 1</td>
-                              <td>ALE RXM4AB2P7 6A 230Vac SCHNEIDER</td>
-                              <td>CV.DJAKARTA ELEKTRIKAL CENTER</td>
-                              <td>Bus Laju Prima</td>
-                              <td>PO:WE001592 PR:WE001016</td>
-                              <td>90</td>
-                              <td>BOX</td>
+                            <td>{{ $i++ }}</td>
+                            <td>
+                              @if(substr($row->no_faktur, 0, 2) == 'SJ')
+                                {{ ($row->tgl_diterima_site != null) ?  $row->tgl_diterima_site : '-'}}
+                              @elseif(substr($row->no_faktur, 0, 2) == 'SP')
+                                {{ ($row->tgl_kirim_pemasok != null) ? $row->tgl_kirim_pemasok : '-' }}
+                              @endif
+                            </td>
+                            <td>{{ $row->tgl_surat_jalan }}</td>
+                            <td>{{ ($row->tgl_diterima_site != null) ?  $row->tgl_diterima_site : '-'}}</td>
+                            <td>
+                              {{ (substr($row->no_faktur, 0, 2) == 'SJ' ? 'SHO' : 'SSP') }}
+                            </td>
+                            <td>{{ $row->no_faktur }}</td>
+                            <td>{{ $row->perusahaan }}</td>
+                            <td>{{ $row->item }}</td>
+                            <td>{{ $row->supplier }}</td>
+                            <td>{{ $row->ekspedisi }}</td>
+                            <td>{{ $row->nomor_po }}</td>
+                            <td>{{ $row->jumlah }}</td>
+                            <td>{{ $row->unit }}</td>
                           </tr>
-                          <tr>
-                              <td>3</td>
-                              <td>2023-07-12</td>
-                              <td>2023-07-15</td>
-                              <td>2023-07-17</td>
-                              <td>SP/2023/0001</td>
-                              <td>PT KASIH AGRO MANDIRI PKS</td>
-                              <td>AIR MINERAL SCHNEIDER</td>
-                              <td>Tokopedia</td>
-                              <td>DHL</td>
-                              <td>PO:WE001592 PR:WE001016</td>
-                              <td>100</td>
-                              <td>BTL</td>
-                          </tr> -->
+                          @endforeach
+                          <?php
+                        }   
+                      ?>
+
                     </tbody>
                 </table>
                 <!-- End Table with stripped rows -->
@@ -261,6 +271,34 @@
             event.target.form.submit();
         }
     }
+
+    $(document).ready(function() {
+      var tbody_laporan = $('#table_laporan tbody');
+      $('#btnFilter').on('click', function(e) {
+          e.preventDefault();
+
+          var form = $('#form-filter');
+          var tgl_mulai = $('#start-date').val();
+          var tgl_selesai = $('#end-date').val();
+          if(tgl_mulai == "" || tgl_selesai == "")
+          {
+            Swal.fire({
+                icon: 'error',
+                title: 'Isi rentang tanggal jangan kosong.',
+                text: 'Masukkan rentang tanggal yang sesuai.',
+            });
+          } else if(tgl_mulai > tgl_selesai)
+          {
+            Swal.fire({
+                icon: 'error',
+                title: 'Rentang Tanggal Tidak Valid',
+                text: 'Masukkan rentang tanggal yang sesuai.',
+            });
+          } else {
+              window.location.href = "{{ url('laporan?start-date=') }}"+tgl_mulai+"&end-date="+tgl_selesai+"";
+          }
+      })
+    })
 </script>
 
 @endsection
