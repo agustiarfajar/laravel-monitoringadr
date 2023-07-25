@@ -879,6 +879,37 @@ public function update_chart_periode(Request $request)
 
         $result = $pemasok->concat($ho);
 
+        // Filter
+        if(isset($_GET['start-date']))
+        {
+            $tgl_mulai = Carbon::parse($_GET['start-date']);
+            $tgl_selesai = Carbon::parse($_GET['end-date']);
+
+            $pemasok_filter = DB::table('pemasok_barang as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur',
+                        'b.perusahaan', 
+                        'c.item', 'c.supplier', 'a.ekspedisi', 'c.nomor_po', 'c.jumlah', 'c.unit')
+                ->orderBy('a.no_faktur', 'ASC')
+                ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
+                ->get();
+
+            $ho_filter = DB::table('pengiriman_ho as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                    ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                    ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur',
+                            'b.perusahaan', 
+                            'c.item', 'c.supplier', 'a.ekspedisi', 'c.nomor_po', 'c.jumlah', 'c.unit')
+                    ->orderBy('a.no_faktur', 'ASC')
+                    ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
+                    ->get();
+
+            $result_filter = $pemasok_filter->concat($ho_filter);
+
+            return view('admin.laporan', compact('result', 'result_filter'));
+        }
+
         return view('admin.laporan', compact('result'));
     }
 
@@ -907,7 +938,37 @@ public function update_chart_periode(Request $request)
 
         $data = $pemasok->merge($ho);
 
+        // Filter by date
+        if(isset($_GET['start-date']))
+        {
+            $tgl_mulai = Carbon::parse($_GET['start-date']);
+            $tgl_selesai = Carbon::parse($_GET['end-date']);
+
+            $pemasok_filter = DB::table('pemasok_barang as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur',
+                        'b.perusahaan', 
+                        'c.item', 'c.supplier', 'a.ekspedisi', 'c.nomor_po', 'c.jumlah', 'c.unit')
+                ->orderBy('a.no_faktur', 'ASC')
+                ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
+                ->get();
+
+            $ho_filter = DB::table('pengiriman_ho as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                    ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                    ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur',
+                            'b.perusahaan', 
+                            'c.item', 'c.supplier', 'a.ekspedisi', 'c.nomor_po', 'c.jumlah', 'c.unit')
+                    ->orderBy('a.no_faktur', 'ASC')
+                    ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
+                    ->get();
+
+            $result_filter = $pemasok_filter->concat($ho_filter);
+
+            return Excel::download(new LaporanKpiExport($result_filter), 'laporan_kpi_bulanan.xlsx');
+        }
+
         return Excel::download(new LaporanKpiExport($data), 'laporan_kpi_bulanan.xlsx');
     }
-
 }

@@ -159,10 +159,10 @@
                       if($_GET['pengiriman'] == 'all')
                       {
                         $pengiriman = $result;
-                      } elseif($_GET['pengiriman'] == 'ho')
+                      } else if($_GET['pengiriman'] == 'ho')
                       {
                         $pengiriman = $ho;
-                      } elseif($_GET['pengiriman'] == 'pemasok')
+                      } else if($_GET['pengiriman'] == 'pemasok')
                       {
                         $pengiriman = $pemasok;
                       }
