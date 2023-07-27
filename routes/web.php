@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\DataController;
+use App\Http\Controllers\PrintController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,12 @@ Route::post('/perusahaan/save', [AdminController::class, 'save_perusahaan']);
 Route::post('/perusahaan/update/{id}', [AdminController::class, 'update_perusahaan']);
 Route::get('/perusahaan/delete/{id}', [AdminController::class, 'delete_perusahaan']);
 
+// Ekspedisi
+Route::get('/ekspedisi', [AdminController::class, 'view_ekspedisi']);
+Route::post('/ekspedisi/save', [AdminController::class, 'save_ekspedisi']);
+Route::post('/ekspedisi/update/{id}', [AdminController::class, 'update_ekspedisi']);
+Route::get('/ekspedisi/delete/{id}', [AdminController::class, 'delete_ekspedisi']);
+
 // Dashboard periode
 Route::post('/sisa-barang-ho-update/periode', [AdminController::class, 'update_sisa_barang_ho_periode']);
 Route::post('/surat-jalan-update/periode', [AdminController::class, 'update_surat_jalan_periode']);
@@ -89,3 +96,6 @@ Route::post('/belum-kirim-pemasok-update/periode', [AdminController::class, 'upd
 Route::post('/belum-terima-site-update/periode', [AdminController::class, 'update_belum_terima_site_periode']);
 Route::post('/batal-proses-update/periode', [AdminController::class, 'update_batal_proses_periode']);
 Route::post('/chart-update/periode', [AdminController::class, 'update_chart_periode']);
+
+Route::get('/print/{id}', [PrintController::class, 'print']);
+Route::get('/printho/{id}', [PrintController::class, 'print_ho']);

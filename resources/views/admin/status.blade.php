@@ -256,11 +256,11 @@
                           <td>
                             @if(substr($row->no_faktur, 0, 2) == 'SJ')
                             <a href="{{ url('detail/pengiriman-ho/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <a href="" class="btn btn-warning btn-sm"><i class="bi bi-printer"></i></a>
+                            <button class="btn btn-warning btn-sm printButtonHo" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalHo {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @elseif(substr($row->no_faktur, 0, 2) == 'SP')
                             <a href="{{ url('detail/pengiriman-site/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <a href="" class="btn btn-warning btn-sm"><i class="bi bi-printer"></i></a>
+                            <button class="btn btn-warning btn-sm printButton" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalSite {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @endif
                           </td>
@@ -350,6 +350,20 @@
           const no_surat = $(this).data('nosurat');
           konfirmasiBatalPemasok(id, no_surat);
         })
+      })
+
+      $('.printButton').each(function(){
+          $(this).on('click', function() {
+              var id = $(this).data('id');
+              window.location.href = "{{ url('print') }}/"+id+"";
+          })
+      })
+
+      $('.printButtonHo').each(function(){
+          $(this).on('click', function() {
+              var id = $(this).data('id');
+              window.location.href = "{{ url('printho') }}/"+id+"";
+          })
       })
   });
 

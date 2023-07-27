@@ -115,7 +115,7 @@
                     </div>
                     
                     <div class="col-md-6">
-                      <label for="pic" class="form-label">Person In Charge</label>
+                      <label for="pic" class="form-label">PIC Perusahaan</label>
                       <input type="text" class="form-control" list="dataOptions" id="pic" name="pic" placeholder="Nama penerima" required>
                       <datalist id="dataOptions">
                           <option value="R. Basuki">
@@ -129,9 +129,22 @@
                         </datalist>
                     </div>
                     <div class="col-md-12">
+                      <label for="pemasok" class="form-label">Pemasok</label>
+                      <input type="text" class="form-control" id="pemasok" name="pemasok" placeholder="Nama Ekspedisi" required>
+                    </div>
+                    <div class="col-md-12">
                       <label for="ekspedisi" class="form-label">Ekspedisi</label>
                       <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required>
                     </div>
+                    <div class="col-md-6">
+                      <label for="alamat" class="form-label">Alamat</label>
+                      <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat Ekspedisi" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="telpon" class="form-label">No Telpon</label>
+                      <input type="text" class="form-control" id="telpon" name="telpon" placeholder="Nomor Telpon Ekspedisi" required>
+                    </div>
+                    
                   </div>
               </div>
           </div>
