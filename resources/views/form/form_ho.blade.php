@@ -266,6 +266,8 @@
 
               if(jumlah.val() == '') {
                 return alert('Isi jumlah barang yang akan dikirim');
+              } else if(jumlah.val() <= 0) {
+                return alert('Isikan jumlah dengan minimal 1');
               } else {
                 var items = {
                   id: id_barang.val(),

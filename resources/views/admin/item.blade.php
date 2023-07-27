@@ -117,6 +117,7 @@
                             <th scope="col" style="width: 15%;">Tgl Kedatangan</th>
                             <th scope="col" style="width: 10%;">Tujuan</th>
                             <th scope="col" style="width: 3%;">Status</th>
+                            <th scope="col" style="width: 7%;">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -147,7 +148,7 @@
                               @php 
                                 $tgl_kedatangan = strtotime($row->tgl_kedatangan);
                                 $selisih = $tgl_kedatangan - time();
-                                $hasil = abs(round($selisih / 86400) + 1);
+                                $hasil = abs(round($selisih / 86400));
           
                               @endphp
                               @if($hasil < 1 && $row->jumlah > 0)

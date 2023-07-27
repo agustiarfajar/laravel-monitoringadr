@@ -104,6 +104,9 @@
               <!-- Multi Columns Form -->
                   <div class="row g-3">
                     <!-- end of hidden input -->
+
+                    
+
                     <div class="col-md-6">
                       <label for="inputUnit5" class="form-label">Nama Perusahaan Tujuan</label>
                       <select id="inputUnit5" name="id_perusahaan" class="select-perusahaan form-select" required>
@@ -128,10 +131,27 @@
                           <option value="Akbar">
                         </datalist>
                     </div>
+
+                    <div class="col-md-12 ">
+                      <label for="suplier" class="form-label">Pemasok</label>
+                      <input type="text" class="form-control" id="supplier" placeholder="Nama Pemasok" required>
+                    </div>
+
                     <div class="col-md-12">
                       <label for="ekspedisi" class="form-label">Ekspedisi</label>
                       <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required>
                     </div>
+
+                    <div class="col-md-6">
+                      <label for="alamat" class="form-label">Alamat Ekspedisi</label>
+                      <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat" required>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="telpon" class="form-label">Telp</label>
+                      <input type="text" class="form-control" id="telpon" name="telpon" placeholder="Telp" required>
+                    </div>
+
                   </div>
               </div>
           </div>
@@ -143,14 +163,11 @@
         <div class="card-body">
                 <h5 class="card-title">Tambah Barang</h5>
                   <div class="row g-3">
-                    <div class="col-md-6 ">
+                    <div class="col-md-12 ">
                       <label for="user" class="form-label">Diminta Oleh</label>
                       <input type="text" class="form-control" id="user" placeholder="Nama pemesan">
                     </div>
-                    <div class="col-md-6 ">
-                      <label for="suplier" class="form-label">Pemasok</label>
-                      <input type="text" class="form-control" id="supplier">
-                    </div>
+                    
                     <div class="col-md-8 ">
                       <label for="item" class="form-label">Nama Barang</label>
                       <input type="text" class="form-control" id="item">
@@ -250,6 +267,8 @@
           if(user == '' || pemasok == '' || item == '' || jumlah == '' || unit == '' || no_po == '')
           {
               alert('Pastikan data terisi');
+          } else if(jumlah <= 0){
+            alert('Isikan jumlah dengan minimal 1');
           } else {
               jumlah = parseInt(jumlah);
               no = no+1; 
@@ -279,6 +298,13 @@
       {
           event.preventDefault();
           var form = event.target.form;
+          var perusahaan = $('#perusahaan').val();
+          var pic = $('#pic').val();
+          var ekspedisi = $('#ekspedisi').val();
+        if(perusahaan == '' || pic == '' || ekspedisi == '')
+        {
+            return alert('Pastikan semua data terisi');
+        } else {  
           Swal.fire({
               icon: "question",
               title: "Konfirmasi",
@@ -293,6 +319,7 @@
                   Swal.fire("Informasi","Data batal disimpan","error");
               }
           });
+        }
       }
     </script>
 
