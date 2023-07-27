@@ -100,7 +100,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-3 col-md-4"><b>Person In Charge </b></div>
+                    <div class="col-lg-3 col-md-4"><b>PIC Perusahaan </b></div>
                     <div class="col-lg-9 col-md-8">{{ $barang->pic }}</div>
                 </div>
                 <div class="row">

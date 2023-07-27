@@ -136,6 +136,15 @@
                       <label for="ekspedisi" class="form-label">Ekspedisi</label>
                       <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required>
                     </div>
+                    <div class="col-md-6">
+                      <label for="alamat" class="form-label">Alamat</label>
+                      <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat Ekspedisi" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="telpon" class="form-label">No Telpon</label>
+                      <input type="text" class="form-control" id="telpon" name="telpon" placeholder="Nomor Telpon Ekspedisi" required>
+                    </div>
+                    
                   </div>
               </div>
           </div>

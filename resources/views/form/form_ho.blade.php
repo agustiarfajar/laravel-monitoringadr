@@ -112,7 +112,7 @@
               </div>
               
               <div class="col-md-6">
-                <label for="pic" class="form-label">Person In Charge</label>
+                <label for="pic" class="form-label">PIC Perusahaan</label>
                 <input type="text" class="form-control" list="dataOptions" id="pic" name="pic" placeholder="Nama penerima">
                 <datalist id="dataOptions">
                     <option value="R. Basuki">
