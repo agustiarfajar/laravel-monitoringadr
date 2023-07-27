@@ -111,11 +111,11 @@
 </head>
 <body>
     <div class="container">
-        <p>Kepada: {{ $row }}</p>
-        <p>Up: {{ $barang }}</p>
+        <p>Kepada: Pemasok (Dummy)</p>
+        <p>Up: -</p>
         <p>Cc: Logistic</p>
         <h1>Surat Jalan Pengiriman Barang</h1>
-        <a>Dengan ini kami kirimkan barang melalui Ekspedisi {{ $barang}} dengan rincian barang sebagai berikut:</a>
+        <a>Dengan ini kami kirimkan barang melalui Ekspedisi {{ $barang->ekspedisi }} dengan rincian barang sebagai berikut:</a>
         <table class="shipment-info">
             <tr>
                 <th>No.</th>
@@ -125,18 +125,19 @@
                 <th>User</th>
                 <th>Jumlah</th>
                 <th>Unit</th>
-                <th>Colly</th>
             </tr>
+            @php $i = 1; @endphp
+            @foreach($barang_detail as $row)
             <tr>
-                <td>1</td>
-                <td>Barang A</td>
-                <td>Suplier A</td>
-                <td>PO123 / PR456</td>
-                <td>User A</td>
-                <td>10</td>
-                <td>Pcs</td>
-                <td>2</td>
+                <td>{{ $i++ }}</td>
+                <td>{{ $row->item }}</td>
+                <td>{{ $row->supplier }}</td>
+                <td>{{ $row->nomor_po }}</td>
+                <td>{{ $row->user }}</td>
+                <td>{{ $row->jumlah }}</td>
+                <td>{{ $row->unit }}</td>
             </tr>
+            @endforeach            
             <!-- Isi tabel dengan data lainnya sesuai kebutuhan -->
         </table>
         

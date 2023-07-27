@@ -256,11 +256,11 @@
                           <td>
                             @if(substr($row->no_faktur, 0, 2) == 'SJ')
                             <a href="{{ url('detail/pengiriman-ho/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <button class="btn btn-warning btn-sm" id="printButton" onclick="print()"><i class="bi bi-printer"></i></button>
+                            <button class="btn btn-warning btn-sm printButtonHo" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalHo {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @elseif(substr($row->no_faktur, 0, 2) == 'SP')
                             <a href="{{ url('detail/pengiriman-site/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <button class="btn btn-warning btn-sm" id="printButton" onclick="print()"><i class="bi bi-printer"></i></button>
+                            <button class="btn btn-warning btn-sm printButton" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalSite {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @endif
                           </td>
@@ -350,6 +350,20 @@
           const no_surat = $(this).data('nosurat');
           konfirmasiBatalPemasok(id, no_surat);
         })
+      })
+
+      $('.printButton').each(function(){
+          $(this).on('click', function() {
+              var id = $(this).data('id');
+              window.location.href = "{{ url('print') }}/"+id+"";
+          })
+      })
+
+      $('.printButtonHo').each(function(){
+          $(this).on('click', function() {
+              var id = $(this).data('id');
+              window.location.href = "{{ url('printho') }}/"+id+"";
+          })
       })
   });
 
@@ -796,42 +810,4 @@
   // }
 
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#printbutton").click(function () {
-                // Ganti "http://example.com/path/to/your/file.pdf" dengan URL PDF Anda
-                var pdfUrl = "https://static.buku.kemdikbud.go.id/content/pdf/bukuteks/kurikulum21/IPA-BS-KLS%20VII.pdf";
-
-                // Menggunakan metode Ajax untuk mengambil data PDF
-                $.ajax({
-                    url: pdfUrl,
-                    type: "GET",
-                    xhrFields: {
-                        responseType: 'blob' // Menentukan bahwa responsnya akan berupa Blob
-                    },
-                    success: function (data) {
-                        // Membuat objek URL dari Blob PDF
-                        var pdfBlob = new Blob([data], { type: 'application/pdf' });
-                        var pdfUrl = URL.createObjectURL(pdfBlob);
-
-                        // Membuat link sementara untuk diunduh
-                        var downloadLink = document.createElement('a');
-                        downloadLink.href = pdfUrl;
-                        downloadLink.download = 'downloaded_file.pdf';
-                        document.body.appendChild(downloadLink);
-
-                        // Simulasi klik pada link untuk memulai unduhan
-                        downloadLink.click();
-
-                        // Membersihkan objek URL dan link
-                        URL.revokeObjectURL(pdfUrl);
-                        document.body.removeChild(downloadLink);
-                    },
-                    error: function () {
-                        alert('Gagal mengunduh PDF.');
-                    }
-                });
-            });
-        });
 @endsection
