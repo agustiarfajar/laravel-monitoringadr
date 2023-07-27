@@ -34,20 +34,10 @@
             margin-top: 20px;
         }
 
-        .expedition-info th, .expedition-info td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
-
-        .expedition-info th {
-            background-color: #f2f2f2;
-            font-weight: normal;
-        }
-
 
         h1 {
             text-align: center;
+            font-size: 18px;
             margin-bottom: 30px;
             color: #333;
         }
@@ -63,9 +53,31 @@
             color: #333;
         }
 
+        
+        .expedition-info {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .expedition-info th, .expedition-info td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .expedition-info th {
+            background-color: #f2f2f2;
+            font-weight: normal;
+        }
+
+        .expedition-info tr:not(:last-child) {
+            margin-bottom: 5px;
+        }
+
         a {
             margin: 5px 0;
             color: #333;
+            font-size: 14px;
         }
 
         .sender-info, .receiver-info, .shipment-info {
@@ -138,13 +150,11 @@
         <a>Dengan ini kami mohon untuk menyerahkan barang, sbb :</a>
         <table class="shipment-info">
             <tr>
-                <th>Nama Barang</th>
-                <th>Quantity</th>
+                <th>Nama Barang dan Quantity</th>
                 <th>No. PO & PR</th>
             </tr>
             <tr>
-                <td>{{ $row }}</td>
-                <td>{{ $row }}</td>
+                <td>{{ $row }} ({{ $row }})</td>
                 <td>{{ $row }}</td>
             </tr>
             <!-- Isi tabel dengan data lainnya sesuai kebutuhan -->
@@ -153,24 +163,26 @@
         <a>Atas nama {{ $row }}, mohon barang tersebut diserahkan kepada:</a>
         <table class="expedition-info">
             <tr>
-                <td>Nama Ekspedisi:</td>
-                <td>{{ $barang }}</td>
+                <td>Nama Ekspedisi</td>
+                <td>: {{ $barang }}</td>
             </tr>
             <tr>
-                <td>Alamat:</td>
-                <td>Jl. Ekspedisi No. 123</td>
+                <td>Alamat</td>
+                <td>: Jl. Ekspedisi No. 123</td>
             </tr>
             <tr>
                 <td>PIC:</td>
-                <td>{{ $barang }}</td>
+                <td>: {{ $barang }}</td>
             </tr>
             <tr>
-                <td>Telp:</td>
-                <td>08123456789</td>
+                <td>Telp</td>
+                <td>: 08123456789</td>
             </tr>
         </table>
-
+        <br></br>
         <a>Demikianlah surat jalan ini kami buat, dan dapat dipergunakan sebagaimana mestinya.</a>
+        <br></br>
+        <p style="text-align: left;">Jakarta, 26 Juli 2023</p>
         <div class="signatures">
         <table>
             <tr>
@@ -184,6 +196,8 @@
                 <td colspan="2">_________________</td>
             </tr>
             </table>
+
+            <h2>Note : Surat jalan dilampirkan 3 rangkap ke pihak Ekspedisi</h2>
         </div>
     </div>
 </body>

@@ -19,6 +19,8 @@ class CreatePemasokBarangTable extends Migration
             $table->unsignedBigInteger('id_perusahaan');
             $table->string('pic');
             $table->string('ekspedisi');
+            $table->string('alamat');
+            $table->string('telpon');
             $table->date('tgl_surat_jalan')->nullable();
             $table->date('tgl_kirim_pemasok')->nullable();
             $table->date('tgl_diterima_site')->nullable();     

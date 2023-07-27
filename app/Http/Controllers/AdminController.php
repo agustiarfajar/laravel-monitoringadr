@@ -782,6 +782,13 @@ public function update_chart_periode(Request $request)
         }
     }
 
+    // Ekspedisi
+    public function view_ekspedisi()
+    {
+        $ekspedisi = Ekspedisi::orderBy('ekspedisi', 'ASC')->get();
+        return view('admin.ekspedisi', compact('ekspedisi'));
+    }
+
     // Perusahaan
     public function view_perusahaan()
     {
@@ -861,6 +868,8 @@ public function update_chart_periode(Request $request)
         }
     }
 
+
+    // Laporan
     public function laporan()
     {
         $pemasok = DB::table('pemasok_barang as a')

@@ -78,7 +78,7 @@ class FormController extends Controller
     public function save_barang(Request $request)
     {
         $params = $request->all();
-        // dd($params);
+         // dd($params);
         $brg = $params['id_barang'];
         $no_faktur = $this->noPemasokOtomatis();
         try {
@@ -88,6 +88,8 @@ class FormController extends Controller
                 'id_perusahaan' => $params['id_perusahaan'],
                 'pic' => $params['pic'],
                 'ekspedisi' => $params['ekspedisi'],
+                'alamat' => $params['alamat'],
+                'telpon' => $params['telpon'],
                 'status' => 'diproses',
                 'tgl_surat_jalan' => Date::now(),
             ]);

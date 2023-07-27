@@ -117,6 +117,7 @@
                             <th scope="col" style="width: 15%;">Tgl Kedatangan</th>
                             <th scope="col" style="width: 10%;">Tujuan</th>
                             <th scope="col" style="width: 3%;">Status</th>
+                            <th scope="col" style="width: 7%;">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -148,7 +149,11 @@
                                 $tgl_kedatangan = strtotime($row->tgl_kedatangan);
                                 $selisih = $tgl_kedatangan - time();
                                 $hasil = abs(round($selisih / 86400));
+<<<<<<< HEAD
                                 
+=======
+          
+>>>>>>> master
                               @endphp
                               @if($hasil < 1 && $row->jumlah > 0)
                                 <span class="badge rounded-pill bg-secondary">{{ $hasil }} hari</span>
