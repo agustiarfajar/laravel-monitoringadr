@@ -98,3 +98,4 @@ Route::post('/batal-proses-update/periode', [AdminController::class, 'update_bat
 Route::post('/chart-update/periode', [AdminController::class, 'update_chart_periode']);
 
 Route::get('/print/{id}', [PrintController::class, 'print']);
+Route::get('/printho/{id}', [PrintController::class, 'print_ho']);

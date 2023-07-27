@@ -5,7 +5,7 @@
     <title>Surat Jalan Perusahaan</title>
     <style>
         body {
-            font-family: Calibri;
+            font-family: Calibri, sans-serif;
             font-size: 12px;
             margin: 8px; /* Margin normal untuk elemen body */
         }
@@ -28,27 +28,29 @@
             object-fit: contain; /* Maintain aspect ratio and fit within the specified width and height */
         }
 
-            .expedition-info {
+        .expedition-info {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
 
-
         h1 {
             text-align: center;
+            font-family: Calibri, sans-serif;
             font-size: 18px;
             margin-bottom: 30px;
             color: #333;
         }
 
         h2 {
+            font-family: Calibri, sans-serif;
             font-size: 18px;
             color: #555;
             margin-bottom: 15px;
         }
 
         p {
+            font-family: Calibri, sans-serif;
             font-size: 14px;
             color: #333;
         }
@@ -78,6 +80,7 @@
             margin: 5px 0;
             color: #333;
             font-size: 14px;
+            font-family: Calibri, sans-serif;
         }
 
         .sender-info, .receiver-info, .shipment-info {
@@ -92,31 +95,29 @@
             padding-bottom: 5px;
         }
 
-                /* Styling untuk tabel barang */
-                .shipment-info {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-top: 20px;
-                }
-        
-                .shipment-info th, .shipment-info td {
-                    border: 1px solid #ccc;
-                    padding: 10px;
-                    text-align: left;
-                }
-        
-                .shipment-info th {
-                    background-color: #f2f2f2;
-                    font-weight: normal;
-                }
+        /* Styling untuk tabel barang */
+        .shipment-info {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .shipment-info th, .shipment-info td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .shipment-info th {
+            background-color: #f2f2f2;
+            font-weight: normal;
+        }
 
         .signatures table {
             width: 100%;
             margin-top: 30px;
             border-collapse: collapse;
         }
-
-
 
         .signatures th {
             background-color: #f2f2f2;
@@ -132,6 +133,7 @@
             width: 25%;
             height: 70px; /* Ubah nilai height sesuai dengan keinginan Anda */
         }
+
         @media screen and (max-width: 600px) {
             .container {
                 padding: 10px;
@@ -141,42 +143,51 @@
 </head>
 <body>
     <div>
-        <p>Kepada: {{ $row }}</p>
-        <p>Jakarta</p>
-        <p>Telp: 08123456789</p>
+        <p>Kepada:</p>
+        <p>Pemasok (Dummy)</p>
+        <p>Jakarta (Dummy)</p>
+        <p>Telp: 08123456789 (Dummy)</p>
     </div>
     <div class="container">
         <h1>Surat Jalan Penyerahan Barang</h1>
-        <a>Dengan ini kami mohon untuk menyerahkan barang, sbb :</a>
+        <a>Dengan ini kami mohon untuk menyerahkan barang sebagai berikut:</a>
         <table class="shipment-info">
             <tr>
-                <th>Nama Barang dan Quantity</th>
+                <th>No.</th>
+                <th>Nama Barang dan Jumlah</th>
                 <th>No. PO & PR</th>
             </tr>
+            @php $i = 1; @endphp
+            @foreach($barang_detail as $row)
             <tr>
-                <td>{{ $row }} ({{ $row }})</td>
-                <td>{{ $row }}</td>
+                <td>{{ $i++ }}</td>
+                <td>{{ $row->item }} ({{ $row->jumlah }} {{ $row->unit }})</td>
+                <td>{{ $row->nomor_po }}</td>
             </tr>
+            @endforeach 
+            
             <!-- Isi tabel dengan data lainnya sesuai kebutuhan -->
         </table>
         
-        <a>Atas nama {{ $row }}, mohon barang tersebut diserahkan kepada:</a>
+        
+
+        <a>Atas nama {{ $barang->perusahaan }}, mohon barang tersebut diserahkan kepada:</a>
         <table class="expedition-info">
             <tr>
                 <td>Nama Ekspedisi</td>
-                <td>: {{ $barang }}</td>
+                <td>: {{ $barang->ekspedisi }}</td>
             </tr>
             <tr>
                 <td>Alamat</td>
-                <td>: Jl. Ekspedisi No. 123</td>
+                <td>: {{ $barang->alamat }}</td>
             </tr>
             <tr>
-                <td>PIC:</td>
-                <td>: {{ $barang }}</td>
+                <td>PIC</td>
+                <td>: {{ $barang->pic }}</td>
             </tr>
             <tr>
                 <td>Telp</td>
-                <td>: 08123456789</td>
+                <td>: {{ $barang->telpon }}</td>
             </tr>
         </table>
         <br></br>
@@ -197,7 +208,7 @@
             </tr>
             </table>
 
-            <h2>Note : Surat jalan dilampirkan 3 rangkap ke pihak Ekspedisi</h2>
+            <h2>Note: Surat jalan dilampirkan 3 rangkap ke pihak ekspedisi</h2>
         </div>
     </div>
 </body>

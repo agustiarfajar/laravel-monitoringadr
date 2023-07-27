@@ -148,12 +148,8 @@
                               @php 
                                 $tgl_kedatangan = strtotime($row->tgl_kedatangan);
                                 $selisih = $tgl_kedatangan - time();
-                                $hasil = abs(round($selisih / 86400));
-<<<<<<< HEAD
+                                $hasil = abs(round($selisih / 86400) + 1);
                                 
-=======
-          
->>>>>>> master
                               @endphp
                               @if($hasil < 1 && $row->jumlah > 0)
                                 <span class="badge rounded-pill bg-secondary">{{ $hasil }} hari</span>

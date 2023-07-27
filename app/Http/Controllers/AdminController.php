@@ -877,6 +877,9 @@ public function update_chart_periode(Request $request)
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.supplier', 'c.nomor_po')
                 ->orderBy('a.no_faktur', 'ASC')
+                ->where('status', '=', 'diproses')
+                ->orWhere('status', '=', 'dikirim')
+                ->orWhere('status', '=', 'diterima')
                 ->get();
 
         $ho = DB::table('pengiriman_ho as a')
@@ -884,6 +887,9 @@ public function update_chart_periode(Request $request)
                 ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.supplier', 'c.nomor_po')
                 ->orderBy('a.no_faktur', 'ASC')
+                ->where('status', '=', 'diproses')
+                ->orWhere('status', '=', 'dikirim')
+                ->orWhere('status', '=', 'diterima')
                 ->get();
 
         $result = $pemasok->concat($ho);

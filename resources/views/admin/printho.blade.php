@@ -5,7 +5,7 @@
     <title>Surat Jalan Pengiriman Barang</title>
     <style>
         body {
-            font-family: Calibri;
+            font-family: Calibri, sans-serif;
             font-size: 12px;
             margin: 8px; /* Margin normal untuk elemen body */
         }
@@ -32,15 +32,18 @@
             text-align: center;
             margin-bottom: 30px;
             color: #333;
+            font-family: Calibri, sans-serif;
         }
 
         h2 {
+            font-family: Calibri, sans-serif;
             font-size: 18px;
             color: #555;
             margin-bottom: 15px;
         }
 
         p {
+            font-family: Calibri, sans-serif;
             font-size: 14px;
             color: #333;
         }
@@ -48,6 +51,7 @@
         a {
             margin: 5px 0;
             color: #333;
+            font-family: Calibri, sans-serif;
         }
 
         .sender-info, .receiver-info, .shipment-info {
@@ -60,25 +64,27 @@
             color: #333;
             border-bottom: 1px solid #333;
             padding-bottom: 5px;
+            font-family: Calibri, sans-serif;
         }
 
-                /* Styling untuk tabel barang */
-                .shipment-info {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-top: 20px;
-                }
-        
-                .shipment-info th, .shipment-info td {
-                    border: 1px solid #ccc;
-                    padding: 10px;
-                    text-align: left;
-                }
-        
-                .shipment-info th {
-                    background-color: #f2f2f2;
-                    font-weight: normal;
-                }
+        /* Styling untuk tabel barang */
+        .shipment-info {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .shipment-info th, .shipment-info td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+            font-family: Calibri, sans-serif;
+        }
+
+        .shipment-info th {
+            background-color: #f2f2f2;
+            font-weight: normal;
+        }
 
         .signatures table {
             width: 100%;
@@ -89,11 +95,13 @@
         .signatures th {
             background-color: #f2f2f2;
             font-weight: normal;
+            font-family: Calibri, sans-serif;
         }
 
         .signatures td {
             text-align: left;
             vertical-align: top;
+            font-family: Calibri, sans-serif;
         }
 
         .signatures td[colspan="2"] {
@@ -107,15 +115,15 @@
             }
         }
 
-    </style>
+    </style> 
 </head>
 <body>
     <div class="container">
-        <p>Kepada: {{ $row }}</p>
-        <p>Up: {{ $barang }}</p>
+        <p>Kepada: Pemasok (Dummy)</p>
+        <p>Up: {{ $barang->pic }}</p>
         <p>Cc: Logistic</p>
         <h1>Surat Jalan Pengiriman Barang</h1>
-        <a>Dengan ini kami kirimkan barang melalui Ekspedisi {{ $barang}} dengan rincian barang sebagai berikut:</a>
+        <a>Dengan ini kami kirimkan barang melalui Ekspedisi {{ $barang->ekspedisi }} dengan rincian barang sebagai berikut:</a>
         <table class="shipment-info">
             <tr>
                 <th>No.</th>
@@ -125,18 +133,19 @@
                 <th>User</th>
                 <th>Jumlah</th>
                 <th>Unit</th>
-                <th>Colly</th>
             </tr>
+            @php $i = 1; @endphp
+            @foreach($barang_detail as $row)
             <tr>
-                <td>1</td>
-                <td>Barang A</td>
-                <td>Suplier A</td>
-                <td>PO123 / PR456</td>
-                <td>User A</td>
-                <td>10</td>
-                <td>Pcs</td>
-                <td>2</td>
+                <td>{{ $i++ }}</td>
+                <td>{{ $row->item }}</td>
+                <td>{{ $row->supplier }}</td>
+                <td>{{ $row->nomor_po }}</td>
+                <td>{{ $row->user }}</td>
+                <td>{{ $row->jumlah }}</td>
+                <td>{{ $row->unit }}</td>
             </tr>
+            @endforeach            
             <!-- Isi tabel dengan data lainnya sesuai kebutuhan -->
         </table>
         

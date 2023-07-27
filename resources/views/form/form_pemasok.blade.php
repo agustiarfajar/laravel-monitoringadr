@@ -137,9 +137,13 @@
                       <input type="text" class="form-control" id="supplier" placeholder="Nama Pemasok" required>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                       <label for="ekspedisi" class="form-label">Ekspedisi</label>
                       <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="pic-eks" class="form-label">PIC Ekspedisi</label>
+                      <input type="text" class="form-control" id="pic-eks" name="pic-eks" placeholder="Nama PIC Ekspedisi" required>
                     </div>
                     <div class="col-md-6">
                       <label for="alamat" class="form-label">Alamat</label>
