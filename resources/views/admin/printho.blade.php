@@ -8,6 +8,7 @@
             font-family: Calibri, sans-serif;
             font-size: 12px;
             margin: 8px; /* Margin normal untuk elemen body */
+            margin-top: 90px;
         }
 
         h1, h2, p, table {
@@ -16,7 +17,7 @@
 
         .container {
             max-width: 800px;
-            margin: 30px auto;
+            margin: 3px auto;
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -30,27 +31,29 @@
 
         h1 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 12px;
             color: #333;
+            font-size: 18px;
             font-family: Calibri, sans-serif;
         }
 
         h2 {
             font-family: Calibri, sans-serif;
-            font-size: 18px;
+            font-size: 15px;
             color: #555;
             margin-bottom: 15px;
         }
 
         p {
             font-family: Calibri, sans-serif;
-            font-size: 14px;
+            font-size: 12px;
             color: #333;
         }
 
         a {
             margin: 5px 0;
             color: #333;
+            font-size: 12px;
             font-family: Calibri, sans-serif;
         }
 
@@ -71,12 +74,13 @@
         .shipment-info {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
+            margin-bottom: 5px;
         }
 
         .shipment-info th, .shipment-info td {
             border: 1px solid #ccc;
-            padding: 10px;
+            padding: 6px;
             text-align: left;
             font-family: Calibri, sans-serif;
         }
@@ -88,7 +92,7 @@
 
         .signatures table {
             width: 100%;
-            margin-top: 30px;
+            margin-top: 10px;
             border-collapse: collapse;
         }
 
@@ -106,7 +110,7 @@
 
         .signatures td[colspan="2"] {
             width: 25%;
-            height: 70px; /* Ubah nilai height sesuai dengan keinginan Anda */
+            height: 60px; /* Ubah nilai height sesuai dengan keinginan Anda */
         }
 
         @media screen and (max-width: 600px) {
@@ -119,17 +123,18 @@
 </head>
 <body>
     <div class="container">
-        <p>Kepada: Pemasok (Dummy)</p>
+        <p>Kepada:</p>
+        <p>{{ $barang->perusahaan }}</p>
         <p>Up: {{ $barang->pic }}</p>
         <p>Cc: Logistic</p>
         <h1>Surat Jalan Pengiriman Barang</h1>
-        <a>Dengan ini kami kirimkan barang melalui Ekspedisi {{ $barang->ekspedisi }} dengan rincian barang sebagai berikut:</a>
+        <a>Dengan ini kami kirimkan barang melalui ekspedisi {{ $barang->ekspedisi }} dengan rincian barang sebagai berikut:</a>
         <table class="shipment-info">
             <tr>
                 <th>No.</th>
-                <th>Item Barang</th>
-                <th>Suplier</th>
-                <th>No. PO & PR</th>
+                <th>Nama Barang</th>
+                <th>Pemasok</th>
+                <th>No. PO PR</th>
                 <th>User</th>
                 <th>Jumlah</th>
                 <th>Unit</th>
@@ -149,8 +154,9 @@
             <!-- Isi tabel dengan data lainnya sesuai kebutuhan -->
         </table>
         
-
         <a>Demikian surat jalan ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</a>
+        <br><br>
+        <p style="text-align: left;">Jakarta, 28 Juli 2023</p>
         <div class="signatures">
             <table>
                 <tr>
@@ -160,8 +166,8 @@
                     <td colspan="2">Diterima oleh:</td>
                 </tr>
                 <tr>
-                    <td colspan="2">_________________</td>
-                    <td colspan="2">_________________</td>
+                    <td colspan="2" style="text-decoration: underline;">Fery Gunawan</td>
+                    <td colspan="2" style="text-decoration: underline;">Lianto</td>
                     <td colspan="2">_________________</td>
                     <td colspan="2">_________________</td>
                 </tr>

@@ -22,6 +22,11 @@
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
+      <li>
+        <a href="{{ url('ekspedisi') }}">
+          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Tables Nav -->
 
@@ -134,16 +139,20 @@
 
                     <div class="col-md-12 ">
                       <label for="suplier" class="form-label">Pemasok</label>
-                      <input type="text" class="form-control" id="supplier" placeholder="Nama Pemasok" required>
+                      <input type="text" class="form-control" id="supplier" name="supplier" placeholder="Nama Pemasok" required>
                     </div>
+                    <!--div class="col-md-6">
+                      <label for="telp" class="form-label">No Telpon</label>
+                      <input type="text" class="form-control" id="telp" name="telp" placeholder="Nomor Telpon Pemasok" required>
+                    </div-->
 
                     <div class="col-md-8">
                       <label for="ekspedisi" class="form-label">Ekspedisi</label>
                       <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required>
                     </div>
                     <div class="col-md-4">
-                      <label for="pic-eks" class="form-label">PIC Ekspedisi</label>
-                      <input type="text" class="form-control" id="pic-eks" name="pic-eks" placeholder="Nama PIC Ekspedisi" required>
+                      <label for="pic" class="form-label">PIC Ekspedisi</label>
+                      <input type="text" class="form-control" id="pic" name="pic" placeholder="Nama PIC Ekspedisi" required>
                     </div>
                     <div class="col-md-6">
                       <label for="alamat" class="form-label">Alamat</label>
@@ -153,7 +162,6 @@
                       <label for="telpon" class="form-label">No Telpon</label>
                       <input type="text" class="form-control" id="telpon" name="telpon" placeholder="Nomor Telpon Ekspedisi" required>
                     </div>
-                    
                   </div>
               </div>
           </div>
@@ -199,13 +207,10 @@
                       <label for="nomor" class="form-label">Nomor PO/PR</label>
                       <input type="text" class="form-control" id="nomor">
                     </div>
-
                     <div style="text-align: right">
                       <button type="button" id="btnTambah" class="btn btn-primary"><i class="bi bi-plus"></i> Tambah</button>
                     </div>
                   </div>
-
-                  
           </div>
         </div>
 
@@ -281,7 +286,6 @@
 
               // reset data tambah barang
               $('#user').val('');
-              $('#supplier').val('');
               $('#item').val('');
               $('#jumlah').val('');
               $('#unit').val('');

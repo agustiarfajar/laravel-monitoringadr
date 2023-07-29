@@ -22,6 +22,11 @@
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
+      <li>
+        <a href="{{ url('ekspedisi') }}">
+          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Tables Nav -->
 
@@ -117,7 +122,6 @@
                             <th scope="col" style="width: 15%;">Tgl Kedatangan</th>
                             <th scope="col" style="width: 10%;">Tujuan</th>
                             <th scope="col" style="width: 3%;">Status</th>
-                            <th scope="col" style="width: 7%;">Action</th>
                         </tr>
                         </thead>
                         <tbody>

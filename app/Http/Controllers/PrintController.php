@@ -7,6 +7,7 @@ use App\Models\PemasokBarang;
 use App\Models\PemasokBarangDetail;
 use App\Models\PengirimanHo;
 use App\Models\PengirimanHoDetail;
+use App\Models\Ekspedisi;
 use Illuminate\Http\Request;
 use PDF;
 

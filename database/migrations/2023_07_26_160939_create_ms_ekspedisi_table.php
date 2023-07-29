@@ -18,6 +18,7 @@ class CreateMsEkspedisiTable extends Migration
             $table->string('ekspedisi');
             $table->string('alamat');
             $table->string('telpon');
+            $table->string('pic-eks');
             $table->timestamps();
         });
     }

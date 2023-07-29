@@ -11,6 +11,7 @@ use App\Models\Barang;
 use App\Models\PemasokBarang;
 use App\Models\PengirimanHo;
 use App\Models\Perusahaan;
+use App\Models\Ekspedisi;
 use App\Exports\LaporanKpiExport;
 use Maatwebsite\Excel\Facades\Excel;
 

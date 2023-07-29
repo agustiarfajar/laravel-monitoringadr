@@ -18,7 +18,7 @@
     </a>
     <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="{{ url('perusahaan') }}" class="active">
+        <a href="{{ url('perusahaan') }}">
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
@@ -108,10 +108,26 @@
             <div class="">
                 <form class="row g-3" method="post" action="{{ url('ekspedisi/save') }}">
                   @csrf
-                <div class="col-md-11">
-                  <input type="text" name="perusahaan" id="perusahaan" class="form-control" placeholder="Masukkan nama perusahaan">
+                <div class="col-md-12">
+                  <label for="ekspedisi" class="form-label">Nama Ekspedisi</label>
+                  <input type="text" name="ekspedisi" id="ekspedisi" class="form-control" placeholder="Masukkan nama ekspedisi">
                 </div>
-                <button type="button" onclick="konfirmasiSimpan()" class="btn btn-primary col-md-1"><i class="bi bi-plus-lg"></i></button>
+                <div class="col-md-6">
+                  <label for="pic-eks" class="form-label">PIC Ekspedisi</label>
+                  <input type="text" name="pic-eks" id="pic-eks" class="form-control" placeholder="Masukkan nama PIC ekspedisi">
+                </div>
+                <div class="col-md-6">
+                  <label for="telpon" class="form-label">Nomor Telpon</label>
+                  <input type="text" name="telpon" id="telpon" class="form-control" placeholder="Masukkan nomor telpon ekspedisi">
+                </div>
+                <div class="col-md-12">
+                  <label for="alamat" class="form-label">Alamat Ekspedisi</label>
+                  <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Masukkan alamat ekspedisi">
+                </div>
+                <div style="text-align: right">
+                <button type="button" onclick="konfirmasiSimpan()" class="btn btn-primary col-md-1"><i class="bi bi-plus"></i> Tambah</button>
+                </div>
+                
                 </form>
             </div>  
             </div>
@@ -126,16 +142,22 @@
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Perusahaan</th>
+                    <th scope="col">Nama Ekspedisi</th>
+                    <th scope="col">Alamat</th>
+                    <th scope="col">PIC Ekspedisi</th>
+                    <th scope="col">Nomor Telpon</th>
                     <th scope="col">Edit</th>
                   </tr>
                 </thead>
                 <tbody id="tbody">
                   @php $no = 1; @endphp
-                  @forelse($perusahaan as $row)
+                  @forelse($ekspedisi as $row)
                   <tr>
                     <td>{{ $no++ }}</td>
-                    <td>{{ $row->perusahaan }}</td>
+                    <td>{{ $row->ekspedisi }}</td>
+                    <td>{{ $row->alamat }}</td>
+                    <td>{{ $row->pic-eks }}</td>
+                    <td>{{ $row->telpon }}</td>
                     <td><button type="button" class="btn btn-warning btn-sm btnEdit"
                         data-id="{{ $row->id }}"
                         data-perusahaan="{{ $row->perusahaan }}">
@@ -145,12 +167,12 @@
                   </tr>
                   @empty
                   <tr>
-                    <td align="center" colspan="3">Tidak ada data</td>
+                    <td align="center" colspan="6">Tidak ada data</td>
                   </tr>
                   @endforelse 
                 </tbody>
               </table>
-              <!-- End Daftar Perusahaan -->
+              <!-- End Daftar Ekspedisi -->
 
             </div>
         </div>
@@ -184,10 +206,13 @@
   {
     event.preventDefault();
     var form = event.target.form;
-    var input = $('#perusahaan').val();
-    if(input == '')
+    var ekspedisi = $('#ekspedisi').val();
+    var pic_eks = $('#pic-eks').val();
+    var alamat = $('#alamat').val();
+    var telpon = $('#telpon').val();
+    if(ekspedisi == '' || pic_eks == '' || alamat == '' || telpon == '')
     {
-      return alert('Perusahaan masih kosong, silahkan isi data dengan benar');
+      return alert('Data masih kosong, silahkan isi data dengan benar');
     } else {
       Swal.fire({
         icon: "question",
@@ -200,7 +225,7 @@
         if(result.value) {
             // form.submit();
             $.ajax({
-              url: "{{ url('perusahaan/save') }}",
+              url: "{{ url('ekspedisi/save') }}",
               type: "POST",
               data: {
                 perusahaan: input,
@@ -216,7 +241,10 @@
                   });
 
                   // reset data tambah barang
-                  $('#perusahaan').val('');
+                  $('#ekspedisi').val('');
+                  $('#pic-eks').val('');
+                  $('#alamat').val('');
+                  $('#telpon').val('');
 
                 var Toast = Swal.mixin({
                     toast: true,
@@ -268,7 +296,7 @@
     }).then((result) => {
         if(result.value) {
             $.ajax({
-              url: "{{ url('perusahaan/delete') }}/"+id+"",
+              url: "{{ url('ekspedisi/delete') }}/"+id+"",
               type: "GET",
               data: {
                 id: id,

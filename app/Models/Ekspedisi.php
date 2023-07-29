@@ -10,5 +10,5 @@ class Ekspedisi extends Model
     use HasFactory;
 
     protected $table = 'ms_ekspedisi';
-    protected $fillable = ['ekspedisi', 'alamat', 'telpon'];
+    protected $fillable = ['ekspedisi', 'alamat', 'telpon', 'pic-eks'];
 }
