@@ -22,6 +22,11 @@
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
+      <li>
+        <a href="{{ url('ekspedisi') }}">
+          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Tables Nav -->
 
@@ -105,7 +110,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-3 col-md-4"><b>Pemasok </b></div>
-                    <div class="col-lg-9 col-md-8">{{ $barang->supplier }}</div>
+                    <div class="col-lg-9 col-md-8">{{ $barang->pemasok }}</div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3 col-md-4"><b>Ekspedisi </b></div>

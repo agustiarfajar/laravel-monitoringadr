@@ -22,6 +22,11 @@
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
+      <li>
+        <a href="{{ url('ekspedisi') }}">
+          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Tables Nav -->
 
@@ -95,6 +100,22 @@
     </nav>
 </div>
 
+<div class="card">
+  <div class="card-body">
+  <div class="row mb-2">
+    <div class="col-4">
+        <label for="laporan_type" class="form-label card-title">Pilih Jenis Laporan</label>
+        <select name="laporan_type" id="laporan_type" class="form-select">
+            <option value="barang_bulanan">Laporan Barang Bulanan</option>
+            <option value="laporan2">Laporan 2</option>
+            <option value="laporan3">Laporan 3</option>
+            <!-- Add more options here as needed -->
+        </select>
+    </div>
+  </div>
+  </div>
+</div>
+
 <div class="col-12">
     <div class="card recent-sales overflow-auto">
         <div class="card-body"><div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -135,7 +156,7 @@
                                         <input type="date" class="form-control" name="start-date" id="start-date" placeholder="From">
                                         <span class="input-group-text"><i class="bi bi-arrow-right"></i></span>
                                         <input type="date" class="form-control" name="end-date" id="end-date" placeholder="To">
-                                        <button type="button" id="btnFilter" class="btn btn-primary">Buat</button>
+                                        <button type="button" id="btnFilter" class="btn btn-primary">Pilih</button>
                                   </div>
                                   <div id="date-error" class="text-danger"></div>
                                   
@@ -190,7 +211,7 @@
                               <td>{{ $row->no_faktur }}</td>
                               <td>{{ $row->perusahaan }}</td>
                               <td>{{ $row->item }}</td>
-                              <td>{{ $row->supplier }}</td>
+                              <td>{{ $row->pemasok }}</td>
                               <td>{{ $row->ekspedisi }}</td>
                               <td>{{ $row->nomor_po }}</td>
                               <td>{{ $row->jumlah }}</td>
@@ -218,7 +239,7 @@
                             <td>{{ $row->no_faktur }}</td>
                             <td>{{ $row->perusahaan }}</td>
                             <td>{{ $row->item }}</td>
-                            <td>{{ $row->supplier }}</td>
+                            <td>{{ $row->pemasok }}</td>
                             <td>{{ $row->ekspedisi }}</td>
                             <td>{{ $row->nomor_po }}</td>
                             <td>{{ $row->jumlah }}</td>
@@ -232,6 +253,26 @@
                     </tbody>
                 </table>
                 <!-- End Table with stripped rows -->
+            </div>
+        </div>
+
+        <div class="row mb-2" id="laporan2_content" style="display: none;">
+            <!-- Content specific to "Laporan 2" -->
+            <!-- Add content for "Laporan 2" here -->
+            <div class="col-12">
+                <table class="table datatable">
+                    <!-- Table content for "Laporan Barang Bulanan" -->
+                </table>
+            </div>
+        </div>
+
+        <div class="row mb-2" id="laporan3_content" style="display: none;">
+            <!-- Content specific to "Laporan 3" -->
+            <!-- Add content for "Laporan 3" here -->
+            <div class="col-12">
+                <table class="table datatable">
+                    <!-- Table content for "Laporan Barang Bulanan" -->
+                </table>
             </div>
         </div>
 
@@ -299,6 +340,30 @@
           }
       })
     })
+</script>
+
+<script>
+    const laporanTypeDropdown = document.getElementById('laporan_type');
+    const barangBulananContent = document.getElementById('barang_bulanan_content');
+    const laporan2Content = document.getElementById('laporan2_content');
+    const laporan3Content = document.getElementById('laporan3_content');
+
+    laporanTypeDropdown.addEventListener('change', function() {
+        const selectedValue = laporanTypeDropdown.value;
+        if (selectedValue === 'barang_bulanan') {
+            barangBulananContent.style.display = 'block';
+            laporan2Content.style.display = 'none';
+            laporan3Content.style.display = 'none';
+        } else if (selectedValue === 'laporan2') {
+            barangBulananContent.style.display = 'none';
+            laporan2Content.style.display = 'block';
+            laporan3Content.style.display = 'none';
+        } else if (selectedValue === 'laporan3') {
+            barangBulananContent.style.display = 'none';
+            laporan2Content.style.display = 'none';
+            laporan3Content.style.display = 'block';
+        }
+    });
 </script>
 
 @endsection

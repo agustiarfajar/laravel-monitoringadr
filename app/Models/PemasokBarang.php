@@ -11,6 +11,6 @@ class PemasokBarang extends Model
 
     protected $table = 'pemasok_barang';
     protected $fillable = [
-        'id', 'no_faktur', 'id_perusahaan', 'pic', 'ekspedisi', 'tgl_surat_jalan', 'tgl_kirim_pemasok', 'tgl_diterima_site', 'status', 'created_at', 'updated_at'
+        'id', 'no_faktur', 'id_perusahaan', 'pic', 'id_ekspedisi', 'pemasok', 'alamat', 'telpon', 'tgl_surat_jalan', 'tgl_kirim_pemasok', 'tgl_diterima_site', 'status', 'created_at', 'updated_at'
     ];
 }

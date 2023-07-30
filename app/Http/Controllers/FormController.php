@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Date;
 use TheSeer\Tokenizer\Exception;
 use Illuminate\Support\Arr;
 use App\Models\Perusahaan;
+use App\Models\Ekspedisi;
 
 class FormController extends Controller
 {
@@ -45,8 +46,9 @@ class FormController extends Controller
     }
     public function index()
     {
+        $ekspedisi = Ekspedisi::orderBy('ekspedisi', 'ASC')->get();
         $perusahaan = Perusahaan::orderBy('perusahaan', 'ASC')->get();
-        return view('form.form_pemasok', compact('perusahaan'));
+        return view('form.form_pemasok', compact('perusahaan', 'ekspedisi'));
     }
 
     public function get_item(Request $request)
@@ -67,7 +69,8 @@ class FormController extends Controller
     public function index2()
     {
         $perusahaan = Perusahaan::orderBy('perusahaan', 'ASC')->get();
-        return view('form.form_ho', compact('perusahaan'));
+        $ekspedisi = Ekspedisi::orderBy('ekspedisi', 'ASC')->get();
+        return view('form.form_ho', compact('perusahaan', 'ekspedisi'));
     }
 
     public function form()
@@ -78,7 +81,7 @@ class FormController extends Controller
     public function save_barang(Request $request)
     {
         $params = $request->all();
-        // dd($params);
+         // dd($params);
         $brg = $params['id_barang'];
         $no_faktur = $this->noPemasokOtomatis();
         try {
@@ -87,7 +90,10 @@ class FormController extends Controller
                 'no_faktur' => $no_faktur,
                 'id_perusahaan' => $params['id_perusahaan'],
                 'pic' => $params['pic'],
-                'ekspedisi' => $params['ekspedisi'],
+                'id_ekspedisi' => $params['id_ekspedisi'],
+                'pemasok' => $params['pemasok'],
+                // 'alamat' => $params['alamat'],
+                'telpon' => $params['telpon'],
                 'status' => 'diproses',
                 'tgl_surat_jalan' => Date::now(),
             ]);
@@ -98,7 +104,6 @@ class FormController extends Controller
                 $res_detail = PemasokBarangDetail::create([
                     'no_faktur' => $no_faktur,
                     'user' => $params['user'][$i],
-                    'supplier' => $params['supplier'][$i],
                     'item' => $params['item'][$i],
                     'jumlah' => $params['jumlah'][$i],
                     'unit' => $params['unit'][$i],
@@ -128,7 +133,7 @@ class FormController extends Controller
                     'no_faktur' => $no_faktur,
                     'id_perusahaan' => $params['id_perusahaan'],
                     'pic' => $params['pic'],
-                    'ekspedisi' => $params['ekspedisi'],
+                    'id_ekspedisi' => $params['id_ekspedisi'],
                     'status' => 'diproses',
                     'tgl_surat_jalan' => Date::now(),
                 ]);
@@ -139,7 +144,7 @@ class FormController extends Controller
                     $res_detail = PengirimanHoDetail::create([
                         'no_faktur' => $no_faktur,
                         'user' => $params['user'][$i],
-                        'supplier' => $params['supplier'][$i],
+                        'pemasok' => $params['pemasok'][$i],
                         'id_barang' => $params['id_barang'][$i],
                         'item' => $params['item'][$i],
                         'unit' => $params['unit'][$i],

@@ -17,7 +17,7 @@ class CreateBarangTable extends Migration
             $table->id();
             $table->string('user');    
             $table->unsignedBigInteger('id_perusahaan');
-            $table->string('supplier');
+            $table->string('pemasok');
             $table->string('item');
             $table->integer('jumlah');
             $table->string('unit');

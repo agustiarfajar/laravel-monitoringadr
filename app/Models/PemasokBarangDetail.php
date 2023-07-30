@@ -11,7 +11,7 @@ class PemasokBarangDetail extends Model
 
     protected $table = 'pemasok_barang_detail';
     protected $fillable = [
-        'id', 'no_faktur', 'user', 'supplier', 'item', 'jumlah', 'unit', 'nomor_po'
+        'id', 'no_faktur', 'user', 'item', 'jumlah', 'unit', 'nomor_po'
     ];
 
     public $timestamps = false;

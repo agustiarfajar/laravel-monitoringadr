@@ -18,12 +18,13 @@ class CreatePengirimanHoTable extends Migration
             $table->string('no_faktur');
             $table->unsignedBigInteger('id_perusahaan');
             $table->string('pic');
-            $table->string('ekspedisi');
+            $table->unsignedBigInteger('id_ekspedisi');
             $table->date('tgl_surat_jalan')->nullable();
             $table->date('tgl_diterima_site')->nullable();
             $table->enum('status', ['diproses', 'dikirim', 'diterima', 'dibatalkan']);        
 
             $table->foreign('id_perusahaan')->references('id')->on('ms_perusahaan')->onDelete('restrict');
+            $table->foreign('id_ekspedisi')->references('id')->on('ms_ekspedisi')->onDelete('restrict');
             $table->timestamps();
         });
     }

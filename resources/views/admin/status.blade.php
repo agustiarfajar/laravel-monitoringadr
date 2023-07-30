@@ -22,6 +22,11 @@
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
+      <li>
+        <a href="{{ url('ekspedisi') }}">
+          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Tables Nav -->
 
@@ -132,7 +137,7 @@
                 <option value="pemasok">Pengiriman ke Pemasok</option>
                 <?php
               }
-              
+
               ?>
             </select>
           </div>
@@ -205,11 +210,13 @@
                           <td>
                             @if(substr($row->no_faktur, 0, 2) == 'SJ')
                             <a href="{{ url('detail/pengiriman-ho/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <a href="" class="btn btn-warning btn-sm"><i class="bi bi-printer"></i></a>
+                            <!-- <button type="button" class="btn btn-warning btn-sm" id="printButton" onclick="print(1)"><i class="bi bi-printer"></i></button> -->
+                            <button class="btn btn-warning btn-sm printButtonHo" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalHo {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @elseif(substr($row->no_faktur, 0, 2) == 'SP')
                             <a href="{{ url('detail/pengiriman-site/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <a href="" class="btn btn-warning btn-sm"><i class="bi bi-printer"></i></a>
+                            <!-- <button type="button" class="btn btn-warning btn-sm" id="printButton" onclick="print(1)"><i class="bi bi-printer"></i></button> -->
+                            <button class="btn btn-warning btn-sm printButton" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalSite {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @endif
                           </td>
@@ -279,6 +286,7 @@
 <a href="{{ url('/admin-dashboard') }}"><i class="bi bi-arrow-left">Kembali</i></a>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
 <script>
   $(document).ready(function(){
     var Toast = Swal.mixin({
@@ -809,5 +817,80 @@
   //   }
   // }
 
-</script>
+
+    // Fungsi untuk mencetak halaman saat tombol diclick
+//    function printPage() {
+//    //  window.print();
+//    alert()
+//  }
+//
+//  //   // Mendapatkan referensi tombol print
+//  //   const printButton = document.getElementById('printButton');
+//  //   // console.log(printButton)
+//
+//  //   // // Menambahkan event listener untuk tombol print
+//  //   // printButton.addEventListener('click', function(){
+//  //   //   alert()
+//  //   // });
+//
+//  //   $('#printButton').on('click', function() {
+//  //   alert();
+//  // });
+//
+//  //function print(a)
+//  //{
+//  //  alert(a)
+//  //}
+//
+//  $.ajax({
+//    method: "GET",
+//    url: "/print/{id}"
+//    })
+//    .done(function(msg) {
+//    alert("Data Saved: " + msg );
+//    });
+//
+//    $(document).ready(function print() {
+//      $("#printButton").click(function() {
+//        var fileUrl = "/print/{id}";
+//        window.location.href = fileUrl;
+//      });
+//    });
+//  
+//  
+//
+//    $(document).ready(function () {
+//        $("#printButton").click(function () {
+//            // Ganti "http://example.com/path/to/your/file.pdf" dengan URL PDF Anda
+//            var pdfUrl = "/print/{id}"
+//            // Menggunakan metode Ajax untuk mengambil data PDF
+//            $.ajax({
+//                url: pdfUrl,
+//                type: "GET",
+//                xhrFields: {
+//                    responseType: 'blob' // Menentukan bahwa responsnya akan berupa Blob
+//                },
+//                success: function (data) {
+//                    // Membuat objek URL dari Blob PDF
+//                    var pdfBlob = new Blob([data], { type: 'application/pdf' });
+//                    var pdfUrl = URL.createObjectURL(pdfBlob)
+//                    // Membuat link sementara untuk diunduh
+//                    var downloadLink = document.createElement('a');
+//                    downloadLink.href = pdfUrl;
+//                    downloadLink.download = 'downloaded_file.pdf';
+//                    document.body.appendChild(downloadLink)
+//                    // Simulasi klik pada link untuk memulai unduhan
+//                    downloadLink.click()
+//                    // Membersihkan objek URL dan link
+//                    URL.revokeObjectURL(pdfUrl);
+//                    document.body.removeChild(downloadLink);
+//                },
+//                error: function () {
+//                    alert('Gagal mengunduh PDF.');
+//                }
+//            });
+//        });
+//    });
+//</script>
+
 @endsection

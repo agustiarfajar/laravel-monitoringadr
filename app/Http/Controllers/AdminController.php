@@ -11,6 +11,7 @@ use App\Models\Barang;
 use App\Models\PemasokBarang;
 use App\Models\PengirimanHo;
 use App\Models\Perusahaan;
+use App\Models\Ekspedisi;
 use App\Exports\LaporanKpiExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -97,7 +98,33 @@ class AdminController extends Controller
                             ->whereMonth('tgl_diterima_site', $date)
                             ->whereYear('tgl_diterima_site', Carbon::now()->year)
                             ->count();
-        
+        $pemasokLaporan = DB::table('pemasok_barang as a')
+                            ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                            ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
+                            ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                            ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'd.ekspedisi')
+                            ->orderBy('a.no_faktur', 'ASC')
+                            ->where('status', '=', 'diproses')
+                            ->orWhere('status', '=', 'dikirim')
+                            ->orWhere('status', '=', 'diterima')
+                            ->whereMonth('a.tgl_surat_jalan', $date)
+                            ->get();
+            
+        $hoLaporan = DB::table('pengiriman_ho as a')
+                            ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                            ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
+                            ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                            ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'c.pemasok', 'd.ekspedisi')
+                            ->orderBy('a.no_faktur', 'ASC')
+                            ->where('status', '=', 'diproses')
+                            ->orWhere('status', '=', 'dikirim')
+                            ->orWhere('status', '=', 'diterima')
+                            ->whereMonth('a.tgl_surat_jalan', $date)
+                            ->get();
+            
+        $laporan = $pemasokLaporan->concat($hoLaporan);
+        $countLaporan = count($laporan);
+
         $countBarang = count($barang);
         $countPengiriman = $pengirimanHo + $pengirimanPemasok;
         $countPengirimanAll = $pengirimanHoAll + $pengirimanPemasokAll;
@@ -120,7 +147,7 @@ class AdminController extends Controller
                     ->sum('a.jumlah');
         
         $countTotalBarangHo = (int) $stok_ho + (int) $jml_brg_ho;
-
+    
         // tgl_kedatangan
         $limaHariLalu = Carbon::now()->subDays(5);      
 
@@ -172,7 +199,8 @@ class AdminController extends Controller
             'countBarangAging',
             'countProses',
             'countKirimPemasok',
-            'countTerima'
+            'countTerima',
+            'countLaporan'
         ));
     }
 
@@ -570,13 +598,15 @@ public function update_chart_periode(Request $request)
     {
         $pemasok = DB::table('pemasok_barang as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->select('a.*', 'b.perusahaan')
+                ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+                ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
                 ->orderBy('a.no_faktur', 'DESC')
                 ->get();
 
         $ho = DB::table('pengiriman_ho as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->select('a.*', 'b.perusahaan')
+                ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+                ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
                 ->orderBy('a.no_faktur', 'DESC')
                 ->get();
 
@@ -608,6 +638,20 @@ public function update_chart_periode(Request $request)
         return view('admin.tambahitem', compact('perusahaan'));
     }
 
+    public function edit_item($id)
+    {
+        $cek = Barang::findOrFail($id);
+        if($cek)
+        {
+            $perusahaan = Perusahaan::orderBy('perusahaan', 'ASC')->get();
+            $barang = Barang::where('id', $id)->first();
+
+            return view('admin.edit-item', compact('barang', 'perusahaan'));
+        } else {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
+    }
+
     public function simpan_item(Request $request)
     {
         $params = $request->all();
@@ -621,6 +665,40 @@ public function update_chart_periode(Request $request)
         }
     }
 
+    public function update_item(Request $request, $id)
+    {
+        $cek = Barang::findOrFail($id);
+        $params = $request->all();
+        // dd($params);
+        if($cek)
+        {
+            try {
+                $cek->update($params);
+    
+                return redirect()->to('daftar-barang')->with('success', 'Item berhasil diupdate');
+            } catch (\Exception $e) {
+                throw new Exception($e->getMessage());
+            }
+        }        
+    }
+
+    public function delete_item($id)
+    {
+        $cek = Barang::findOrFail($id);
+
+        if($cek)
+        {
+            try {
+                Barang::where('id', $id)->delete();
+            } catch (\Exception $e) {
+                // Validation failed, handle the error
+                return response()->json(['error' => $e->getMessage()], 422);
+            }
+        } else {
+            return redirect()->to('daftarbarang')->with('error', 'Data tidak ditemukan');
+        }
+    }
+
     public function detail_pengiriman_site($id)
     {
         $cek = PemasokBarang::findOrFail($id);
@@ -629,7 +707,8 @@ public function update_chart_periode(Request $request)
         {
             $barang = DB::table('pemasok_barang as a')
                     ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->select('a.*', 'b.perusahaan')
+                    ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
                     ->where('a.id', $id)
                     ->first();
 
@@ -652,7 +731,8 @@ public function update_chart_periode(Request $request)
         {  
             $barang = DB::table('pengiriman_ho as a')
                     ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->select('a.*', 'b.perusahaan')
+                    ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
                     ->where('a.id', $id)
                     ->first();
 
@@ -782,6 +862,88 @@ public function update_chart_periode(Request $request)
         }
     }
 
+    // Ekspedisi
+    public function view_ekspedisi()
+    {
+        $ekspedisi = Ekspedisi::orderBy('ekspedisi', 'ASC')->get();
+        return view('admin.ekspedisi', compact('ekspedisi'));
+    }
+
+
+    public function save_ekspedisi(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ekspedisi' => 'required|string|unique:ms_ekspedisi',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'error' => 'Nama ekspedisi sudah ada'
+            ], 422);
+        }
+
+        try {
+            Ekspedisi::create([
+                'ekspedisi' => $request->input('ekspedisi'),
+                'pic_eks' => $request->input('pic_eks'),
+                'telpon' => $request->input('telpon'),
+                'alamat' => $request->input('alamat')
+            ]);
+
+            return redirect()->to('ekspedisi')->with('success', 'Data berhasil ditambahkan');
+        } catch (\Exception $e) {
+            // Validation failed, handle the error
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+    }
+    public function update_ekspedisi(Request $request, Ekspedisi $ekspedisi, $id)
+    {
+        $params = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'ekspedisi' => 'required|string|unique:ms_ekspedisi'.',id,'.$ekspedisi->id,
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'error' => 'Nama Ekspedisi sudah ada'
+            ], 422);
+        }
+        
+        try {
+            Ekspedisi::where('id', $id)->update([
+                'ekspedisi' => $request->input('ekspedisi'),
+                'pic_eks' => $request->input('pic_eks'),
+                'telpon' => $request->input('telpon'),
+                'alamat' => $request->input('alamat')
+            ]);
+            
+            return response()->json(['success' => 'Data berhasil diubah'], 200);
+            // return redirect()->to('perusahaan')->with('success', 'Data berhasil diubah');
+        } catch (\Exception $e) {
+            // Validation failed, handle the error
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+    }
+    public function delete_ekspedisi($id)
+    {
+        $cek = Ekspedisi::findOrFail($id);
+
+        if($cek)
+        {
+            try {
+                Ekspedisi::where('id', $id)->delete();
+            } catch (\Exception $e) {
+                // Validation failed, handle the error
+                return response()->json(['error' => $e->getMessage()], 422);
+            }
+        } else {
+            return redirect()->to('ekspedisi')->with('error', 'Data tidak ditemukan');
+        }
+    }
+
     // Perusahaan
     public function view_perusahaan()
     {
@@ -816,12 +978,12 @@ public function update_chart_periode(Request $request)
         }
     }
 
-    public function update_perusahaan(Request $request, $id)
+    public function update_perusahaan(Request $request, Perusahaan $perusahaan, $id)
     {
         $params = $request->all();
 
         $validator = Validator::make($request->all(), [
-            'perusahaan' => 'required|string|unique:ms_perusahaan',
+            'perusahaan' => 'required|string|unique:ms_perusahaan'.',id,'.$perusahaan->id,
         ]);
 
         if ($validator->fails()) {
@@ -843,6 +1005,7 @@ public function update_chart_periode(Request $request)
             return response()->json(['error' => $e->getMessage()], 422);
         }
     }
+    
 
     public function delete_perusahaan($id)
     {
@@ -861,20 +1024,30 @@ public function update_chart_periode(Request $request)
         }
     }
 
+
+    // Laporan
     public function laporan()
     {
         $pemasok = DB::table('pemasok_barang as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.supplier', 'c.nomor_po')
+                ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'd.ekspedisi')
                 ->orderBy('a.no_faktur', 'ASC')
+                ->where('status', '=', 'diproses')
+                ->orWhere('status', '=', 'dikirim')
+                ->orWhere('status', '=', 'diterima')
                 ->get();
 
         $ho = DB::table('pengiriman_ho as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
                 ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.supplier', 'c.nomor_po')
+                ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'c.pemasok', 'd.ekspedisi')
                 ->orderBy('a.no_faktur', 'ASC')
+                ->where('status', '=', 'diproses')
+                ->orWhere('status', '=', 'dikirim')
+                ->orWhere('status', '=', 'diterima')
                 ->get();
 
         $result = $pemasok->concat($ho);
@@ -887,20 +1060,24 @@ public function update_chart_periode(Request $request)
 
             $pemasok_filter = DB::table('pemasok_barang as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur',
+                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok',
                         'b.perusahaan', 
-                        'c.item', 'c.supplier', 'a.ekspedisi', 'c.nomor_po', 'c.jumlah', 'c.unit')
+                        'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
+                        'd.ekspedisi')
                 ->orderBy('a.no_faktur', 'ASC')
                 ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
                 ->get();
 
             $ho_filter = DB::table('pengiriman_ho as a')
                     ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                    ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                     ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
                     ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur',
                             'b.perusahaan', 
-                            'c.item', 'c.supplier', 'a.ekspedisi', 'c.nomor_po', 'c.jumlah', 'c.unit')
+                            'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
+                            'd.ekspedisi')
                     ->orderBy('a.no_faktur', 'ASC')
                     ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
                     ->get();
@@ -919,9 +1096,11 @@ public function update_chart_periode(Request $request)
         $pemasok = DB::table('pemasok_barang as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur',
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
+                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok',
                         'b.perusahaan', 
-                        'c.item', 'c.supplier', 'a.ekspedisi', 'c.nomor_po', 'c.jumlah', 'c.unit')
+                        'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
+                        'd.ekspedisi')
                 ->orderBy('a.no_faktur', 'ASC')
                 ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
                 ->get();
@@ -929,9 +1108,11 @@ public function update_chart_periode(Request $request)
         $ho = DB::table('pengiriman_ho as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                 ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                 ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur',
                         'b.perusahaan', 
-                        'c.item', 'c.supplier', 'a.ekspedisi', 'c.nomor_po', 'c.jumlah', 'c.unit')
+                        'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
+                        'd.ekspedisi')
                 ->orderBy('a.no_faktur', 'ASC')
                 ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
                 ->get();
@@ -946,29 +1127,34 @@ public function update_chart_periode(Request $request)
 
             $pemasok_filter = DB::table('pemasok_barang as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur',
+                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok',
                         'b.perusahaan', 
-                        'c.item', 'c.supplier', 'a.ekspedisi', 'c.nomor_po', 'c.jumlah', 'c.unit')
+                        'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
+                        'd.ekspedisi')
                 ->orderBy('a.no_faktur', 'ASC')
                 ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
                 ->get();
 
             $ho_filter = DB::table('pengiriman_ho as a')
                     ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                    ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                     ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
                     ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur',
                             'b.perusahaan', 
-                            'c.item', 'c.supplier', 'a.ekspedisi', 'c.nomor_po', 'c.jumlah', 'c.unit')
+                            'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
+                            'd.ekspedisi')
                     ->orderBy('a.no_faktur', 'ASC')
                     ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
                     ->get();
 
             $result_filter = $pemasok_filter->concat($ho_filter);
 
-            return Excel::download(new LaporanKpiExport($result_filter), 'laporan_kpi_bulanan.xlsx');
+            return Excel::download(new LaporanKpiExport($result_filter), 'laporan_kpi_bulanan_filter.xlsx');
         }
 
         return Excel::download(new LaporanKpiExport($data), 'laporan_kpi_bulanan.xlsx');
     }
+    
 }

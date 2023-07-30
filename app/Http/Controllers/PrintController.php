@@ -7,6 +7,7 @@ use App\Models\PemasokBarang;
 use App\Models\PemasokBarangDetail;
 use App\Models\PengirimanHo;
 use App\Models\PengirimanHoDetail;
+use App\Models\Ekspedisi;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -22,18 +23,22 @@ class PrintController extends Controller
         {
             $barang = DB::table('pemasok_barang as a')
                     ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->select('a.*', 'b.perusahaan')
+                    ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi', 'c.alamat')
                     ->where('a.id', $id)
                     ->first();
 
             $barang_detail = DB::table('pemasok_barang as a')
                     ->join('pemasok_barang_detail as b', 'a.no_faktur', '=', 'b.no_faktur')
                     ->select('b.*')
+                    ->orderBy('b.nomor_po', 'ASC')
                     ->where('a.id', '=', $id)
                     ->get();
 
+            $barangChunks = array_chunk($barang_detail->toArray(), 10);
+
             
-            $pdf = PDF::loadView('admin.print', compact('barang', 'barang_detail'));
+            $pdf = PDF::loadView('admin.print', compact('barang', 'barang_detail', 'barangChunks'));
 
             return $pdf->download('print_pemasok.pdf');
         }
@@ -47,7 +52,8 @@ class PrintController extends Controller
         {  
             $barang = DB::table('pengiriman_ho as a')
                     ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->select('a.*', 'b.perusahaan')
+                    ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
                     ->where('a.id', $id)
                     ->first();
 
@@ -55,10 +61,14 @@ class PrintController extends Controller
                     ->join('pengiriman_ho_detail as b', 'a.no_faktur', '=', 'b.no_faktur')
                     ->select('b.*')
                     ->where('a.id', '=', $id)
+                    ->orderBy('b.nomor_po', 'ASC')
                     ->orderBy('b.tgl_kedatangan', 'ASC')
                     ->get();
 
-            $pdf = PDF::loadView('admin.printho', compact('barang', 'barang_detail'));
+            $barangChunks = array_chunk($barang_detail->toArray(), 10);
+
+
+            $pdf = PDF::loadView('admin.printho', compact('barang', 'barang_detail', 'barangChunks'));
 
             return $pdf->download('print_ho.pdf');
         }        

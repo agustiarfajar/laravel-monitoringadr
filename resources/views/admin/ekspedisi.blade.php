@@ -18,7 +18,7 @@
     </a>
     <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="{{ url('perusahaan') }}" class="active">
+        <a href="{{ url('perusahaan') }}">
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
@@ -106,51 +106,112 @@
 
                 <!-- Tambah Ekspedisi -->
             <div class="">
-                <form class="row g-3" method="post" action="{{ url('ekspedisi/save') }}">
+                <form class="row g-3" method="post">
                   @csrf
-                <div class="col-md-11">
-                  <input type="text" name="perusahaan" id="perusahaan" class="form-control" placeholder="Masukkan nama perusahaan">
+                <div class="col-md-12">
+                  <label for="ekspedisi" class="form-label">Nama Ekspedisi</label>
+                  <input type="text" name="ekspedisi" id="ekspedisi" class="form-control" placeholder="Masukkan nama ekspedisi">
                 </div>
-                <button type="button" onclick="konfirmasiSimpan()" class="btn btn-primary col-md-1"><i class="bi bi-plus-lg"></i></button>
+                <div class="col-md-6">
+                  <label for="pic_eks" class="form-label">PIC Ekspedisi</label>
+                  <input type="text" name="pic_eks" id="pic_eks" class="form-control" placeholder="Masukkan nama PIC ekspedisi">
+                </div>
+                <div class="col-md-6">
+                  <label for="telpon" class="form-label">Nomor Telpon</label>
+                  <input type="text" name="telpon" id="telpon" maxlength="13" class="form-control" placeholder="Masukkan nomor telpon ekspedisi">
+                </div>
+                <div class="col-md-12">
+                  <label for="alamat" class="form-label">Alamat Ekspedisi</label>
+                  <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Masukkan alamat ekspedisi">
+                </div>
+                <div style="text-align: right">
+                <button type="button" onclick="konfirmasiSimpan()" class="btn btn-primary col-md-1"><i class="bi bi-plus"></i> Tambah</button>
+                </div>
+                
                 </form>
             </div>  
             </div>
         </div>
-
+        <!-- Modal Edit -->
+        <div class="modal fade" id="modalEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalEditLabel">Form ubah ekspedisi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form id="formUbah" method="post">
+                @csrf
+                <input type="hidden" id="id_edit">
+              <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="ekspedisi" class="form-label">Nama Ekspedisi</label>
+                    <input type="text" name="ekspedisi" id="ekspedisi_edit" class="form-control" placeholder="Masukkan nama ekspedisi">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="pic_eks" class="form-label">PIC Ekspedisi</label>
+                    <input type="text" name="pic_eks" id="pic_eks_edit" class="form-control" placeholder="Masukkan nama PIC ekspedisi">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="telpon" class="form-label">Nomor Telpon</label>
+                    <input type="text" name="telpon" id="telpon_edit" maxlength="13" class="form-control" placeholder="Masukkan nomor telpon ekspedisi">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="alamat" class="form-label">Alamat Ekspedisi</label>
+                    <input type="text" name="alamat" id="alamat_edit" class="form-control" placeholder="Masukkan alamat ekspedisi">
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" id="btnUbah" class="btn btn-primary">Ubah</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
         <div class="card">
             <div class="card-body">
               <h5 class="card-title">Daftar Ekspedisi</h5>
               
               <!-- Daftar Perusahaan -->
-              <table class="table table-hover" id="tabel_perusahaan">
+              <table class="table table-hover" id="tabel_ekspedisi">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Perusahaan</th>
+                    <th scope="col">Nama Ekspedisi</th>
+                    <th scope="col">Alamat</th>
+                    <th scope="col">PIC Ekspedisi</th>
+                    <th scope="col">Nomor Telpon</th>
                     <th scope="col">Edit</th>
                   </tr>
                 </thead>
                 <tbody id="tbody">
                   @php $no = 1; @endphp
-                  @forelse($perusahaan as $row)
+                  @forelse($ekspedisi as $row)
                   <tr>
                     <td>{{ $no++ }}</td>
-                    <td>{{ $row->perusahaan }}</td>
+                    <td>{{ $row->ekspedisi }}</td>
+                    <td>{{ $row->alamat }}</td>
+                    <td>{{ $row->pic_eks }}</td>
+                    <td>{{ $row->telpon }}</td>
                     <td><button type="button" class="btn btn-warning btn-sm btnEdit"
                         data-id="{{ $row->id }}"
-                        data-perusahaan="{{ $row->perusahaan }}">
+                        data-ekspedisi="{{ $row->ekspedisi }}"
+                        data-pic_eks="{{ $row->pic_eks }}"
+                        data-telpon="{{ $row->telpon }}"
+                        data-alamat="{{ $row->alamat }}">                        
                         <i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-danger btn-sm btnHapus" onclick="konfirmasiHapus({{ $row->id }})"><i class="bi bi-trash"></i></button>
                     </td>
                   </tr>
                   @empty
                   <tr>
-                    <td align="center" colspan="3">Tidak ada data</td>
+                    <td align="center" colspan="6">Tidak ada data</td>
                   </tr>
                   @endforelse 
                 </tbody>
               </table>
-              <!-- End Daftar Perusahaan -->
+              <!-- End Daftar Ekspedisi -->
 
             </div>
         </div>
@@ -178,16 +239,100 @@
       @endif
       
       editButton();
+
+      $('#btnUbah').on('click', function() {
+          var id = $('#id_edit').val();
+          var ekspedisi = $('#ekspedisi_edit').val();
+          var pic_eks = $('#pic_eks_edit').val();
+          var telpon = $('#telpon_edit').val();
+          var alamat = $('#alamat_edit').val();
+
+          if(ekspedisi == '' || pic_eks == '' || alamat == '' || telpon == '')
+          {
+            return alert('Data masih kosong, silahkan isi data dengan benar');
+          } else {
+            Swal.fire({
+              icon: "question",
+              title: "Konfirmasi",
+              text: "Apakah anda yakin ingin mengubah data?",
+              showCancelButton: true,
+              confirmButtonText: "Ubah",
+              cancelButtonText: "Batal"
+            }).then((result) => {
+              if(result.value) {
+                $.ajax({
+                  url: "{{ url('ekspedisi/update') }}/"+id+"",
+                  type: "POST",
+                  data: {
+                    id: id,
+                    ekspedisi: ekspedisi,
+                    pic_eks: pic_eks,
+                    alamat: alamat,
+                    telpon: telpon,
+                    _token: '{{ csrf_token() }}'
+                  },
+                  success: function(response) {
+                    // alert(response);
+                    var tabel = $('#tabel_ekspedisi');
+                    // Refresh tabel
+                      $('#tbody').load(document.URL + ' #tbody tr', function() {
+                          editButton();
+                          deleteButton();
+                      });
+
+                    var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Data berhasil diubah'
+                    })
+                    
+                    
+                  },
+                  error: function(xhr, status, error) {
+                    console.log(xhr);
+                    
+                    var Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+
+                      Toast.fire({
+                          icon: 'error',
+                          title: xhr.responseJSON.error
+                      })          
+                  }
+                });
+
+                $('#modalEdit').modal('hide');
+              }
+            })
+          }
+      });
   });
 
   function konfirmasiSimpan()
   {
     event.preventDefault();
     var form = event.target.form;
-    var input = $('#perusahaan').val();
-    if(input == '')
+    var ekspedisi = $('#ekspedisi').val();
+    var pic_eks = $('#pic_eks').val();
+    var alamat = $('#alamat').val();
+    var telpon = $('#telpon').val();
+    if(ekspedisi == '' || pic_eks == '' || alamat == '' || telpon == '')
     {
-      return alert('Perusahaan masih kosong, silahkan isi data dengan benar');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'Pastikan semua data terisi'
+      });
     } else {
       Swal.fire({
         icon: "question",
@@ -200,23 +345,29 @@
         if(result.value) {
             // form.submit();
             $.ajax({
-              url: "{{ url('perusahaan/save') }}",
+              url: "{{ url('ekspedisi/save') }}",
               type: "POST",
               data: {
-                perusahaan: input,
+                ekspedisi: ekspedisi,
+                pic_eks: pic_eks,
+                alamat: alamat,
+                telpon: telpon,
                 _token: '{{ csrf_token() }}'
               },
               success: function(response) {
                 // alert(response);
-                var tabel = $('#tabel_perusahaan');
+                var tabel = $('#tabel_ekspedisi');
                 // Refresh tabel
                   $('#tbody').load(document.URL + ' #tbody tr', function() {
                       editButton();
                       deleteButton();
                   });
 
-                  // reset data tambah barang
-                  $('#perusahaan').val('');
+                  // reset data tambah ekspedisi
+                  $('#ekspedisi').val('');
+                  $('#pic_eks').val('');
+                  $('#alamat').val('');
+                  $('#telpon').val('');
 
                 var Toast = Swal.mixin({
                     toast: true,
@@ -268,7 +419,7 @@
     }).then((result) => {
         if(result.value) {
             $.ajax({
-              url: "{{ url('perusahaan/delete') }}/"+id+"",
+              url: "{{ url('ekspedisi/delete') }}/"+id+"",
               type: "GET",
               data: {
                 id: id,
@@ -276,7 +427,7 @@
               },
               success: function(response) {
                 // alert(response);
-                var tabel = $('#tabel_perusahaan');
+                var tabel = $('#tabel_ekspedisi');
                 // Refresh tabel
                   $('#tbody').load(document.URL + ' #tbody tr', function() {
                       editButton();
@@ -328,13 +479,20 @@
     });
   }
 
-  async function modalEdit(id, perusahaan)
+  async function modalEdit(id, ekspedisi, pic_eks, telpon, alamat)
   {
-    const { value: perusahaanDB } = await Swal.fire({
-      title: 'Ubah Perusahaan',
-      input: 'text',
-      inputLabel: 'Nama Perusahaan',
-      inputValue: perusahaan,
+    const { value: formValues } = await Swal.fire({
+      title: 'Multiple inputs',
+      html:
+        '<input id="swal-input1" class="swal2-input">' +
+        '<input id="swal-input2" class="swal2-input">',
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          document.getElementById('swal-input1').value,
+          document.getElementById('swal-input2').value
+        ]
+      },
       showCancelButton: true,
       confirmButtonText: "Simpan",
       cancelButtonText: "Batal",
@@ -355,7 +513,7 @@
           },
           success: function(response) {
             // alert(response);
-            var tabel = $('#tabel_perusahaan');
+            var tabel = $('#tabel_ekspedisi');
             // Refresh tabel
               $('#tbody').load(document.URL + ' #tbody tr', function() {
                   editButton();
@@ -402,12 +560,22 @@
         $(this).click(function() {
           // alert('ok');
           var id = $(this).data('id');
-          var perusahaan = $(this).data('perusahaan');
-          modalEdit(id, perusahaan);
+          var ekspedisi = $(this).data('ekspedisi');
+          var pic_eks = $(this).data('pic_eks');
+          var telpon = $(this).data('telpon');
+          var alamat = $(this).data('alamat');
+          // modalEdit(id, ekspedisi, pic_eks, telpon, alamat);
+          $('#modalEdit').modal('show');
 
+          $('#id_edit').val(id);
+          $('#ekspedisi_edit').val(ekspedisi);
+          $('#pic_eks_edit').val(pic_eks);
+          $('#telpon_edit').val(telpon);
+          $('#alamat_edit').val(alamat);
         })
       })
   }
+  
 
   function deleteButton()
   {

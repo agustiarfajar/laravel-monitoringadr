@@ -22,6 +22,12 @@
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
+      
+      <li>
+        <a href="{{ url('ekspedisi') }}">
+          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Tables Nav -->
 
@@ -156,7 +162,7 @@
                       <i class="bi bi-file-earmark-bar-graph"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>0</h6>
+                      <h6>{{ $countLaporan }}</h6>
                     <span class="text-muted small pt-2 ps-1">laporan</span>
 
                     </div>

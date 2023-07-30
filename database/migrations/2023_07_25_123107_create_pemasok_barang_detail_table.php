@@ -17,7 +17,6 @@ class CreatePemasokBarangDetailTable extends Migration
             $table->id();
             $table->string('no_faktur');
             $table->string('user');
-            $table->string('supplier');
             $table->string('item');
             $table->integer('jumlah');
             $table->string('unit');

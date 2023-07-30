@@ -22,6 +22,11 @@
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
+      <li>
+        <a href="{{ url('ekspedisi') }}">
+          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Tables Nav -->
 
@@ -126,8 +131,15 @@
                   </datalist>
               </div>
               <div class="col-md-12">
-                <label for="ekspedisi" class="form-label">Ekspedisi</label>
-                <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required>
+                <!-- <label for="ekspedisi" class="form-label">Ekspedisi</label>
+                <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required> -->
+                  <label for="ekspedisi" class="form-label">Ekspedisi</label>
+                  <select id="ekspedisi" name="id_ekspedisi" class="select-ekspedisi form-select" onchange="getItem()">
+                    <option hidden value="">Pilih Ekspedisi</option>
+                    @foreach($ekspedisi as $row)
+                    <option value="{{ $row->id }}">{{ $row->ekspedisi }}</option>
+                    @endforeach
+                  </select>
               </div>
               <div class="">
                 <h5 class="card-title">Tambah Barang</h5>
@@ -229,6 +241,10 @@
         $('.select-perusahaan').select2({
           theme: 'bootstrap-5'
         });
+
+        $('.select-ekspedisi').select2({
+          theme: 'bootstrap-5'
+        });
         
         $('#table_item').on('click', '.cek-barang', function() {
           var row = $(this).closest('tr'); // Get the closest table row
@@ -257,7 +273,7 @@
               var row = $(this).closest('tr');
               var id_barang = row.find('#id_barang');
               var user = row.find('#user');
-              var supplier = row.find('#supplier');
+              var pemasok = row.find('#pemasok');
               var item = row.find('#item');
               var jumlah = row.find('.jml_kirim');
               var unit = row.find('#unit');
@@ -266,11 +282,13 @@
 
               if(jumlah.val() == '') {
                 return alert('Isi jumlah barang yang akan dikirim');
+              } else if(jumlah.val() <= 0) {
+                return alert('Isikan jumlah dengan minimal 1');
               } else {
                 var items = {
                   id: id_barang.val(),
                   user: user.val(),
-                  supplier: supplier.val(),
+                  pemasok: pemasok.val(),
                   item: item.val(),
                   jumlah: jumlah.val(),
                   unit: unit.val(),
@@ -288,7 +306,7 @@
                 {
                   var row = '<tr id="data-index'+myObject[i].id+'">';
                   row += '<td><input type="hidden" name="id_barang[]" value="'+myObject[i].id+'"><input type="hidden" name="user[]" value="'+myObject[i].user+'">' + myObject[i].user + '</td>';
-                  row += '<td><input type="hidden" name="supplier[]" value="'+myObject[i].supplier+'">' + myObject[i].supplier + '</td>';
+                  row += '<td><input type="hidden" name="pemasok[]" value="'+myObject[i].pemasok+'">' + myObject[i].pemasok + '</td>';
                   row += '<td><input type="hidden" name="item[]" value="'+myObject[i].item+'">' + myObject[i].item + '</td>';
                   row += '<td><input type="hidden" name="jumlah[]" value="'+myObject[i].jumlah+'">' + myObject[i].jumlah + '</td>';
                   row += '<td><input type="hidden" name="unit[]" value="'+myObject[i].unit+'">' + myObject[i].unit + '</td>';
@@ -342,7 +360,7 @@
                       row += '<td>' + response.data[i].jumlah + '</td>';
                       row += '<td><input type="hidden" id="unit" value="'+response.data[i].unit+'">' + response.data[i].unit + '</td>';
                       row += '<td><input type="hidden" id="nomor_po" value="'+response.data[i].nomor_po+'">' + response.data[i].nomor_po + '</td>';
-                      row += '<td><input type="hidden" id="supplier" value="'+response.data[i].supplier+'">' + response.data[i].supplier + '</td>';
+                      row += '<td><input type="hidden" id="pemasok" value="'+response.data[i].pemasok+'">' + response.data[i].pemasok + '</td>';
                       row += '<td><input type="hidden" id="tgl_kedatangan" value="'+response.data[i].tgl_kedatangan+'">' + response.data[i].tgl_kedatangan + '</td>';
                       row += '<td>' + response.data[i].perusahaan + '</td>';
                       row += '<td><input type="checkbox" class="form-check cek-barang" data-id='+response.data[i].id+'></td>';
@@ -404,10 +422,14 @@
           var form = event.target.form;
           var perusahaan = $('#perusahaan').val();
           var pic = $('#pic').val();
-          var ekspedisi = $('#ekspedisi').val();
+          var id_ekspedisi = $('#ekspedisi').val();
         if(perusahaan == '' || pic == '' || ekspedisi == '')
         {
-            return alert('Pastikan data semua terisi');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Pastikan semua data terisi'
+          });
         } else {
           Swal.fire({
               icon: "question",

@@ -22,6 +22,11 @@
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
+      <li>
+        <a href="{{ url('ekspedisi') }}">
+          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Tables Nav -->
 
@@ -182,7 +187,11 @@
     var input = $('#perusahaan').val();
     if(input == '')
     {
-      return alert('Perusahaan masih kosong, silahkan isi data dengan benar');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'Perusahaan masih kosong, silahkan isi data dengan benar'
+      });
     } else {
       Swal.fire({
         icon: "question",

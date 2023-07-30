@@ -13,6 +13,6 @@ class Barang extends Model
 
     protected $table = 'barang';
     protected $fillable = [
-        'id', 'user', 'id_perusahaan', 'pic', 'supplier', 'item', 'jumlah', 'unit', 'nomor_po', 'tgl_kedatangan', 'created_at', 'updated_at'
+        'id', 'user', 'id_perusahaan', 'pic', 'pemasok', 'item', 'jumlah', 'unit', 'nomor_po', 'tgl_kedatangan', 'created_at', 'updated_at'
     ];
 }

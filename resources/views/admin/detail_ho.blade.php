@@ -22,6 +22,11 @@
           <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
         </a>
       </li>
+      <li>
+        <a href="{{ url('ekspedisi') }}">
+          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Tables Nav -->
 
@@ -139,7 +144,7 @@
                             <td>{{ $row->unit }}</td>
                             <td>{{ ($row->tgl_kedatangan != null) ? date('d-m-Y', strtotime($row->tgl_kedatangan)) : '' }}</td>
                             <td>{{ $row->nomor_po }}</td>
-                            <td>{{ $row->supplier }}</td>
+                            <td>{{ $row->pemasok }}</td>
                         </tr>
                         @empty
                         <tr>
