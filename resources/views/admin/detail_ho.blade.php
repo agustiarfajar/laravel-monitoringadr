@@ -144,7 +144,7 @@
                             <td>{{ $row->unit }}</td>
                             <td>{{ ($row->tgl_kedatangan != null) ? date('d-m-Y', strtotime($row->tgl_kedatangan)) : '' }}</td>
                             <td>{{ $row->nomor_po }}</td>
-                            <td>{{ $row->supplier }}</td>
+                            <td>{{ $row->pemasok }}</td>
                         </tr>
                         @empty
                         <tr>

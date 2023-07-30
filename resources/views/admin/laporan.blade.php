@@ -211,7 +211,7 @@
                               <td>{{ $row->no_faktur }}</td>
                               <td>{{ $row->perusahaan }}</td>
                               <td>{{ $row->item }}</td>
-                              <td>{{ $row->supplier }}</td>
+                              <td>{{ $row->pemasok }}</td>
                               <td>{{ $row->ekspedisi }}</td>
                               <td>{{ $row->nomor_po }}</td>
                               <td>{{ $row->jumlah }}</td>
@@ -239,7 +239,7 @@
                             <td>{{ $row->no_faktur }}</td>
                             <td>{{ $row->perusahaan }}</td>
                             <td>{{ $row->item }}</td>
-                            <td>{{ $row->supplier }}</td>
+                            <td>{{ $row->pemasok }}</td>
                             <td>{{ $row->ekspedisi }}</td>
                             <td>{{ $row->nomor_po }}</td>
                             <td>{{ $row->jumlah }}</td>

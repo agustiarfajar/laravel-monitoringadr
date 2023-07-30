@@ -91,7 +91,7 @@
 
 @section('content')
     <div class="pagetitle">
-      <h1>Tambah Barang Diterima di HO</h1>
+      <h1>Edit Barang Diterima di HO</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/admin-dashboard">Dashboard</a></li>
@@ -103,14 +103,14 @@
 
         <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Tambah Barang Diterima di HO</h5>
+              <h5 class="card-title">Edit Barang Diterima di HO</h5>
 
               <!-- Multi Columns Form -->
-              <form class="row g-3" action="{{ url('simpan-item') }}" method="POST">
+              <form id="formEdit" class="row g-3" action="{{ url('update-item', $barang->id) }}" method="POST">
                 @csrf
                 <div class="col-md-6">
                   <label for="user" class="form-label">Diminta Oleh</label>
-                  <input type="text" name="user" class="form-control" id="user" placeholder="Nama pemesan" required>
+                  <input type="text" name="user" class="form-control" id="user" placeholder="Nama pemesan" value="{{ $barang->user }}" required>
                 </div>
 
                 <div class="col-md-6">
@@ -118,7 +118,7 @@
                   <select name="id_perusahaan" id="perusahaan" class="select-perusahaan form-select" required>
                     <option value="">Pilih Perusahaan Tujuan</option>
                     @foreach($perusahaan as $row)
-                    <option value="{{ $row->id }}">{{ $row->perusahaan }}</option>
+                    <option value="{{ $row->id }}" {{ ($row->id == $barang->id_perusahaan) ? 'selected' : '' }}>{{ $row->perusahaan }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -126,44 +126,44 @@
                 
                 <div class="col-md-12">
                   <label for="pemasok" class="form-label">Pemasok</label>
-                  <input type="text" class="form-control" name="pemasok" id="pemasok" placeholder="Nama Supplier" required>
+                  <input type="text" class="form-control" name="pemasok" id="pemasok" placeholder="Nama Supplier" value="{{ $barang->pemasok }}" required>
                 </div>
 
                 <div class="col-md-8">
                   <label for="item" class="form-label">Nama Barang</label>
-                  <input type="text" class="form-control" id="item" name="item" placeholder="Nama Item" required>
+                  <input type="text" class="form-control" id="item" name="item" placeholder="Nama Item"  value="{{ $barang->item }}" required>
                 </div>
                 <div class="col-md-2">
                   <label for="jumlah" class="form-label">Jumlah</label>
-                  <input type="number" class="form-control" min="1" id="jumlah" name="jumlah" placeholder="Qty" required>
+                  <input type="number" class="form-control" min="1" id="jumlah" name="jumlah" placeholder="Qty" value="{{ $barang->jumlah }}" required>
                 </div>
 
                 <div class="col-md-2">
                   <label for="unit" class="form-label">Unit</label>
                   <select id="unit" class="form-select" name="unit">
                     <option hidden>Pilih Satuan Unit</option>
-                    <option>UNIT</option>
-                    <option>PCS</option>
-                    <option>SET</option>
-                    <option>BOX</option>
-                    <option>SHT</option>
-                    <option>LTR</option>
-                    <option>ROLL</option>
-                    <option>PACK</option>
-                    <option>BTG</option>
-                    <option>MTR</option>
-                    <option>BTL</option>
+                    <option {{($barang->unit == 'UNIT') ? 'selected' : ''}}>UNIT</option>
+                    <option {{($barang->unit == 'PCS') ? 'selected' : ''}}>PCS</option>
+                    <option {{($barang->unit == 'SET') ? 'selected' : ''}}>SET</option>
+                    <option {{($barang->unit == 'BOX') ? 'selected' : ''}}>BOX</option>
+                    <option {{($barang->unit == 'SHT') ? 'selected' : ''}}>SHT</option>
+                    <option {{($barang->unit == 'LTR') ? 'selected' : ''}}>LTR</option>
+                    <option {{($barang->unit == 'ROLL') ? 'selected' : ''}}>ROLL</option>
+                    <option {{($barang->unit == 'PACK') ? 'selected' : ''}}>PACK</option>
+                    <option {{($barang->unit == 'BTG') ? 'selected' : ''}}>BTG</option>
+                    <option {{($barang->unit == 'MTR') ? 'selected' : ''}}>MTR</option>
+                    <option {{($barang->unit == 'BTL') ? 'selected' : ''}}>BTL</option>
                   </select>
                 </div>
 
                 <div class="col-md-6">
                   <label for="nomor_po" class="form-label">Nomor PO/PR</label>
-                  <input type="text" class="form-control" name="nomor_po" id="nomor_po" placeholder="Nomor PO/PR" required>
+                  <input type="text" class="form-control" name="nomor_po" id="nomor_po" placeholder="Nomor PO/PR" value="{{ $barang->nomor_po }}" required>
                 </div>
 
                 <div class="col-md-6">
                   <label for="tgl_kedatangan" class="form-label">Tanggal Kedatangan (HO)</label>
-                  <input type="date" class="form-control transparent-date" id="tgl_kedatangan" name="tgl_kedatangan">
+                  <input type="date" class="form-control transparent-date" id="tgl_kedatangan" value="{{ $barang->tgl_kedatangan }}" name="tgl_kedatangan">
                 </div>
 
                 <div class="text-left">
@@ -189,20 +189,6 @@
     })
       
   })
-  function dateNow()
-  {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    let mm = today.getMonth() + 1; // Months start at 0!
-    let dd = today.getDate();
-
-    if (dd < 10) dd = '0' + dd;
-    if (mm < 10) mm = '0' + mm;
-
-    const formattedToday = yyyy + '-' + mm + '-' + dd;
-
-    return formattedToday;
-  }
   // Sweetalert
   function konfirmasiSimpan()
   {
@@ -215,41 +201,25 @@
       var jumlah = $('#jumlah').val();
       var unit = $('#unit').val();
       var no_po = $('#nomor_po').val();
-      var tgl_kedatangan = $('#tgl_kedatangan').val();
-      console.log(dateNow());
 
-      if(user == '' || perusahaan == '' || pemasok == '' || item == '' || jumlah == '' || unit == '' || no_po == '' || tgl_kedatangan == '')
+      if(user == '' || perusahaan == '' || pemasok == '' || item == '' || jumlah == '' || unit == '' || no_po == '')
       {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Warning',
-          text: 'Pastikan semua data terisi'
-        });
+        alert('Pastikan data terisi');
       } else if(jumlah <= 0){
-        Swal.fire({
-            icon: 'warning',
-            title: 'Warning',
-            text: 'Isikan jumlah dengan minimal 1'
-          });
-      } else if(tgl_kedatangan > dateNow()) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Warning',
-            text: 'Isikan tanggal dengan benar'
-          });
+        alert('Isikan jumlah dengan minimal 1');
       } else {
         Swal.fire({
           icon: "question",
           title: "Konfirmasi",
-          text: "Apakah anda yakin ingin menyimpan data?",
+          text: "Apakah anda yakin ingin mengubah data?",
           showCancelButton: true,
-          confirmButtonText: "Simpan",
+          confirmButtonText: "Ubah",
           cancelButtonText: "Batal"
         }).then((result) => {
             if(result.value) {
                 form.submit();
             } else {
-                Swal.fire("Informasi","Data batal disimpan","error");
+                Swal.fire("Informasi","Data batal diubah","error");
             }
         });
       } 

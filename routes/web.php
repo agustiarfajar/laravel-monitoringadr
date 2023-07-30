@@ -60,6 +60,9 @@ Route::get('/data', [DataController::class, 'index'])->name('data.index');
 
 Route::get('/tambahitem', [AdminController::class, 'additem']);
 Route::post('/simpan-item', [AdminController::class, 'simpan_item']);
+Route::get('/edit-item/{id}', [AdminController::class, 'edit_item']);
+Route::post('/update-item/{id}', [AdminController::class, 'update_item']);
+Route::get('/delete-item/{id}', [AdminController::class, 'delete_item']);
 Route::get('/detail/pengiriman-site/{id}', [AdminController::class, 'detail_pengiriman_site']);
 
 // Laporan

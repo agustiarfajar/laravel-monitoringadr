@@ -137,30 +137,25 @@
                         </datalist>
                     </div>
 
-                    <div class="col-md-12 ">
+                    <div class="col-md-6 ">
                       <label for="suplier" class="form-label">Pemasok</label>
-                      <input type="text" class="form-control" id="supplier" name="supplier" placeholder="Nama Pemasok" required>
+                      <input type="text" class="form-control" id="pemasok" name="pemasok" placeholder="Nama Pemasok" required>
                     </div>
-                    <!--div class="col-md-6">
-                      <label for="telp" class="form-label">No Telpon</label>
-                      <input type="text" class="form-control" id="telp" name="telp" placeholder="Nomor Telpon Pemasok" required>
-                    </div-->
+                    <div class="col-md-6">
+                      <label for="telp" class="form-label">No.Telpon</label>
+                      <input type="text" class="form-control" id="telp" name="telpon" maxlength="13" placeholder="Nomor Telpon Pemasok" required>
+                    </div>
 
-                    <div class="col-md-8">
+                    <div class="col-md-12">
+                      <!-- <label for="ekspedisi" class="form-label">Ekspedisi</label>
+                      <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required> -->
                       <label for="ekspedisi" class="form-label">Ekspedisi</label>
-                      <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required>
-                    </div>
-                    <div class="col-md-4">
-                      <label for="pic" class="form-label">PIC Ekspedisi</label>
-                      <input type="text" class="form-control" id="pic" name="pic" placeholder="Nama PIC Ekspedisi" required>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="alamat" class="form-label">Alamat</label>
-                      <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat Ekspedisi" required>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="telpon" class="form-label">No Telpon</label>
-                      <input type="text" class="form-control" id="telpon" name="telpon" placeholder="Nomor Telpon Ekspedisi" required>
+                      <select id="ekspedisi" name="id_ekspedisi" class="select-ekspedisi form-select" onchange="getItem()">
+                        <option hidden value="">Pilih Ekspedisi</option>
+                        @foreach($ekspedisi as $row)
+                        <option value="{{ $row->id }}">{{ $row->ekspedisi }}</option>
+                        @endforeach
+                      </select>
                     </div>
                   </div>
               </div>
@@ -263,9 +258,13 @@
           theme: 'bootstrap-5'
         });
 
+        $('.select-ekspedisi').select2({
+          theme: 'bootstrap-5'
+        });
+
         $('#btnTambah').click(function() {
           const user = $('#user').val();
-          const pemasok = $('#supplier').val();
+          const pemasok = $('#pemasok').val();
           const item = $('#item').val();
           let jumlah = $('#jumlah').val();
           const unit = $('#unit').val();
@@ -273,15 +272,23 @@
 
           if(user == '' || pemasok == '' || item == '' || jumlah == '' || unit == '' || no_po == '')
           {
-              alert('Pastikan data terisi');
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Pastikan semua data terisi'
+              });
           } else if(jumlah <= 0){
-            alert('Isikan jumlah dengan minimal 1');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Isikan jumlah dengan minimal 1'
+              });
           } else {
               jumlah = parseInt(jumlah);
               no = no+1; 
               totalJumlah += jumlah;  
               $('#table_detail tbody').append(
-                  "<tr id='data-index"+no+"'><td><input type='hidden' name='id_barang[]' value='"+no+"'><input type='hidden' name='user[]' value='"+user+"' id='user"+no+"'><input type='hidden' name='supplier[]' value='"+pemasok+"'></input><input type='hidden' name='item[]' value='"+item+"'' id='item"+no+"'><input type='hidden' name='jumlah[]' value='"+jumlah+"' id='jumlah"+no+"'><input type='hidden' name='unit[]' value='"+unit+"' id='unit"+no+"'><input type='hidden' name='nomor_po[]' value='"+no_po+"' id='nomor_po"+no+"'>"+user+"</td><td>"+pemasok+"</td><td>"+item+"</td><td>"+jumlah+"</td><td>"+unit+"</td><td>"+no_po+"</td><td><button type='button' class='btn btn-sm btn-danger btnHapusKeranjang' onclick='hapusBarang("+no+")'><i class='bi bi-trash'></i></button></td></tr>"
+                  "<tr id='data-index"+no+"'><td><input type='hidden' name='id_barang[]' value='"+no+"'><input type='hidden' name='user[]' value='"+user+"' id='user"+no+"'><input type='hidden' name='item[]' value='"+item+"'' id='item"+no+"'><input type='hidden' name='jumlah[]' value='"+jumlah+"' id='jumlah"+no+"'><input type='hidden' name='unit[]' value='"+unit+"' id='unit"+no+"'><input type='hidden' name='nomor_po[]' value='"+no_po+"' id='nomor_po"+no+"'>"+user+"</td><td>"+pemasok+"</td><td>"+item+"</td><td>"+jumlah+"</td><td>"+unit+"</td><td>"+no_po+"</td><td><button type='button' class='btn btn-sm btn-danger btnHapusKeranjang' onclick='hapusBarang("+no+")'><i class='bi bi-trash'></i></button></td></tr>"
               );
 
               // reset data tambah barang
@@ -309,7 +316,11 @@
           var ekspedisi = $('#ekspedisi').val();
         if(perusahaan == '' || pic == '' || ekspedisi == '')
         {
-            return alert('Pastikan semua data terisi');
+            return Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Pastikan data terisi'
+              });
         } else {  
           Swal.fire({
               icon: "question",

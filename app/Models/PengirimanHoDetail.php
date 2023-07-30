@@ -11,7 +11,7 @@ class PengirimanHoDetail extends Model
 
     protected $table = 'pengiriman_ho_detail';
     protected $fillable = [
-        'id', 'no_faktur', 'user', 'supplier', 'id_barang', 'item', 'unit', 'jumlah', 'nomor_po', 'tgl_kedatangan' 
+        'id', 'no_faktur', 'user', 'pemasok', 'id_barang', 'item', 'unit', 'jumlah', 'nomor_po', 'tgl_kedatangan' 
     ];
 
     public $timestamps = false;

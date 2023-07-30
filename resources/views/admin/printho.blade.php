@@ -140,17 +140,33 @@
                 <th>Unit</th>
             </tr>
             @php $i = 1; @endphp
-            @foreach($barang_detail as $row)
+            @foreach($barangChunks as $chunk)
+                @foreach($chunk as $row)
             <tr>
                 <td>{{ $i++ }}</td>
                 <td>{{ $row->item }}</td>
-                <td>{{ $row->supplier }}</td>
+                <td>{{ $row->pemasok }}</td>
                 <td>{{ $row->nomor_po }}</td>
                 <td>{{ $row->user }}</td>
                 <td>{{ $row->jumlah }}</td>
                 <td>{{ $row->unit }}</td>
             </tr>
-            @endforeach            
+            @endforeach
+            @if($loop->remaining > 0) 
+            </table>
+            <div style="page-break-before: always;"></div>
+            <table class="shipment-info">
+                <tr>
+                    <th>No.</th>
+                    <th>Nama Barang</th>
+                    <th>Pemasok</th>
+                    <th>No. PO PR</th>
+                    <th>User</th>
+                    <th>Jumlah</th>
+                    <th>Unit</th>
+                </tr>
+            @endif
+            @endforeach           
             <!-- Isi tabel dengan data lainnya sesuai kebutuhan -->
         </table>
         

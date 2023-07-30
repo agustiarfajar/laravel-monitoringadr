@@ -144,14 +144,11 @@
     </style>
 </head>
 <body>
-    @foreach($barang_detail as $row)
     <div class="container">
         <p>Kepada:</p>
-        <p>{{ $row->supplier }}</p>
+        <p>{{ $barang->pemasok }}</p>
         <p>Jakarta</p>
         <p>Telp: 08123456789</p>
-    @break
-    @endforeach
         <h1>Surat Jalan Penyerahan Barang</h1>
         <a>Dengan ini kami mohon untuk menyerahkan barang sebagai berikut:</a>
         <table class="shipment-info">
@@ -162,7 +159,8 @@
                 <th>No. PO PR</th>
             </tr>
             @php $i = 1; @endphp
-            @foreach($barang_detail as $row)
+            @foreach($barangChunks as $chunk)
+                @foreach($chunk as $row)
             <tr>
                 <td>{{ $i++ }}</td>
                 <td>{{ $row->item }}</td>
@@ -170,6 +168,18 @@
                 <td>{{ $row->nomor_po }}</td>
             </tr>
             @endforeach 
+            @if ($loop->remaining > 0)
+            </table>
+            <div style="page-break-before: always;"></div>
+            <table class="shipment-info">
+                <tr>
+                    <th>No.</th>
+                    <th>Nama Barang</th>
+                    <th>Jumlah</th>
+                    <th>No. PO PR</th>
+                </tr>
+            @endif
+            @endforeach
             
             <!-- Isi tabel dengan data lainnya sesuai kebutuhan -->
         </table>

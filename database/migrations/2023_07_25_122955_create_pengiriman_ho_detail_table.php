@@ -17,7 +17,7 @@ class CreatePengirimanHoDetailTable extends Migration
             $table->id();
             $table->string('no_faktur');
             $table->string('user');
-            $table->string('supplier');
+            $table->string('pemasok');
             $table->unsignedBigInteger('id_barang');
             $table->string('item');
             $table->string('unit');
@@ -25,7 +25,7 @@ class CreatePengirimanHoDetailTable extends Migration
             $table->string('nomor_po');
             $table->string('tgl_kedatangan');    
             
-            $table->foreign('id_barang')->references('id')->on('barang')->onDelete('cascade');
+            $table->foreign('id_barang')->references('id')->on('barang')->onDelete('restrict');
         });
     }
 

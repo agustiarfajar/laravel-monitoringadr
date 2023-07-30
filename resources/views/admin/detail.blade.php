@@ -109,6 +109,10 @@
                     <div class="col-lg-9 col-md-8">{{ $barang->pic }}</div>
                 </div>
                 <div class="row">
+                    <div class="col-lg-3 col-md-4"><b>Pemasok </b></div>
+                    <div class="col-lg-9 col-md-8">{{ $barang->pemasok }}</div>
+                </div>
+                <div class="row">
                     <div class="col-lg-3 col-md-4"><b>Ekspedisi </b></div>
                     <div class="col-lg-9 col-md-8">{{ $barang->ekspedisi }}</div>
                 </div>

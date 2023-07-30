@@ -109,7 +109,7 @@
                
                 </div>
                     <!-- Table with stripped rows -->
-                    <table class="table datatable">
+                    <table class="datatable" id="tabel_item">
                         <thead>
                         <tr>
                             <th scope="col" style="width: 3%;">#</th>
@@ -122,6 +122,7 @@
                             <th scope="col" style="width: 15%;">Tgl Kedatangan</th>
                             <th scope="col" style="width: 10%;">Tujuan</th>
                             <th scope="col" style="width: 3%;">Status</th>
+                            <th scope="col" style="width: 3%;">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -142,7 +143,7 @@
                             <td>{{ $row->jumlah }} @if($jml_detail_ho > 0) <span class="badge rounded-pill bg-success">-{{ $jml_detail_ho }}</span> @endif</td>
                             <td>{{ $row->unit }}</td>
                             <td>{{ $row->nomor_po }}</td>
-                            <td>{{ $row->supplier }}</td>
+                            <td>{{ $row->pemasok }}</td>
                             <td>{{ ($row->tgl_kedatangan != null ? date('m/d/Y', strtotime($row->tgl_kedatangan)) : '') }}</td>
                             <td><span class="tooltip-perusahaan" data-perusahaan="{{ $row->perusahaan }}">{{ substr($row->perusahaan, 0, 10) }}...</span></td>
                             <td>
@@ -164,6 +165,10 @@
                                 @elseif($hasil > 5 && $row->jumlah > 0)
                               <span class="badge rounded-pill bg-danger">{{ $hasil }} hari</span>
                               @endif
+                            </td>
+                            <td>
+                              <button type="button" class="btn btn-primary btn-sm btnEdit" data-id="{{ $row->id }}"><i class="bi bi-pencil"></i></button>
+                              <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="{{ $row->id }}" onclick="konfirmasiHapus({{ $row->id }})"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                         @endforeach
@@ -205,6 +210,96 @@
           placement: 'top' // Adjust the placement as needed (top, bottom, left, right)
         });
       })
+
+      $('.btnEdit').each(function() {
+        $(this).on('click', function() {
+            var id = $(this).data('id');
+            var url = "{{ url('edit-item') }}/"+id+"";
+
+            window.location.href = url;
+        })
+      })
   })
+  function konfirmasiHapus(id)
+  {
+    event.preventDefault();
+    Swal.fire({
+        icon: "question",
+        title: "Konfirmasi",
+        text: "Apakah anda yakin ingin menghapus data?",
+        showCancelButton: true,
+        confirmButtonText: "Hapus",
+        cancelButtonText: "Batal"
+    }).then((result) => {
+        if(result.value) {
+            $.ajax({
+              url: "{{ url('delete-item') }}/"+id+"",
+              type: "GET",
+              data: {
+                id: id,
+                _token: '{{ csrf_token() }}'
+              },
+              success: function(response) {
+                // alert(response);
+                // var tbody = $('#tabel_item tbody');
+                // Refresh tabel
+                  // tbody.load(document.URL + ' #tabel_item tbody tr', function() {
+                  //     deleteButton();
+                  // });  
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Data berhasil dihapus'
+                })
+                
+                setTimeout(function() {
+                  window.location.reload();
+                }, 1500);
+              },
+              error: function(xhr, status, error) {
+                console.log(xhr);
+                
+                var Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                if(xhr.status == 422)
+                {
+                  Toast.fire({
+                      icon: 'error',
+                      title: 'Oops.. tidak dapat menghapus data ini karena sedang digunakan di entitas lain.'
+                  })
+                } else {
+                  Toast.fire({
+                      icon: 'error',
+                      title: xhr.responseJSON.error
+                  })
+                }
+      
+              }
+          });
+        } else {
+            Swal.fire("Informasi","Data batal dihapus","error");
+        }
+    });
+  }
+  
+  function deleteButton()
+  {
+    $('.btnDelete').each(function() {
+        $(this).click(function() {
+          var id = $(this).data('id');
+        })
+      })
+  }
 </script>      
 @endsection

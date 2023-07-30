@@ -187,7 +187,11 @@
     var input = $('#perusahaan').val();
     if(input == '')
     {
-      return alert('Perusahaan masih kosong, silahkan isi data dengan benar');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'Perusahaan masih kosong, silahkan isi data dengan benar'
+      });
     } else {
       Swal.fire({
         icon: "question",
