@@ -197,17 +197,17 @@
             </tr>
             <tr>
                 <td>PIC</td>
-                <td>: {{ $barang->pic }}</td>
+                <td>: {{ $barang->pic_eks }}</td>
             </tr>
             <tr>
                 <td>Telp</td>
-                <td>: {{ $barang->telpon }}</td>
+                <td>: {{ $barang->telpon_eks }}</td>
             </tr>
         </table>
         <br>
         <a>Demikianlah surat jalan ini kami buat, dan dapat dipergunakan sebagaimana mestinya.</a>
         <br></br>
-        <p style="text-align: left;">Jakarta, 28 Juli 2023</p>
+        <p style="text-align: left;">Jakarta, {{ now()->format('d M Y') }}</p>
         <div class="signatures">
         <table>
             <tr>
