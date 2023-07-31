@@ -148,7 +148,7 @@
         <p>Kepada:</p>
         <p>{{ $barang->pemasok }}</p>
         <p>Jakarta</p>
-        <p>Telp: 08123456789</p>
+        <p>{{ $barang->telpon}}</p>
         <h1>Surat Jalan Penyerahan Barang</h1>
         <a>Dengan ini kami mohon untuk menyerahkan barang sebagai berikut:</a>
         <table class="shipment-info">
@@ -207,7 +207,7 @@
         <br>
         <a>Demikianlah surat jalan ini kami buat, dan dapat dipergunakan sebagaimana mestinya.</a>
         <br></br>
-        <p style="text-align: left;">Jakarta, 28 Juli 2023</p>
+        <p style="text-align: left;">Jakarta, {{ date('d M Y') }}</p>
         <div class="signatures">
         <table>
             <tr>

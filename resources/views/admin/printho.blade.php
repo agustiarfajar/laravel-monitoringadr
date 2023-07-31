@@ -172,7 +172,7 @@
         
         <a>Demikian surat jalan ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</a>
         <br><br>
-        <p style="text-align: left;">Jakarta, 28 Juli 2023</p>
+        <p style="text-align: left;">Jakarta, {{ date('d M Y') }}</p>
         <div class="signatures">
             <table>
                 <tr>
