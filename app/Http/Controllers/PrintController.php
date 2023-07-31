@@ -24,7 +24,7 @@ class PrintController extends Controller
             $barang = DB::table('pemasok_barang as a')
                     ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
                     ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
-                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi', 'c.alamat')
+                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi', 'c.alamat', 'c.pic_eks', 'c.telpon as telpon_eks')
                     ->where('a.id', $id)
                     ->first();
 
@@ -53,7 +53,7 @@ class PrintController extends Controller
             $barang = DB::table('pengiriman_ho as a')
                     ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
                     ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
-                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
+                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi', 'c.pic_eks', 'c.telpon as telpon_eks')
                     ->where('a.id', $id)
                     ->first();
 

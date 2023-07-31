@@ -153,8 +153,9 @@
                               @php 
                                 $tgl_kedatangan = strtotime($row->tgl_kedatangan);
                                 $selisih = $tgl_kedatangan - time();
-                                $hasil = abs(round($selisih / 86400) + 1);
+                                $hasil = abs(round($selisih / 86400));
                                 
+                                $countDetail = DB::table('pengiriman_ho_detail')->where('id_barang', '=', $row->id)->count();
                               @endphp
                               @if($hasil < 1 && $row->jumlah > 0)
                                 <span class="badge rounded-pill bg-secondary">{{ $hasil }} hari</span>
@@ -167,7 +168,7 @@
                               @endif
                             </td>
                             <td>
-                              <button type="button" class="btn btn-primary btn-sm btnEdit" data-id="{{ $row->id }}"><i class="bi bi-pencil"></i></button>
+                              <button type="button" class="btn btn-primary btn-sm btnEdit {{ ($countDetail > 0) ? 'disabled' : '' }}" data-id="{{ $row->id }}"><i class="bi bi-pencil"></i></button>
                               <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="{{ $row->id }}" onclick="konfirmasiHapus({{ $row->id }})"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
@@ -218,7 +219,7 @@
 
             window.location.href = url;
         })
-      })
+      })   
   })
   function konfirmasiHapus(id)
   {
