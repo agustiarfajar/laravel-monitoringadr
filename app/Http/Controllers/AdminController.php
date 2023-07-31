@@ -623,7 +623,7 @@ public function update_chart_periode(Request $request)
                 ->select('a.*', 'b.perusahaan')
                 ->orderBy('a.tgl_kedatangan', 'DESC')
                 ->get();
-
+    
         return view('admin.item', compact('barang'));
     }
 
