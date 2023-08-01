@@ -56,26 +56,6 @@
 
   <li class="nav-heading">Pages</li>
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="users-profile.html">
-      <i class="bi bi-person"></i>
-      <span>Profile</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/adminfaq">
-      <i class="bi bi-question-circle"></i>
-      <span>F.A.Q</span>
-    </a>
-  </li><!-- End F.A.Q Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-contact.html">
-      <i class="bi bi-envelope"></i>
-      <span>Contact</span>
-    </a>
-  </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="pages-login.html">
@@ -139,11 +119,11 @@
 
                     <div class="col-md-6 ">
                       <label for="suplier" class="form-label">Pemasok</label>
-                      <input type="text" class="form-control" id="pemasok" name="pemasok" placeholder="Nama Pemasok" required>
+                      <input type="text" class="form-control" id="pemasok" name="pemasok" placeholder="Nama Pemasok" required autocomplete="off">
                     </div>
                     <div class="col-md-6">
                       <label for="telp" class="form-label">No.Telpon</label>
-                      <input type="text" class="form-control" id="telp" name="telpon" maxlength="13" placeholder="Nomor Telpon Pemasok" required>
+                      <input type="text" class="form-control" id="telp" name="telpon" maxlength="13" placeholder="Nomor Telpon Pemasok" required autocomplete="off">
                     </div>
 
                     <div class="col-md-12">
@@ -170,16 +150,16 @@
                   <div class="row g-3">
                     <div class="col-md-12 ">
                       <label for="user" class="form-label">Diminta Oleh</label>
-                      <input type="text" class="form-control" id="user" placeholder="Nama pemesan">
+                      <input type="text" class="form-control" id="user" placeholder="Nama pemesan" autocomplete="off">
                     </div>
                     
                     <div class="col-md-8 ">
                       <label for="item" class="form-label">Nama Barang</label>
-                      <input type="text" class="form-control" id="item">
+                      <input type="text" class="form-control" id="item" autocomplete="off">
                     </div>
                     <div class="col-md-2 ">
                       <label for="jumlah" class="form-label">Jumlah</label>
-                      <input type="number" min="1" class="form-control" id="jumlah">
+                      <input type="number" min="1" class="form-control" id="jumlah" autocomplete="off">
                     </div>
                     <div class="col-md-2 ">
                       <label for="unit" class="form-label">Unit</label>
@@ -196,11 +176,12 @@
                         <option>BTG</option>
                         <option>MTR</option>
                         <option>BTL</option>
+                        <option>KG</option>
                       </select>
                     </div>
                     <div class="col-md-12 ">
                       <label for="nomor" class="form-label">Nomor PO/PR</label>
-                      <input type="text" class="form-control" id="nomor">
+                      <input type="text" class="form-control" id="nomor" autocomplete="off">
                     </div>
                     <div style="text-align: right">
                       <button type="button" id="btnTambah" class="btn btn-primary"><i class="bi bi-plus"></i> Tambah</button>
@@ -264,13 +245,12 @@
 
         $('#btnTambah').click(function() {
           const user = $('#user').val();
-          const pemasok = $('#pemasok').val();
           const item = $('#item').val();
           let jumlah = $('#jumlah').val();
           const unit = $('#unit').val();
           const no_po = $('#nomor').val();
 
-          if(user == '' || pemasok == '' || item == '' || jumlah == '' || unit == '' || no_po == '')
+          if(user == '' || item == '' || jumlah == '' || unit == '' || no_po == '')
           {
               Swal.fire({
                 icon: 'warning',
@@ -311,10 +291,14 @@
       {
           event.preventDefault();
           var form = event.target.form;
+          // var id = $('name').val();
           var perusahaan = $('#perusahaan').val();
           var pic = $('#pic').val();
-          var ekspedisi = $('#ekspedisi').val();
-        if(perusahaan == '' || pic == '' || ekspedisi == '')
+          var id_ekspedisi = $('#ekspedisi').val();
+          var pemasok = $('#pemasok').val();
+          var telp = $('#telpon').val();
+          var id_barang_db = $('#id_barang').val();
+        if(perusahaan == '' || pic == '' || id_ekspedisi == '' || pemasok == '' || telp == '' || id_barang_db == '')
         {
             return Swal.fire({
                 icon: 'warning',

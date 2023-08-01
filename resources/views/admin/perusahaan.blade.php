@@ -56,26 +56,7 @@
 
   <li class="nav-heading">Pages</li>
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="users-profile.html">
-      <i class="bi bi-person"></i>
-      <span>Profile</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/adminfaq">
-      <i class="bi bi-question-circle"></i>
-      <span>F.A.Q</span>
-    </a>
-  </li><!-- End F.A.Q Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-contact.html">
-      <i class="bi bi-envelope"></i>
-      <span>Contact</span>
-    </a>
-  </li><!-- End Contact Page Nav -->
+  
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="pages-login.html">
@@ -109,7 +90,7 @@
                 <form class="row g-3" method="post" action="{{ url('perusahaan/save') }}">
                   @csrf
                 <div class="col-md-11">
-                  <input type="text" name="perusahaan" id="perusahaan" class="form-control" placeholder="Masukkan nama perusahaan">
+                  <input type="text" name="perusahaan" id="perusahaan" class="form-control" placeholder="Masukkan nama perusahaan" autocomplete="off">
                 </div>
                 <button type="button" onclick="konfirmasiSimpan()" class="btn btn-primary col-md-1"><i class="bi bi-plus-lg"></i></button>
                 </form>

@@ -56,26 +56,7 @@
 
   <li class="nav-heading">Pages</li>
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="users-profile.html">
-      <i class="bi bi-person"></i>
-      <span>Profile</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/adminfaq">
-      <i class="bi bi-question-circle"></i>
-      <span>F.A.Q</span>
-    </a>
-  </li><!-- End F.A.Q Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-contact.html">
-      <i class="bi bi-envelope"></i>
-      <span>Contact</span>
-    </a>
-  </li><!-- End Contact Page Nav -->
+  
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="pages-login.html">
@@ -110,7 +91,7 @@
                 @csrf
                 <div class="col-md-6">
                   <label for="user" class="form-label">Diminta Oleh</label>
-                  <input type="text" name="user" class="form-control" id="user" placeholder="Nama pemesan" required>
+                  <input type="text" name="user" class="form-control" id="user" placeholder="Nama pemesan" required autocomplete="off">
                 </div>
 
                 <div class="col-md-6">
@@ -126,16 +107,16 @@
                 
                 <div class="col-md-12">
                   <label for="pemasok" class="form-label">Pemasok</label>
-                  <input type="text" class="form-control" name="pemasok" id="pemasok" placeholder="Nama Supplier" required>
+                  <input type="text" class="form-control" name="pemasok" id="pemasok" placeholder="Nama Pemasok" required autocomplete="off">
                 </div>
 
                 <div class="col-md-8">
                   <label for="item" class="form-label">Nama Barang</label>
-                  <input type="text" class="form-control" id="item" name="item" placeholder="Nama Item" required>
+                  <input type="text" class="form-control" id="item" name="item" placeholder="Nama Barang" required autocomplete="off">
                 </div>
                 <div class="col-md-2">
                   <label for="jumlah" class="form-label">Jumlah</label>
-                  <input type="number" class="form-control" min="1" id="jumlah" name="jumlah" placeholder="Qty" required>
+                  <input type="number" class="form-control" min="1" id="jumlah" name="jumlah" placeholder="Qty" required autocomplete="off">
                 </div>
 
                 <div class="col-md-2">
@@ -153,17 +134,18 @@
                     <option>BTG</option>
                     <option>MTR</option>
                     <option>BTL</option>
+                    <option>KG</option>
                   </select>
                 </div>
 
                 <div class="col-md-6">
                   <label for="nomor_po" class="form-label">Nomor PO/PR</label>
-                  <input type="text" class="form-control" name="nomor_po" id="nomor_po" placeholder="Nomor PO/PR" required>
+                  <input type="text" class="form-control" name="nomor_po" id="nomor_po" placeholder="Nomor PO/PR" required autocomplete="off">
                 </div>
 
                 <div class="col-md-6">
                   <label for="tgl_kedatangan" class="form-label">Tanggal Kedatangan (HO)</label>
-                  <input type="date" class="form-control transparent-date" id="tgl_kedatangan" name="tgl_kedatangan">
+                  <input type="date" class="form-control transparent-date" id="tgl_kedatangan" name="tgl_kedatangan" autocomplete="off">
                 </div>
 
                 <div class="text-left">

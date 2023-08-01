@@ -110,9 +110,12 @@
                           $tgl_selesai = $_GET['end-date'];
 
                           ?>
-                          <a href="{{ url('export-laporan-kpi?start-date=') }}<?= $tgl_mulai; ?>&end-date=<?= $tgl_selesai; ?>">
+                          <!--a href="{{ url('export-laporan-kpi?start-date=') }}<?= $tgl_mulai; ?>&end-date=<?= $tgl_selesai; ?>">
                             <button class="btn btn-success">Export to Excel</button>
-                          </a>
+                          </a-->
+                          <button type="button" class="btn btn-success" onclick="exportToExcel()">Export to Excel</button>
+
+
                           <?php
                       } else {
                         ?>
@@ -154,10 +157,9 @@
                     <thead>
                           <tr>
                               <th scope="col">#</th>
-                              <th>Tgl Diproses <span class="badge rounded-pill bg-warning">Dikirim</span></th>
-                              <th>Tgl Surat Jalan <span class="badge rounded-pill bg-primary">Diproses</span></th>
-                              <th>Tgl Diterima Site <span class="badge rounded-pill bg-success">Diterima</span></th>
-                              <th>Status</th>
+                              <th>Tgl Diproses</th>
+                              <th>Tgl Surat Jalan</th>
+                              <th>Tgl Diterima Site</th>
                               <th>Jenis</th>
                               <th>No Surat Jalan</th>
                               <th>Perusahaan</th>
@@ -187,7 +189,6 @@
                               </td>
                               <td>{{ $row->tgl_surat_jalan }}</td>
                               <td>{{ ($row->tgl_diterima_site != null) ?  $row->tgl_diterima_site : '-'}}</td>
-                              <td></td>
                               <td>
                                 {{ (substr($row->no_faktur, 0, 2) == 'SJ' ? 'SHO' : 'SSP') }}
                               </td>
@@ -216,7 +217,6 @@
                             </td>
                             <td>{{ $row->tgl_surat_jalan }}</td>
                             <td>{{ ($row->tgl_diterima_site != null) ?  $row->tgl_diterima_site : '-'}}</td>
-                            <td></td>
                             <td>
                               {{ (substr($row->no_faktur, 0, 2) == 'SJ' ? 'SHO' : 'SSP') }}
                             </td>
@@ -244,30 +244,9 @@
             <!-- Content specific to "Laporan Barang Aging" -->
             <!-- Add content for "Laporan Barang Aging" here -->
             <div class="col-12">
-            <table class="table datatable" id="table_laporan">
-                    <thead>
-                          <tr>
-                              <th scope="col">#</th>
-                              <th>Tgl Diproses <span class="badge rounded-pill bg-warning">Dikirim</span></th>
-                              <th>Tgl Surat Jalan <span class="badge rounded-pill bg-primary">Diproses</span></th>
-                              <th>Tgl Diterima Site <span class="badge rounded-pill bg-success">Diterima</span></th>
-                              <th>Status</th>
-                              <th>Jenis</th>
-                              <th>No Surat Jalan</th>
-                              <th>Perusahaan</th>
-                              <th>Barang</th>
-                              <th>Pemasok</th>
-                              <th>Ekspedisi</th>
-                              <th>No PO/PR</th>
-                              <th>Jumlah</th>
-                              <th>Unit</th>
-                          </tr>
-                    </thead>
-                    <tbody>
-                      <!-- content -->
-                    </tbody>
+                <table class="table datatable">
+                    <!-- Table content for "Laporan Barang Bulanan" -->
                 </table>
-                <!-- End Table with stripped rows -->
             </div>
         </div>
 
@@ -288,18 +267,42 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    //function exportToExcel() {
+    //    var table = document.querySelector('.table');
+    //    var html = table.outerHTML.replace(/ /g, '%20');
+    //    var uri = 'data:application/vnd.ms-excel;charset=utf-8,' + html;
+//
+    //    var downloadLink = document.createElement('a');
+    //    document.body.appendChild(downloadLink);
+    //    downloadLink.href = uri;
+    //    downloadLink.download = 'laporan_kpi_bulanan.xls';
+    //    downloadLink.click();
+    //    document.body.removeChild(downloadLink);
+    //}
     function exportToExcel() {
         var table = document.querySelector('.table');
         var html = table.outerHTML.replace(/ /g, '%20');
         var uri = 'data:application/vnd.ms-excel;charset=utf-8,' + html;
-
+        
         var downloadLink = document.createElement('a');
         document.body.appendChild(downloadLink);
+        
+        // Mengambil rentang tanggal yang dipilih dari sesi
+        var selectedStartDate = sessionStorage.getItem('selectedStartDate');
+        var selectedEndDate = sessionStorage.getItem('selectedEndDate');
+        
+        // Membuat nama file dengan format "Laporan_KPI_Bulanan_[rentang_tanggal].xls"
+        var fileName = "Laporan_KPI_Bulanan_" + selectedStartDate + "_to_" + selectedEndDate + ".xls";
+        
+        // Mengubah karakter-karakter yang tidak diizinkan dalam nama file menjadi underscore
+        fileName = fileName.replace(/[\/\\:*?"<>|]/g, '_');
+        
         downloadLink.href = uri;
-        downloadLink.download = 'Laporan_KPI_Bulanan.xls';
+        downloadLink.download = fileName;
         downloadLink.click();
         document.body.removeChild(downloadLink);
-    }
+}
+
 
     function validateDateRange(event) {
         event.preventDefault();
@@ -363,33 +366,6 @@
           }
       })
     })
-</script>
-
-<script>
-  function resetDateFilter() {
-    document.getElementById('start-date').value = '';
-    document.getElementById('end-date').value = '';
-  }
-
-  function hideAllReportContents() {
-    document.getElementById('barang_bulanan_content').style.display = 'none';
-    document.getElementById('laporan2_content').style.display = 'none';
-    document.getElementById('laporan3_content').style.display = 'none';
-  }
-
-  const laporanTypeDropdown = document.getElementById('laporan_type');
-  laporanTypeDropdown.addEventListener('change', function() {
-    resetDateFilter();
-    hideAllReportContents();
-    const selectedValue = laporanTypeDropdown.value;
-    if (selectedValue === 'barang_bulanan') {
-      document.getElementById('barang_bulanan_content').style.display = 'block';
-    } else if (selectedValue === 'laporan2') {
-      document.getElementById('laporan2_content').style.display = 'block';
-    } else if (selectedValue === 'laporan3') {
-      document.getElementById('laporan3_content').style.display = 'block';
-    }
-  });
 </script>
 
 <script>

@@ -652,47 +652,6 @@
               </div>
             </div><!-- End Website Traffic -->
           </div>
-
-        <div class="col-xxl-12 col-md-12">
-          <div class="card">
-              <div class="filter">
-                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                  <li class="dropdown-header text-start">
-                    <h6>Filter</h6>
-                  </li>
-  
-                      <li><a class="dropdown-item filter-periode-chart" data-periode="today" data-text="| Today" style="cursor:pointer">Today</a></li>
-                      <li><a class="dropdown-item filter-periode-chart" data-periode="month" data-text="| This Month" style="cursor:pointer">This Month</a></li>
-                      <li><a class="dropdown-item filter-periode-chart" data-periode="year" data-text="| This Year" style="cursor:pointer">This Year</a></li>
-                </ul>
-              </div>
-  
-              <div class="card-body pb-0">
-                <h5 class="card-title">Chart Pengiriman Perusahaan <span class="txtChart">| This Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Chart pengiriman dari HO dan Pemasok ke perusahaan tujuan"></i></h5>
-  
-                <div id="pieChart" style="min-height: 400px;"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#pieChart"), {
-                        series: [44, 55, 13, 43, 22],
-                        chart: {
-                          height: 350,
-                          type: 'pie',
-                          toolbar: {
-                            show: true
-                          }
-                        },
-                        labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
-                      }).render();
-                    });
-                  </script>
-                  <!-- End Pie Chart -->
-                </div>
-              </div>
-          </div>
-        </div>
             
 
         <!--div class="col-xxl-4 col-xl-6">

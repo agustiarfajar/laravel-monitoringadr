@@ -56,26 +56,7 @@
 
   <li class="nav-heading">Pages</li>
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="users-profile.html">
-      <i class="bi bi-person"></i>
-      <span>Profile</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/adminfaq">
-      <i class="bi bi-question-circle"></i>
-      <span>F.A.Q</span>
-    </a>
-  </li><!-- End F.A.Q Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-contact.html">
-      <i class="bi bi-envelope"></i>
-      <span>Contact</span>
-    </a>
-  </li><!-- End Contact Page Nav -->
+  
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="pages-login.html">
@@ -115,7 +96,7 @@
                             <th scope="col" style="width: 3%;">#</th>
                             <th class="text-center" style="width: 10%;;">Diminta Oleh</th>
                             <th class="text-center" style="width: 10%;;">Barang</th>
-                            <th scope="col" style="width: 5%;">Jumlah</th>
+                            <th scope="col" style="width: 5%;">Sisa / <span class="badge rounded-pill bg-success"> Keluar</span></th>
                             <th scope="col" style="width: 7%;">Unit</th>
                             <th scope="col" style="width: 15%;">No PO/PR</th>
                             <th scope="col" style="width: 10%;">Pemasok</th>
@@ -140,7 +121,7 @@
                             <th scope="row" >{{ $no++ }}</th>
                             <td>{{ $row->user }}</td>
                             <td>{{ $row->item }}</td>
-                            <td>{{ $row->jumlah }} @if($jml_detail_ho > 0) <span class="badge rounded-pill bg-success">-{{ $jml_detail_ho }}</span> @endif</td>
+                            <td>{{ $row->jumlah }} / @if($jml_detail_ho > 0) <span class="badge rounded-pill bg-success">{{ $jml_detail_ho }}</span> @endif</td>
                             <td>{{ $row->unit }}</td>
                             <td>{{ $row->nomor_po }}</td>
                             <td>{{ $row->pemasok }}</td>
@@ -161,9 +142,9 @@
                                 <span class="badge rounded-pill bg-secondary">{{ $hasil }} hari</span>
                               @elseif($hasil >= 1 && $hasil <= 2 && $row->jumlah > 0)
                                 <span class="badge rounded-pill bg-primary">{{ $hasil }} hari</span>
-                              @elseif($hasil > 2 && $hasil <= 5 && $row->jumlah > 0)
+                              @elseif($hasil > 2 && $hasil <= 4 && $row->jumlah > 0)
                                 <span class="badge rounded-pill bg-warning">{{ $hasil }} hari</span>
-                                @elseif($hasil > 5 && $row->jumlah > 0)
+                                @elseif($hasil >= 5 && $row->jumlah > 0)
                               <span class="badge rounded-pill bg-danger">{{ $hasil }} hari</span>
                               @endif
                             </td>

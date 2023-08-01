@@ -93,6 +93,7 @@ Route::get('/ekspedisi/delete/{id}', [AdminController::class, 'delete_ekspedisi'
 
 // Dashboard periode
 Route::post('/sisa-barang-ho-update/periode', [AdminController::class, 'update_sisa_barang_ho_periode']);
+Route::post('/barang-keluar-update/periode', [AdminController::class, 'update_barang_keluar']);
 Route::post('/surat-jalan-update/periode', [AdminController::class, 'update_surat_jalan_periode']);
 Route::post('/barang-aging-update/periode', [AdminController::class, 'update_barang_aging_periode']);
 Route::post('/belum-kirim-pemasok-update/periode', [AdminController::class, 'update_belum_kirim_pemasok_periode']);

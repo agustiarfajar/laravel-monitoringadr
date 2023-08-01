@@ -40,7 +40,7 @@ class PrintController extends Controller
             
             $pdf = PDF::loadView('admin.print', compact('barang', 'barang_detail', 'barangChunks'));
 
-            return $pdf->download('print_pemasok.pdf');
+            return $pdf->download('Surat_Penyerahan.pdf');
         }
     }
 
@@ -70,7 +70,7 @@ class PrintController extends Controller
 
             $pdf = PDF::loadView('admin.printho', compact('barang', 'barang_detail', 'barangChunks'));
 
-            return $pdf->download('print_ho.pdf');
+            return $pdf->download('Surat_Pengiriman.pdf');
         }        
     }
 

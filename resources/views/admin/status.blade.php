@@ -56,26 +56,7 @@
 
   <li class="nav-heading">Pages</li>
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="users-profile.html">
-      <i class="bi bi-person"></i>
-      <span>Profile</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/adminfaq">
-      <i class="bi bi-question-circle"></i>
-      <span>F.A.Q</span>
-    </a>
-  </li><!-- End F.A.Q Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-contact.html">
-      <i class="bi bi-envelope"></i>
-      <span>Contact</span>
-    </a>
-  </li><!-- End Contact Page Nav -->
+  
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="pages-login.html">
@@ -141,7 +122,32 @@
               ?>
             </select>
           </div>
+      
+          <div class="col-3">
+            <select name="filter_status" id="filter_status" class="form-select">
+              <option hidden>Filter Status</option>
+              <?php 
+              if(isset($_GET['status'])) {
+                ?>
+                  <option value="all" <?= ($_GET['status'] == 'all') ? 'selected' : '' ?>>Semua</option>
+                  <option value="diproses" <?= ($_GET['status'] == 'diproses') ? 'selected' : '' ?>>Diproses</option>
+                  <option value="dikirim" <?= ($_GET['status'] == 'dikirim') ? 'selected' : '' ?>>Dikirim</option>
+                  <option value="diterima" <?= ($_GET['status'] == 'diterima') ? 'selected' : '' ?>>Diterima</option>
+                <?php
+              } else {
+                ?>
+                <option value="all">Semua</option>
+                <option value="diproses">Diproses</option>
+                <option value="dikirim">Dikirim</option>
+                <option value="diterima">Diterima</option>
+                <?php
+              }
+
+              ?>
+            </select>
+          </div>
         </div>
+        <br>
           <table class="table table-borderless datatable" id="myTable">
               <thead>
                   <tr>
