@@ -90,6 +90,18 @@
             <div class="col-xxl-3 col-md-3" style="width: 18 rem;">
               <div class="card info-card acc-card">
 
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+                    <li><a class="dropdown-item filter-periode-barang-masuk" data-periode="today" data-text="| Today" style="cursor:pointer">Today</a></li>
+                    <li><a class="dropdown-item filter-periode-barang-masuk" data-periode="month" data-text="| This Month" style="cursor:pointer">This Month</a></li>
+                    <li><a class="dropdown-item filter-periode-barang-masuk" data-periode="year" data-text="| This Year" style="cursor:pointer">This Year</a></li>
+                  </ul>
+                </div>
+
                 <div class="card-body" >
                   <h5 class="card-title"><a href="/daftar-barang" class="card-title">Barang Masuk</a> <span>| This Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Total jumlah barang dalam Qty yang diterima di HO"></i></h5>
 
@@ -97,7 +109,7 @@
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-box-fill"></i>
                     </div>
-                    <div class="ps-3">
+                    <div class="ps-3 barangMasuk">
                       <h6>{{ $countTotalBarangHo }}</h6>
                     <span class="text-muted small pt-2 ps-1">barang</span>
 
@@ -481,6 +493,16 @@
                               var periode = $(this).data('periode');
                               var url = "{{ url('sisa-barang-ho-update/periode') }}";
                               var kelas = 'sisaBarangHo';
+                              var txt = $(this).data('text');
+                              updatePeriode(url, periode, kelas, txt);
+                          });
+                      })
+                      // Barang Masuk
+                      $('.filter-periode-barang-masuk').each(function() {
+                          $(this).on('click', () => {
+                              var periode = $(this).data('periode');
+                              var url = "{{ url('barang-masuk-update/periode') }}";
+                              var kelas = 'barangMasuk';
                               var txt = $(this).data('text');
                               updatePeriode(url, periode, kelas, txt);
                           });

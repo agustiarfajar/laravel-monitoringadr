@@ -235,6 +235,36 @@ class AdminController extends Controller
         return response()->json(['status' => 200, 'data' => $data], 200);
     }
 
+    // Update barang masuk ho di dashboard
+    public function update_barang_masuk(Request $request)
+    {
+        $periode = $request->input('periode');
+
+        if($periode == 'today')
+        {
+            $date = NOW();
+            $data = DB::table('barang')
+                ->whereDate('tgl_kedatangan', $date)
+                ->whereMonth('tgl_kedatangan', Carbon::now()->month)
+                ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                ->sum('jumlah');
+        } else if($periode == 'month')
+        {
+            $date = Carbon::now()->month;
+            $data = DB::table('barang')
+                ->whereMonth('tgl_kedatangan', $date)
+                ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                ->sum('jumlah');
+        } else if($periode == 'year')
+        {
+            $date = Carbon::now()->year;
+            $data = DB::table('barang')
+                ->whereYear('tgl_kedatangan', $date)
+                ->sum('jumlah');
+        }
+        return response()->json(['status' => 200, 'data' => $data], 200);
+    }
+
     // Update barang keluar ho di dashboard
     public function update_barang_keluar(Request $request)
     {
