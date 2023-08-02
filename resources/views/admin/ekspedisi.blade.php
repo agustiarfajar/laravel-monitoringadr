@@ -56,26 +56,7 @@
 
   <li class="nav-heading">Pages</li>
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="users-profile.html">
-      <i class="bi bi-person"></i>
-      <span>Profile</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/adminfaq">
-      <i class="bi bi-question-circle"></i>
-      <span>F.A.Q</span>
-    </a>
-  </li><!-- End F.A.Q Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-contact.html">
-      <i class="bi bi-envelope"></i>
-      <span>Contact</span>
-    </a>
-  </li><!-- End Contact Page Nav -->
+  
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="pages-login.html">
@@ -110,19 +91,19 @@
                   @csrf
                 <div class="col-md-12">
                   <label for="ekspedisi" class="form-label">Nama Ekspedisi</label>
-                  <input type="text" name="ekspedisi" id="ekspedisi" class="form-control" placeholder="Masukkan nama ekspedisi">
+                  <input type="text" name="ekspedisi" id="ekspedisi" class="form-control" placeholder="Masukkan nama ekspedisi" autocomplete="off">
                 </div>
                 <div class="col-md-6">
                   <label for="pic_eks" class="form-label">PIC Ekspedisi</label>
-                  <input type="text" name="pic_eks" id="pic_eks" class="form-control" placeholder="Masukkan nama PIC ekspedisi">
+                  <input type="text" name="pic_eks" id="pic_eks" class="form-control" placeholder="Masukkan nama PIC ekspedisi" autocomplete="off">
                 </div>
                 <div class="col-md-6">
                   <label for="telpon" class="form-label">Nomor Telpon</label>
-                  <input type="text" name="telpon" id="telpon" maxlength="13" class="form-control" placeholder="Masukkan nomor telpon ekspedisi">
+                  <input type="text" name="telpon" id="telpon" maxlength="13" class="form-control" placeholder="Masukkan nomor telpon ekspedisi" autocomplete="off">
                 </div>
                 <div class="col-md-12">
                   <label for="alamat" class="form-label">Alamat Ekspedisi</label>
-                  <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Masukkan alamat ekspedisi">
+                  <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Masukkan alamat ekspedisi" autocomplete="off">
                 </div>
                 <div style="text-align: right">
                 <button type="button" onclick="konfirmasiSimpan()" class="btn btn-primary col-md-1"><i class="bi bi-plus"></i> Tambah</button>
@@ -146,19 +127,19 @@
               <div class="modal-body">
                 <div class="form-group mb-3">
                     <label for="ekspedisi" class="form-label">Nama Ekspedisi</label>
-                    <input type="text" name="ekspedisi" id="ekspedisi_edit" class="form-control" placeholder="Masukkan nama ekspedisi">
+                    <input type="text" name="ekspedisi" id="ekspedisi_edit" class="form-control" placeholder="Masukkan nama ekspedisi" autocomplete="off">
                   </div>
                   <div class="form-group mb-3">
                     <label for="pic_eks" class="form-label">PIC Ekspedisi</label>
-                    <input type="text" name="pic_eks" id="pic_eks_edit" class="form-control" placeholder="Masukkan nama PIC ekspedisi">
+                    <input type="text" name="pic_eks" id="pic_eks_edit" class="form-control" placeholder="Masukkan nama PIC ekspedisi" autocomplete="off">
                   </div>
                   <div class="form-group mb-3">
                     <label for="telpon" class="form-label">Nomor Telpon</label>
-                    <input type="text" name="telpon" id="telpon_edit" maxlength="13" class="form-control" placeholder="Masukkan nomor telpon ekspedisi">
+                    <input type="text" name="telpon" id="telpon_edit" maxlength="13" class="form-control" placeholder="Masukkan nomor telpon ekspedisi" autocomplete="off">
                   </div>
                   <div class="form-group mb-3">
                     <label for="alamat" class="form-label">Alamat Ekspedisi</label>
-                    <input type="text" name="alamat" id="alamat_edit" class="form-control" placeholder="Masukkan alamat ekspedisi">
+                    <input type="text" name="alamat" id="alamat_edit" class="form-control" placeholder="Masukkan alamat ekspedisi" autocomplete="off">
                   </div>
               </div>
               <div class="modal-footer">

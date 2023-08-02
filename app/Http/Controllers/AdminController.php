@@ -156,6 +156,7 @@ class AdminController extends Controller
             ->whereMonth('tgl_kedatangan', Carbon::now()->month)
             ->whereYear('tgl_kedatangan', Carbon::now()->year)
             ->sum('jumlah');
+
         // Chart
         $chartProsesHo = DB::table('pengiriman_ho')
                     ->where('status', '=', 'diproses')
@@ -233,6 +234,68 @@ class AdminController extends Controller
         }
         return response()->json(['status' => 200, 'data' => $data], 200);
     }
+
+    // Update barang masuk ho di dashboard
+    public function update_barang_masuk(Request $request)
+    {
+        $periode = $request->input('periode');
+
+        if($periode == 'today')
+        {
+            $date = NOW();
+            $data = DB::table('barang')
+                ->whereDate('tgl_kedatangan', $date)
+                ->whereMonth('tgl_kedatangan', Carbon::now()->month)
+                ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                ->sum('jumlah');
+        } else if($periode == 'month')
+        {
+            $date = Carbon::now()->month;
+            $data = DB::table('barang')
+                ->whereMonth('tgl_kedatangan', $date)
+                ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                ->sum('jumlah');
+        } else if($periode == 'year')
+        {
+            $date = Carbon::now()->year;
+            $data = DB::table('barang')
+                ->whereYear('tgl_kedatangan', $date)
+                ->sum('jumlah');
+        }
+        return response()->json(['status' => 200, 'data' => $data], 200);
+    }
+
+    // Update barang keluar ho di dashboard
+    public function update_barang_keluar(Request $request)
+    {
+        $periode = $request->input('periode');
+
+        if($periode == 'today')
+        {
+            $date = NOW();
+            $data = DB::table('barang')
+                ->whereDate('tgl_kedatangan', $date)
+                ->whereMonth('tgl_kedatangan', Carbon::now()->month)
+                ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                ->sum('jumlah');
+        } else if($periode == 'month')
+        {
+            $date = Carbon::now()->month;
+            $data = DB::table('barang')
+                ->whereMonth('tgl_kedatangan', $date)
+                ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                ->sum('jumlah');
+        } else if($periode == 'year')
+        {
+            $date = Carbon::now()->year;
+            $data = DB::table('barang')
+                ->whereYear('tgl_kedatangan', $date)
+                ->sum('jumlah');
+        }
+        return response()->json(['status' => 200, 'data' => $data], 200);
+    }
+
+    
     // Update surat jalan di dashboard
     public function update_surat_jalan_periode(Request $request)
     {
@@ -1093,37 +1156,12 @@ public function update_chart_periode(Request $request)
     // Laporan
     public function exportDataToCsv()
     {
-        $pemasok = DB::table('pemasok_barang as a')
-                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
-                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok',
-                        'b.perusahaan', 
-                        'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
-                        'd.ekspedisi')
-                ->orderBy('a.no_faktur', 'ASC')
-                ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
-                ->get();
-
-        $ho = DB::table('pengiriman_ho as a')
-                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
-                ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur',
-                        'b.perusahaan', 
-                        'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
-                        'd.ekspedisi')
-                ->orderBy('a.no_faktur', 'ASC')
-                ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
-                ->get();
-
-        $data = $pemasok->merge($ho);
+        
 
         // Filter by date
-        if(isset($_GET['start-date']))
-        {
-            $tgl_mulai = Carbon::parse($_GET['start-date']);
-            $tgl_selesai = Carbon::parse($_GET['end-date']);
+        if(isset($_GET['start-date'])) {
+            $tgl_mulai = Carbon::parse($_GET['start-date'])->format('Y-m-d');
+            $tgl_selesai = Carbon::parse($_GET['end-date'])->format('Y-m-d');
 
             $pemasok_filter = DB::table('pemasok_barang as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
@@ -1149,12 +1187,43 @@ public function update_chart_periode(Request $request)
                     ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
                     ->get();
 
-            $result_filter = $pemasok_filter->concat($ho_filter);
+                    $result_filter = $pemasok_filter->concat($ho_filter);
 
-            return Excel::download(new LaporanKpiExport($result_filter), 'laporan_kpi_bulanan_filter.xlsx');
+                    $fileName = "Laporan_KPI_Bulanan_{$tgl_mulai}_to_{$tgl_selesai}.xlsx";
+                    $filePath = "temp/{$fileName}";
+                    Excel::store(new LaporanKpiExport($result_filter), $filePath);
+            
+                    return response()->download(storage_path("app/{$filePath}"))->deleteFileAfterSend(true);
+                }
+    else {
+        $pemasok = DB::table('pemasok_barang as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
+                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok',
+                        'b.perusahaan', 
+                        'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
+                        'd.ekspedisi')
+                ->orderBy('a.no_faktur', 'ASC')
+                //->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+                ->get();
+
+        $ho = DB::table('pengiriman_ho as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
+                ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur',
+                        'b.perusahaan', 
+                        'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
+                        'd.ekspedisi')
+                ->orderBy('a.no_faktur', 'ASC')
+                //->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+                ->get();
+
+        $data = $pemasok->merge($ho);
+
+        return Excel::download(new LaporanKpiExport($data), 'Laporan_KPI_Bulanan.xlsx');
+
         }
-
-        return Excel::download(new LaporanKpiExport($data), 'laporan_kpi_bulanan.xlsx');
     }
-    
 }
