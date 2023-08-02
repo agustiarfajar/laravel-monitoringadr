@@ -119,7 +119,7 @@
 
                     <div class="col-md-6 ">
                       <label for="suplier" class="form-label">Pemasok</label>
-                      <input type="text" class="form-control" id="pemasok" name="pemasok" placeholder="Nama Pemasok" required autocomplete="off">
+                      <input type="text" class="form-control" id="pemasok" name="pemasok" placeholder="Nama Pemasok" required autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                     </div>
                     <div class="col-md-6">
                       <label for="telp" class="form-label">No.Telpon</label>
@@ -150,12 +150,12 @@
                   <div class="row g-3">
                     <div class="col-md-12 ">
                       <label for="user" class="form-label">Diminta Oleh</label>
-                      <input type="text" class="form-control" id="user" placeholder="Nama pemesan" autocomplete="off">
+                      <input type="text" class="form-control" id="user" placeholder="Nama pemesan" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                     </div>
                     
                     <div class="col-md-8 ">
                       <label for="item" class="form-label">Nama Barang</label>
-                      <input type="text" class="form-control" id="item" autocomplete="off">
+                      <input type="text" class="form-control" id="item" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                     </div>
                     <div class="col-md-2 ">
                       <label for="jumlah" class="form-label">Jumlah</label>
@@ -181,7 +181,7 @@
                     </div>
                     <div class="col-md-12 ">
                       <label for="nomor" class="form-label">Nomor PO/PR</label>
-                      <input type="text" class="form-control" id="nomor" autocomplete="off">
+                      <input type="text" class="form-control" id="nomor" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                     </div>
                     <div style="text-align: right">
                       <button type="button" id="btnTambah" class="btn btn-primary"><i class="bi bi-plus"></i> Tambah</button>

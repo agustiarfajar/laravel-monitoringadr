@@ -187,7 +187,17 @@
                               </td>
                               <td>{{ $row->tgl_surat_jalan }}</td>
                               <td>{{ ($row->tgl_diterima_site != null) ?  $row->tgl_diterima_site : '-'}}</td>
-                              <td></td>
+                              <td>          
+                              @if($row->status == 'diproses')
+                              <span class="badge rounded-pill bg-primary">Diproses</span>
+                              @elseif($row->status == 'dikirim')
+                              <span class="badge rounded-pill bg-warning">Dikirim</span>
+                              @elseif($row->status == 'diterima')
+                              <span class="badge rounded-pill bg-success">Diterima</span>
+                              @elseif($row->status == 'dibatalkan')
+                              <span class="badge rounded-pill bg-danger">Dibatalkan</span>
+                              @endif
+                              </td>
                               <td>
                                 {{ (substr($row->no_faktur, 0, 2) == 'SJ' ? 'SHO' : 'SSP') }}
                               </td>
@@ -216,7 +226,17 @@
                             </td>
                             <td>{{ $row->tgl_surat_jalan }}</td>
                             <td>{{ ($row->tgl_diterima_site != null) ?  $row->tgl_diterima_site : '-'}}</td>
-                            <td></td>
+                            <td>          
+                              @if($row->status == 'diproses')
+                              <span class="badge rounded-pill bg-primary">Diproses</span>
+                              @elseif($row->status == 'dikirim')
+                              <span class="badge rounded-pill bg-warning">Dikirim</span>
+                              @elseif($row->status == 'diterima')
+                              <span class="badge rounded-pill bg-success">Diterima</span>
+                              @elseif($row->status == 'dibatalkan')
+                              <span class="badge rounded-pill bg-danger">Dibatalkan</span>
+                              @endif
+                            </td>
                             <td>
                               {{ (substr($row->no_faktur, 0, 2) == 'SJ' ? 'SHO' : 'SSP') }}
                             </td>
@@ -246,22 +266,19 @@
             <div class="col-12">
             <table class="table datatable" id="table_laporan">
                     <thead>
-                          <tr>
-                              <th scope="col">#</th>
-                              <th>Tgl Diproses <span class="badge rounded-pill bg-warning">Dikirim</span></th>
-                              <th>Tgl Surat Jalan <span class="badge rounded-pill bg-primary">Diproses</span></th>
-                              <th>Tgl Diterima Site <span class="badge rounded-pill bg-success">Diterima</span></th>
-                              <th>Status</th>
-                              <th>Jenis</th>
-                              <th>No Surat Jalan</th>
-                              <th>Perusahaan</th>
-                              <th>Barang</th>
-                              <th>Pemasok</th>
-                              <th>Ekspedisi</th>
-                              <th>No PO/PR</th>
-                              <th>Jumlah</th>
-                              <th>Unit</th>
-                          </tr>
+                    <tr>
+                            <th scope="col" style="width: 3%;">#</th>
+                            <th class="text-center" style="width: 10%;;">Diminta Oleh</th>
+                            <th class="text-center" style="width: 10%;;">Barang</th>
+                            <th scope="col" style="width: 5%;">Sisa / <span class="badge rounded-pill bg-success"> Keluar</span></th>
+                            <th scope="col" style="width: 7%;">Unit</th>
+                            <th scope="col" style="width: 15%;">No PO/PR</th>
+                            <th scope="col" style="width: 10%;">Pemasok</th>
+                            <th scope="col" style="width: 15%;">Tgl Kedatangan</th>
+                            <th scope="col" style="width: 10%;">Tujuan</th>
+                            <th scope="col" style="width: 3%;">Status</th>
+                            <th scope="col" style="width: 3%;">Aksi</th>
+                        </tr>
                     </thead>
                     <tbody>
                       <!-- content -->

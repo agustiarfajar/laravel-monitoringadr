@@ -90,7 +90,7 @@
                 <form class="row g-3" method="post" action="{{ url('perusahaan/save') }}">
                   @csrf
                 <div class="col-md-11">
-                  <input type="text" name="perusahaan" id="perusahaan" class="form-control" placeholder="Masukkan nama perusahaan" autocomplete="off">
+                  <input type="text" name="perusahaan" id="perusahaan" class="form-control" placeholder="Masukkan nama perusahaan" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                 </div>
                 <button type="button" onclick="konfirmasiSimpan()" class="btn btn-primary col-md-1"><i class="bi bi-plus-lg"></i></button>
                 </form>

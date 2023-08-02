@@ -91,7 +91,7 @@
                 @csrf
                 <div class="col-md-6">
                   <label for="user" class="form-label">Diminta Oleh</label>
-                  <input type="text" name="user" class="form-control" id="user" placeholder="Nama pemesan" required autocomplete="off">
+                  <input type="text" name="user" class="form-control" id="user" placeholder="Nama pemesan" required autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                 </div>
 
                 <div class="col-md-6">
@@ -107,12 +107,12 @@
                 
                 <div class="col-md-12">
                   <label for="pemasok" class="form-label">Pemasok</label>
-                  <input type="text" class="form-control" name="pemasok" id="pemasok" placeholder="Nama Pemasok" required autocomplete="off">
+                  <input type="text" class="form-control" name="pemasok" id="pemasok" placeholder="Nama Pemasok" required autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                 </div>
 
                 <div class="col-md-8">
                   <label for="item" class="form-label">Nama Barang</label>
-                  <input type="text" class="form-control" id="item" name="item" placeholder="Nama Barang" required autocomplete="off">
+                  <input type="text" class="form-control" id="item" name="item" placeholder="Nama Barang" required autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                 </div>
                 <div class="col-md-2">
                   <label for="jumlah" class="form-label">Jumlah</label>
@@ -140,7 +140,7 @@
 
                 <div class="col-md-6">
                   <label for="nomor_po" class="form-label">Nomor PO/PR</label>
-                  <input type="text" class="form-control" name="nomor_po" id="nomor_po" placeholder="Nomor PO/PR" required autocomplete="off">
+                  <input type="text" class="form-control" name="nomor_po" id="nomor_po" placeholder="Nomor PO/PR" required autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                 </div>
 
                 <div class="col-md-6">

@@ -91,11 +91,11 @@
                   @csrf
                 <div class="col-md-12">
                   <label for="ekspedisi" class="form-label">Nama Ekspedisi</label>
-                  <input type="text" name="ekspedisi" id="ekspedisi" class="form-control" placeholder="Masukkan nama ekspedisi" autocomplete="off">
+                  <input type="text" name="ekspedisi" id="ekspedisi" class="form-control" placeholder="Masukkan nama ekspedisi" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                 </div>
                 <div class="col-md-6">
                   <label for="pic_eks" class="form-label">PIC Ekspedisi</label>
-                  <input type="text" name="pic_eks" id="pic_eks" class="form-control" placeholder="Masukkan nama PIC ekspedisi" autocomplete="off">
+                  <input type="text" name="pic_eks" id="pic_eks" class="form-control" placeholder="Masukkan nama PIC ekspedisi" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                 </div>
                 <div class="col-md-6">
                   <label for="telpon" class="form-label">Nomor Telpon</label>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="col-md-12">
                   <label for="alamat" class="form-label">Alamat Ekspedisi</label>
-                  <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Masukkan alamat ekspedisi" autocomplete="off">
+                  <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Masukkan alamat ekspedisi" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                 </div>
                 <div style="text-align: right">
                 <button type="button" onclick="konfirmasiSimpan()" class="btn btn-primary col-md-1"><i class="bi bi-plus"></i> Tambah</button>
@@ -127,11 +127,11 @@
               <div class="modal-body">
                 <div class="form-group mb-3">
                     <label for="ekspedisi" class="form-label">Nama Ekspedisi</label>
-                    <input type="text" name="ekspedisi" id="ekspedisi_edit" class="form-control" placeholder="Masukkan nama ekspedisi" autocomplete="off">
+                    <input type="text" name="ekspedisi" id="ekspedisi_edit" class="form-control" placeholder="Masukkan nama ekspedisi" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                   </div>
                   <div class="form-group mb-3">
                     <label for="pic_eks" class="form-label">PIC Ekspedisi</label>
-                    <input type="text" name="pic_eks" id="pic_eks_edit" class="form-control" placeholder="Masukkan nama PIC ekspedisi" autocomplete="off">
+                    <input type="text" name="pic_eks" id="pic_eks_edit" class="form-control" placeholder="Masukkan nama PIC ekspedisi" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                   </div>
                   <div class="form-group mb-3">
                     <label for="telpon" class="form-label">Nomor Telpon</label>
@@ -139,7 +139,7 @@
                   </div>
                   <div class="form-group mb-3">
                     <label for="alamat" class="form-label">Alamat Ekspedisi</label>
-                    <input type="text" name="alamat" id="alamat_edit" class="form-control" placeholder="Masukkan alamat ekspedisi" autocomplete="off">
+                    <input type="text" name="alamat" id="alamat_edit" class="form-control" placeholder="Masukkan alamat ekspedisi" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                   </div>
               </div>
               <div class="modal-footer">
