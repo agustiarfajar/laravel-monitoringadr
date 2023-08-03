@@ -112,6 +112,16 @@
             width: 25%;
             height: 60px; /* Ubah nilai height sesuai dengan keinginan Anda */
         }
+        
+        html{
+            border: 1px solid transparent;
+        }
+        body{
+            border: 1px solid transparent;
+        }
+        div{
+            border: 1px solid transparent;
+        }
 
         @media screen and (max-width: 600px) {
             .container {
@@ -170,6 +180,7 @@
             <!-- Isi tabel dengan data lainnya sesuai kebutuhan -->
         </table>
         
+        <div style="page-break-inside: avoid;">
         <a>Demikian surat jalan ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</a>
         <br><br>
         <p style="text-align: left;">Jakarta, {{ now()->format('d M Y') }}</p>
@@ -188,6 +199,7 @@
                     <td colspan="2">_________________</td>
                 </tr>
             </table>
+        </div>
         </div>
     </div>
 </body>

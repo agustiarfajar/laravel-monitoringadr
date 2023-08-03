@@ -241,7 +241,7 @@
                               {{ (substr($row->no_faktur, 0, 2) == 'SJ' ? 'SHO' : 'SSP') }}
                             </td>
                             <td>{{ $row->no_faktur }}</td>
-                            <td>{{ $row->perusahaan }}</td>
+                            <td><span class="tooltip-perusahaan" data-perusahaan="{{ $row->perusahaan }}">{{ substr($row->perusahaan, 0, 10) }}...</span></td>
                             <td>{{ $row->item }}</td>
                             <td>{{ $row->pemasok }}</td>
                             <td>{{ $row->ekspedisi }}</td>
@@ -377,6 +377,14 @@
           } else {
               window.location.href = "{{ url('laporan?start-date=') }}"+tgl_mulai+"&end-date="+tgl_selesai+"";
           }
+      })
+
+      // END ALERT
+      $('.tooltip-perusahaan').each(function(){
+        $(this).tooltip({
+          title: $(this).data('perusahaan'),
+          placement: 'top' // Adjust the placement as needed (top, bottom, left, right)
+        });
       })
     })
 </script>

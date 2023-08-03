@@ -4,6 +4,7 @@
 <head>
     <title>Surat Jalan Perusahaan</title>
     <style>
+
         body {
             font-family: Calibri, sans-serif;
             font-size: 12px;
@@ -135,6 +136,16 @@
             width: 25%;
             height: 60px; /* Ubah nilai height sesuai dengan keinginan Anda */
         }
+        
+        html{
+            border: 1px solid transparent;
+        }
+        body{
+            border: 1px solid transparent;
+        }
+        div{
+            border: 1px solid transparent;
+        }
 
         @media screen and (max-width: 600px) {
             .container {
@@ -170,7 +181,7 @@
             @endforeach 
             @if ($loop->remaining > 0)
             </table>
-            <div style="page-break-before: always;"></div>
+            <div style="page-break-before: always; "></div>
             <table class="shipment-info">
                 <tr>
                     <th>No.</th>
