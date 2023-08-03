@@ -40,7 +40,9 @@ class PrintController extends Controller
             
             $pdf = PDF::loadView('admin.print', compact('barang', 'barang_detail', 'barangChunks'));
 
-            return $pdf->download('Surat_Penyerahan.pdf');
+            $tanggal = now()->format('Ymd'); // Mendapatkan tanggal saat ini dalam format Ymd (misal: 20230803)
+            $namaFile = 'Surat_Penyerahan_' . $tanggal . '.pdf';
+            return $pdf->download($namaFile);
         }
     }
 
@@ -70,7 +72,9 @@ class PrintController extends Controller
 
             $pdf = PDF::loadView('admin.printho', compact('barang', 'barang_detail', 'barangChunks'));
 
-            return $pdf->download('Surat_Pengiriman.pdf');
+            $tanggal = now()->format('Ymd'); // Mendapatkan tanggal saat ini dalam format Ymd (misal: 20230803)
+            $namaFile = 'Surat_Pengiriman_' . $tanggal . '.pdf';
+            return $pdf->download($namaFile);
         }        
     }
 

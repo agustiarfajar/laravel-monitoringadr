@@ -95,13 +95,13 @@
                         <tr>
                             <th scope="col" style="width: 3%;">#</th>
                             <th class="text-center" style="width: 10%;;">Diminta Oleh</th>
+                            <th scope="col" style="width: 10%;">Tujuan</th>
                             <th class="text-center" style="width: 10%;;">Barang</th>
                             <th scope="col" style="width: 5%;">Sisa / <span class="badge rounded-pill bg-success"> Keluar</span></th>
                             <th scope="col" style="width: 7%;">Unit</th>
                             <th scope="col" style="width: 15%;">No PO/PR</th>
                             <th scope="col" style="width: 10%;">Pemasok</th>
                             <th scope="col" style="width: 15%;">Tgl Kedatangan</th>
-                            <th scope="col" style="width: 10%;">Tujuan</th>
                             <th scope="col" style="width: 3%;">Status</th>
                             <th scope="col" style="width: 3%;">Aksi</th>
                         </tr>
@@ -120,13 +120,13 @@
                         <tr>
                             <th scope="row" >{{ $no++ }}</th>
                             <td>{{ $row->user }}</td>
+                            <td><span class="tooltip-perusahaan" data-perusahaan="{{ $row->perusahaan }}">{{ substr($row->perusahaan, 0, 10) }}...</span></td>
                             <td>{{ $row->item }}</td>
                             <td>{{ $row->jumlah }} / @if($jml_detail_ho > 0) <span class="badge rounded-pill bg-success">{{ $jml_detail_ho }}</span> @else <span class="badge rounded-pill bg-success">0</span> @endif</td>
                             <td>{{ $row->unit }}</td>
                             <td>{{ $row->nomor_po }}</td>
                             <td>{{ $row->pemasok }}</td>
                             <td>{{ ($row->tgl_kedatangan != null ? date('m/d/Y', strtotime($row->tgl_kedatangan)) : '') }}</td>
-                            <td><span class="tooltip-perusahaan" data-perusahaan="{{ $row->perusahaan }}">{{ substr($row->perusahaan, 0, 10) }}...</span></td>
                             <td>
                               @if($row->jumlah == '0')
                               <span class="badge rounded-pill bg-success">Terkirim</span>
@@ -186,6 +186,7 @@
           title: '{{Session::get("error")}}'
       })
       @endif
+
       // END ALERT
       $('.tooltip-perusahaan').each(function(){
         $(this).tooltip({
