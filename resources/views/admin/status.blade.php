@@ -216,12 +216,10 @@
                           <td>
                             @if(substr($row->no_faktur, 0, 2) == 'SJ')
                             <a href="{{ url('detail/pengiriman-ho/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <!-- <button type="button" class="btn btn-warning btn-sm" id="printButton" onclick="print(1)"><i class="bi bi-printer"></i></button> -->
-                            <button class="btn btn-warning btn-sm printButtonHo" onclick="printHo({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
+                            <button class="btn btn-warning btn-sm printButtonHo {{ ($row->status == 'dibatalkan') ? 'disabled' : '' }}" onclick="printHo({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalHo {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @elseif(substr($row->no_faktur, 0, 2) == 'SP')
                             <a href="{{ url('detail/pengiriman-site/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <!-- <button type="button" class="btn btn-warning btn-sm" id="printButton" onclick="print(1)"><i class="bi bi-printer"></i></button> -->
                             <button class="btn btn-warning btn-sm printButton" onclick="printPemasok({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalSite {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @endif
@@ -273,7 +271,7 @@
                           <td>
                             @if(substr($row->no_faktur, 0, 2) == 'SJ')
                             <a href="{{ url('detail/pengiriman-ho/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <button class="btn btn-warning btn-sm printButtonHo" onclick="printHo({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
+                            <button class="btn btn-warning btn-sm printButtonHo {{ ($row->status == 'dibatalkan') ? 'disabled' : '' }}" onclick="printHo({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalHo {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @elseif(substr($row->no_faktur, 0, 2) == 'SP')
                             <a href="{{ url('detail/pengiriman-site/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
@@ -323,7 +321,7 @@
                           <td>
                             @if(substr($row->no_faktur, 0, 2) == 'SJ')
                             <a href="{{ url('detail/pengiriman-ho/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <button class="btn btn-warning btn-sm printButtonHo" onclick="printHo({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
+                            <button class="btn btn-warning btn-sm printButtonHo {{ ($row->status == 'dibatalkan') ? 'disabled' : '' }}" onclick="printHo({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalHo {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @elseif(substr($row->no_faktur, 0, 2) == 'SP')
                             <a href="{{ url('detail/pengiriman-site/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
