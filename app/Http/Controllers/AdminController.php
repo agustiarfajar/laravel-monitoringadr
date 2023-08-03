@@ -67,17 +67,7 @@ class AdminController extends Controller
                     ->where('status', '=', 'diproses')
                     ->whereMonth('tgl_surat_jalan', $date)
                     ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                    ->count();
-        $pengirimanHoBelumTerima = DB::table('pengiriman_ho')
-                            ->where('status', '=', 'dikirim')
-                            ->whereMonth('tgl_surat_jalan', $date)
-                            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                            ->count();
-        $pengirimanPemasokBelumTerima = DB::table('pemasok_barang')
-                            ->where('status', '=', 'dikirim')
-                            ->whereMonth('tgl_kirim_pemasok', $date)
-                            ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
-                            ->count();
+                    ->count();        
         $pengirimanBatalHo = DB::table('pengiriman_ho')
                             ->where('status', '=', 'dibatalkan')
                             ->whereMonth('tgl_surat_jalan', $date)
@@ -137,10 +127,13 @@ class AdminController extends Controller
         $countPengiriman = $pengirimanHo + $pengirimanPemasok;
         $countPengirimanAll = $pengirimanHoAll + $pengirimanPemasokAll;
         $countPengirimanDiproses = $pengirimanDiprosesHo + $pengirimanDiprosesPemasok;
-        $countPengirimanBelumTerima = $pengirimanHoBelumTerima + $pengirimanPemasokBelumTerima;
         $countPengirimanBatal = $pengirimanBatalHo + $pengirimanBatalPemasok;
         $countTerima = $pengirimanHoSudahTerima + $pengirimanPemasokSudahTerima;
-
+        $countPengirimanDikirim = DB::table('pemasok_barang')
+                            ->where('status', '=', 'dikirim')
+                            ->whereMonth('tgl_kirim_pemasok', $date)
+                            ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
+                            ->count();
         // total seluruh barang di HO
         $stok_ho = DB::table('barang')
                     ->whereMonth('tgl_kedatangan', Carbon::now()->month)
@@ -215,7 +208,6 @@ class AdminController extends Controller
         $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
 
         $perusahaanCounts = [];
-        $dataPerusahaanCounts = [];
         foreach ($perusahaan as $row) {
             $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
             $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
@@ -230,7 +222,7 @@ class AdminController extends Controller
             'countTotalBarangHo',
             'sisaBarang', 
             'countPengirimanDiproses', 
-            'countPengirimanBelumTerima', 
+            'countPengirimanDikirim', 
             'countPengirimanBatal', 
             'countBarangAging',
             'countProses',
@@ -281,24 +273,52 @@ class AdminController extends Controller
         if($periode == 'today')
         {
             $date = NOW();
-            $data = DB::table('barang')
-                ->whereDate('tgl_kedatangan', $date)
-                ->whereMonth('tgl_kedatangan', Carbon::now()->month)
-                ->whereYear('tgl_kedatangan', Carbon::now()->year)
-                ->sum('jumlah');
+            $stok_ho = DB::table('barang')
+                    ->whereDate('c.tgl_kedatangan', $date)
+                    ->whereMonth('tgl_kedatangan', Carbon::now()->month)
+                    ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                    ->sum('jumlah');
+            $jml_brg_ho = DB::table('pengiriman_ho_detail as a')
+                        ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
+                        ->join('barang as c', 'a.id_barang', '=', 'c.id')
+                        ->where('b.status', '!=', 'dibatalkan')
+                        ->whereDate('c.tgl_kedatangan', $date)
+                        ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
+                        ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
+                        ->sum('a.jumlah');
+            
+            $data = (int) $stok_ho + (int) $jml_brg_ho;
+
         } else if($periode == 'month')
         {
             $date = Carbon::now()->month;
-            $data = DB::table('barang')
-                ->whereMonth('tgl_kedatangan', $date)
-                ->whereYear('tgl_kedatangan', Carbon::now()->year)
-                ->sum('jumlah');
+            $stok_ho = DB::table('barang')
+                    ->whereMonth('tgl_kedatangan', Carbon::now()->month)
+                    ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                    ->sum('jumlah');
+            $jml_brg_ho = DB::table('pengiriman_ho_detail as a')
+                    ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
+                    ->join('barang as c', 'a.id_barang', '=', 'c.id')
+                    ->where('b.status', '!=', 'dibatalkan')
+                    ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
+                    ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
+                    ->sum('a.jumlah');
+        
+            $data = (int) $stok_ho + (int) $jml_brg_ho;
         } else if($periode == 'year')
         {
             $date = Carbon::now()->year;
-            $data = DB::table('barang')
-                ->whereYear('tgl_kedatangan', $date)
-                ->sum('jumlah');
+            $stok_ho = DB::table('barang')                  
+                    ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                    ->sum('jumlah');
+            $jml_brg_ho = DB::table('pengiriman_ho_detail as a')
+                        ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
+                        ->join('barang as c', 'a.id_barang', '=', 'c.id')
+                        ->where('b.status', '!=', 'dibatalkan')
+                        ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
+                        ->sum('a.jumlah');
+            
+            $data = (int) $stok_ho + (int) $jml_brg_ho;
         }
         return respons1e()->json(['status' => 200, 'data' => $data], 200);
     }
@@ -494,50 +514,32 @@ class AdminController extends Controller
 
         if($periode == 'today')
         {
-            $date = NOW();
-            $pengirimanHoBelumTerima = DB::table('pengiriman_ho')
-                                    ->where('status', '=', 'diproses')
-                                    ->whereDate('tgl_surat_jalan', $date)
-                                    ->whereMonth('tgl_surat_jalan', Carbon::now()->month)
-                                    ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                                    ->count();
-            $pengirimanPemasokBelumTerima = DB::table('pemasok_barang')
-                                        ->where('status', '=', 'dikirim')
-                                        ->whereDate('tgl_kirim_pemasok', $date)
-                                        ->whereMonth('tgl_kirim_pemasok', Carbon::now()->month)
-                                        ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
-                                        ->count();
-            $data = $pengirimanHoBelumTerima + $pengirimanPemasokBelumTerima;
+            $date = NOW();            
+            $data = DB::table('pemasok_barang')
+                    ->where('status', '=', 'dikirim')
+                    ->whereDate('tgl_kirim_pemasok', $date)
+                    ->whereMonth('tgl_kirim_pemasok', Carbon::now()->month)
+                    ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
+                    ->count();
             
         } else if($periode == 'month')
         {
             $date = Carbon::now()->month;
-            $pengirimanHoBelumTerima = DB::table('pengiriman_ho')
-                                    ->where('status', '=', 'diproses')
-                                    ->whereMonth('tgl_surat_jalan', $date)        
-                                    ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                                    ->count();
-            $pengirimanPemasokBelumTerima = DB::table('pemasok_barang')
-                                        ->where('status', '=', 'dikirim')
-                                        ->whereMonth('tgl_kirim_pemasok', $date)                                        
-                                        ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
-                                        ->count();
-            $data = $pengirimanHoBelumTerima + $pengirimanPemasokBelumTerima;
+            $data = DB::table('pemasok_barang')
+                    ->where('status', '=', 'dikirim')
+                    ->whereMonth('tgl_kirim_pemasok', $date)
+                    ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
+                    ->count();
             
         } else if($periode == 'year')
         {
             $date = Carbon::now()->year;
-            $pengirimanHoBelumTerima = DB::table('pengiriman_ho')
-                                    ->where('status', '=', 'diproses')
-                                    ->whereYear('tgl_surat_jalan', $date)
-                                    ->count();
-            $pengirimanPemasokBelumTerima = DB::table('pemasok_barang')
-                                        ->where('status', '=', 'dikirim')
-                                        ->whereYear('tgl_kirim_pemasok', $date)
-                                        ->count();
-            $data = $pengirimanHoBelumTerima + $pengirimanPemasokBelumTerima;
+            $data = DB::table('pemasok_barang')
+                    ->where('status', '=', 'dikirim')
+                    ->whereYear('tgl_surat_jalan', $date)
+                    ->count();
         }
-        return response()->json(['status' => 200, 'data' => $data], 200);
+        return response()->json(['status' => 200, 'data' => $data]);
     }
     // Batal proses dashboard
     public function update_batal_proses_periode(Request $request)
@@ -591,6 +593,90 @@ class AdminController extends Controller
         }
         return response()->json(['status' => 200, 'data' => $data], 200);
     }
+
+// Chart perusahaan
+public function update_chart_pengiriman_periode(Request $request)
+{
+    $periode = $request->input('periode');
+    if($periode == 'today')
+    {
+        $date = NOW();
+        $perusahaanHoChart = DB::table('pengiriman_ho as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                    ->where('a.status', '!=', 'dibatalkan')     
+                    ->whereDate('a.tgl_surat_jalan', $date)                   
+                    ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+                    ->get();
+        $perusahaanPemasokChart = DB::table('pemasok_barang as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                    ->where('a.status', '!=', 'dibatalkan')               
+                    ->whereDate('a.tgl_surat_jalan', $date)          
+                    ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+                    ->get();
+
+        $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
+
+        $perusahaanCounts = [];
+        foreach ($perusahaan as $row) {
+            $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
+            $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
+        }
+        $labelPerusahaan = array_keys($perusahaanCounts);
+        $dataPerusahaan = array_values($perusahaanCounts);
+
+    } else if($periode == 'month')
+    {
+        $date = Carbon::now()->month;
+        $perusahaanHoChart = DB::table('pengiriman_ho as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                    ->where('a.status', '!=', 'dibatalkan')                       
+                    ->whereMonth('a.tgl_surat_jalan', $date)
+                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+                    ->get();
+        $perusahaanPemasokChart = DB::table('pemasok_barang as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                    ->where('a.status', '!=', 'dibatalkan')                      
+                    ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+                    ->get();
+
+        $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
+
+        $perusahaanCounts = [];
+        foreach ($perusahaan as $row) {
+            $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
+            $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
+        }
+        $labelPerusahaan = array_keys($perusahaanCounts);
+        $dataPerusahaan = array_values($perusahaanCounts);
+    } else if($periode == 'year')
+    {
+        $date = Carbon::now()->year;
+        $perusahaanHoChart = DB::table('pengiriman_ho as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                    ->where('a.status', '!=', 'dibatalkan')                       
+                    ->whereYear('a.tgl_surat_jalan', $date)
+                    ->get();
+        $perusahaanPemasokChart = DB::table('pemasok_barang as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                    ->where('a.status', '!=', 'dibatalkan')                      
+                    ->whereYear('a.tgl_surat_jalan', $date)
+                    ->get();
+
+        $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
+
+        $perusahaanCounts = [];
+        foreach ($perusahaan as $row) {
+            $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
+            $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
+        }
+        $labelPerusahaan = array_keys($perusahaanCounts);
+        $dataPerusahaan = array_values($perusahaanCounts);
+    }
+    return response()->json(['status' => 200, 'labelPerusahaan' => $labelPerusahaan, 'dataPerusahaan' => $dataPerusahaan]);
+}
     // Chart dashboard
 public function update_chart_periode(Request $request)
     {
@@ -723,6 +809,31 @@ public function update_chart_periode(Request $request)
                 ->get();
 
         $result = $pemasok->concat($ho);
+
+        // filter status
+        if(isset($_GET['status']))
+        {
+            $status = $_GET['status'];
+
+            $pemasokStatus = DB::table('pemasok_barang as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+                ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
+                ->orderBy('a.no_faktur', 'DESC')
+                ->where('a.status', '=', $status)
+                ->get();
+
+            $hoStatus = DB::table('pengiriman_ho as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                    ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
+                    ->orderBy('a.no_faktur', 'DESC')
+                    ->where('a.status', '=', $status)
+                    ->get();
+
+            $resultStatus = $pemasokStatus->concat($hoStatus);
+            return view('admin.status', compact('pemasok', 'ho', 'result', 'resultStatus'));
+        }
 
         return view('admin.status', compact('pemasok', 'ho', 'result'));
     }

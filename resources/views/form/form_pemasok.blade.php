@@ -304,7 +304,6 @@
           var unit = $('#unit').val();
           var no_po = $('#nomor').val();
           var jmlDetail = $('#table_detail tbody tr').length;
-          console.log(jmlDetail);
 
         if(perusahaan == '' || pic == '' || id_ekspedisi == '' || pemasok == '' || telp == '' || id_barang_db == '' || jmlDetail < 1)
         {

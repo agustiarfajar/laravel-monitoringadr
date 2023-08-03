@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="card-body" >
-                  <h5 class="card-title"><a href="/daftar-barang" class="card-title">Barang Masuk</a> <span>| This Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Total jumlah barang dalam Qty yang diterima di HO"></i></h5>
+                  <h5 class="card-title"><a href="/daftar-barang" class="card-title">Barang Masuk</a> <span class="txtBarangMasuk">| This Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Total jumlah barang dalam Qty yang diterima di HO"></i></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -339,7 +339,7 @@
                       <i class="bi bi-truck"></i>
                     </div>
                     <div class="ps-3 belumTerimaSite">
-                      <h6>{{ $countPengirimanBelumTerima }}</h6>
+                      <h6>{{ $countPengirimanDikirim }}</h6>
                       <span class="text-muted small pt-2 ps-1">pengiriman</span>
 
                     </div>
@@ -406,270 +406,7 @@
               <div class="card-body pb-0">
                 <h5 class="card-title">Chart Surat Pengiriman <span class="txtChart">| This Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Chart pengiriman dari HO dan Pemasok"></i></h5>
   
-                <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-                
-                <script>
-                  function updatePeriode(url, periode, kelas, txt)
-                  {
-                    $.ajax({
-                      url: url,
-                      type: "POST",
-                      data: {
-                        periode: periode,
-                        _token: '{{ csrf_token() }}'
-                      },
-                      success: function(response) {
-                        // alert(response);
-                        // Refresh angka
-                        if(kelas == 'sisaBarangHo'){
-                          $('.sisaBarangHo h6').text(response.data);
-                          $('.txtSisaBarangHoPeriode').text(txt);
-                        } else if(kelas == 'barangKeluar')
-                        {
-                          $('.barangKeluar h6').text(response.data);
-                          $('.txtBarangKeluar').text(txt);
-                        } else if(kelas == 'suratJalan')
-                        {
-                          $('.suratJalan h6').text(response.data);
-                          $('.txtSuratJalan').text(txt);
-                        } else if(kelas == 'barangAging')
-                        {
-                          $('.barangAging h6').text(response.data);
-                          $('.txtBarangAging').text(txt);
-                        } else if(kelas == 'belumKirimPemasok')
-                        {
-                          $('.belumKirimPemasok h6').text(response.data);
-                          $('.txtBelumKirimPemasok').text(txt);
-                        } else if(kelas == 'belumTerimaSite')
-                        {
-                          $('.belumTerimaSite h6').text(response.data);
-                          $('.txtBelumTerimaSite').text(txt);
-                        } else if(kelas == 'batalProses')
-                        {
-                          $('.batalProses h6').text(response.data);
-                          $('.txtBatalProses').text(txt);
-                        } else if(kelas == 'chart')
-                        {
-                          $('.txtChart').text(txt);
-                          chartPeriode(response.data[0],response.data[1],response.data[2]);
-                        }                          
-                      
-                        var Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-                      
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Periode berhasil diubah'
-                        })
-                        
-                        
-                      },
-                      error: function(xhr, status, error) {
-                        console.log(xhr);
-                        
-                        var Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-                      
-                          Toast.fire({
-                              icon: 'error',
-                              title: xhr.responseJSON.error
-                          })
-                        
-                      }
-                  });
-                  }
-                  $('#document').ready(() => {
-                    // Sisa Barang Ho
-                      $('.filter-periode-barang-ho').each(function() {
-                          $(this).on('click', () => {
-                              var periode = $(this).data('periode');
-                              var url = "{{ url('sisa-barang-ho-update/periode') }}";
-                              var kelas = 'sisaBarangHo';
-                              var txt = $(this).data('text');
-                              updatePeriode(url, periode, kelas, txt);
-                          });
-                      })
-                      // Barang Masuk
-                      $('.filter-periode-barang-masuk').each(function() {
-                          $(this).on('click', () => {
-                              var periode = $(this).data('periode');
-                              var url = "{{ url('barang-masuk-update/periode') }}";
-                              var kelas = 'barangMasuk';
-                              var txt = $(this).data('text');
-                              updatePeriode(url, periode, kelas, txt);
-                          });
-                      })
-                      // Barang Keluar
-                      $('.filter-periode-barang-keluar').each(function() {
-                          $(this).on('click', () => {
-                              var periode = $(this).data('periode');
-                              var url = "{{ url('barang-keluar-update/periode') }}";
-                              var kelas = 'barangKeluar';
-                              var txt = $(this).data('text');
-                              updatePeriode(url, periode, kelas, txt);
-                          });
-                      })
-                      // Surat Jalan
-                      $('.filter-periode-surat-jalan').each(function() {
-                          $(this).on('click', () => {
-                              var periode = $(this).data('periode');
-                              var url = "{{ url('surat-jalan-update/periode') }}";
-                              var kelas = 'suratJalan';
-                              var txt = $(this).data('text');
-                              updatePeriode(url, periode, kelas, txt);
-                          });
-                      })
-                      // Barang Aging
-                      $('.filter-periode-barang-aging').each(function() {
-                          $(this).on('click', () => {
-                              var periode = $(this).data('periode');
-                              var url = "{{ url('barang-aging-update/periode') }}";
-                              var kelas = 'barangAging';
-                              var txt = $(this).data('text');
-                              updatePeriode(url, periode, kelas, txt);
-                          });
-                      })
-                      // Batal Kirim Pemasok
-                      $('.filter-periode-belum-kirim-pemasok').each(function() {
-                          $(this).on('click', () => {
-                              var periode = $(this).data('periode');
-                              var url = "{{ url('belum-kirim-pemasok-update/periode') }}";
-                              var kelas = 'belumKirimPemasok';
-                              var txt = $(this).data('text');
-                              updatePeriode(url, periode, kelas, txt);
-                          });
-                      })
-                      // Belum Terima Site
-                      $('.filter-periode-belum-terima-site').each(function() {
-                          $(this).on('click', () => {
-                              var periode = $(this).data('periode');
-                              var url = "{{ url('belum-terima-site-update/periode') }}";
-                              var kelas = 'belumTerimaSite';
-                              var txt = $(this).data('text');
-                              updatePeriode(url, periode, kelas, txt);
-                          });
-                      })
-                      // Batal diproses
-                      $('.filter-periode-batal-proses').each(function() {
-                          $(this).on('click', () => {
-                              var periode = $(this).data('periode');
-                              var url = "{{ url('batal-proses-update/periode') }}";
-                              var kelas = 'batalProses';
-                              var txt = $(this).data('text');
-                              updatePeriode(url, periode, kelas, txt);
-                          });
-                      })
-                      // Chart
-                      // Batal diproses
-                      $('.filter-periode-chart').each(function() {
-                          $(this).on('click', () => {
-                              var periode = $(this).data('periode');
-                              var url = "{{ url('chart-update/periode') }}";
-                              var kelas = 'chart';
-                              var txt = $(this).data('text');
-                              updatePeriode(url, periode, kelas, txt);
-                          });
-                      })
-                  })
-                  document.addEventListener("DOMContentLoaded", () => {
-                    echarts.init(document.querySelector("#trafficChart")).setOption({
-                      tooltip: {
-                        trigger: 'item'
-                      },
-                      legend: {
-                        top: '5%',
-                        left: 'center'
-                      },
-                      series: [{
-                        name: 'Monitoring HO',
-                        type: 'pie',
-                        radius: ['40%', '70%'],
-                        avoidLabelOverlap: false,
-                        label: {
-                          show: false,
-                          position: 'center'
-                        },
-                        emphasis: {
-                          label: {
-                            show: true,
-                            fontSize: '18',
-                            fontWeight: 'bold'
-                          }
-                        },
-                        labelLine: {
-                          show: false
-                        },
-                        data: [{
-                            value: '{{ $countProses }}',
-                            name: 'Pengiriman Diproses'
-                          },   
-                          {
-                            value: '{{ $countTerima }}',
-                            name: 'Pengiriman Diterima'
-                          },
-                          {
-                            value: '{{ $countKirimPemasok }}',
-                            name: 'Pengiriman Dikirim'
-                          },
-                        ]
-                      }]
-                    });
-                  });
-                
-                  function chartPeriode(data0, data1, data2)
-                  {
-                    echarts.init(document.querySelector("#trafficChart")).setOption({
-                        tooltip: {
-                          trigger: 'item'
-                        },
-                        legend: {
-                          top: '5%',
-                          left: 'center'
-                        },
-                        series: [{
-                          name: 'Monitoring HO',
-                          type: 'pie',
-                          radius: ['40%', '70%'],
-                          avoidLabelOverlap: false,
-                          label: {
-                            show: false,
-                            position: 'center'
-                          },
-                          emphasis: {
-                            label: {
-                              show: true,
-                              fontSize: '18',
-                              fontWeight: 'bold'
-                            }
-                          },
-                          labelLine: {
-                            show: false
-                          },
-                          data: [{
-                            value: data0,
-                            name: 'Pengiriman Diproses'
-                          },   
-                          {
-                            value: data1,
-                            name: 'Pengiriman Diterima'
-                          },
-                          {
-                            value: data2,
-                            name: 'Pengiriman Dikirim'
-                          },
-                        ]
-                        }]
-                      });
-                  }
-                </script>
+                <div id="trafficChart" style="min-height: 400px;" class="echart"></div>  
   
               </div>
             </div><!-- End Website Traffic -->
@@ -684,51 +421,384 @@
                     <h6>Filter</h6>
                   </li>
   
-                      <li><a class="dropdown-item filter-periode-chart" data-periode="today" data-text="| Today" style="cursor:pointer">Today</a></li>
-                      <li><a class="dropdown-item filter-periode-chart" data-periode="month" data-text="| This Month" style="cursor:pointer">This Month</a></li>
-                      <li><a class="dropdown-item filter-periode-chart" data-periode="year" data-text="| This Year" style="cursor:pointer">This Year</a></li>
+                      <li><a class="dropdown-item filter-periode-pengiriman-chart" data-periode="today" data-text="| Today" style="cursor:pointer">Today</a></li>
+                      <li><a class="dropdown-item filter-periode-pengiriman-chart" data-periode="month" data-text="| This Month" style="cursor:pointer">This Month</a></li>
+                      <li><a class="dropdown-item filter-periode-pengiriman-chart" data-periode="year" data-text="| This Year" style="cursor:pointer">This Year</a></li>
                 </ul>
               </div>
   
               <div class="card-body pb-0">
-                <h5 class="card-title">Chart Pengiriman Perusahaan <span class="txtChart">| This Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Chart pengiriman dari HO dan Pemasok ke perusahaan tujuan"></i></h5>
+                <h5 class="card-title">Chart Pengiriman Perusahaan <span class="txtPengirimanChart">| This Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Chart pengiriman dari HO dan Pemasok ke perusahaan tujuan"></i></h5>
   
                 <div id="pieChart" style="min-height: 400px;"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#pieChart"), {
-                        series: [44, 55, 13, 43, 22],
-                        chart: {
-                          height: 350,
-                          type: 'pie',
-                          toolbar: {
-                            show: true
-                          }
-                        },
-                        labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
-                      }).render();
-                    });
-                  </script>
                   <!-- End Pie Chart -->
                 </div>
               </div>
           </div>
-        </div>
-            
-
-        <!--div class="col-xxl-4 col-xl-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title"><a href="#" class="card-title">Default Card</a></h5>
-              Ut in ea error laudantium quas omnis officia. Sit sed praesentium voluptas. Corrupti inventore consequatur nisi necessitatibus modi consequuntur soluta id. Enim autem est esse natus assumenda. Non sunt dignissimos officiis expedita. Consequatur sint repellendus voluptas.
-              Quidem sit est nulla ullam. Suscipit debitis ullam iusto dolorem animi dolorem numquam. Enim fuga ipsum dolor nulla quia ut.
-              Rerum dolor voluptatem et deleniti libero totam numquam nobis distinctio. Sit sint aut. Consequatur rerum in.
-            </div>
-          </div>
-        </div-->
-
+        </div>          
       </div>
     </section>
-            
+
+<script>
+function updatePeriode(url, periode, kelas, txt)
+  {
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: {
+        periode: periode,
+        _token: '{{ csrf_token() }}'
+      },
+      success: function(response) {
+        // alert(response);
+        // Refresh angka
+        if(kelas == 'sisaBarangHo'){
+          $('.sisaBarangHo h6').text(response.data);
+          $('.txtSisaBarangHoPeriode').text(txt);
+        } else if(kelas == 'barangMasuk')
+        {
+          $('.barangMasuk h6').text(response.data);
+          $('.txtBarangMasuk').text(txt);
+        } else if(kelas == 'barangKeluar')
+        {
+          $('.barangKeluar h6').text(response.data);
+          $('.txtBarangKeluar').text(txt);
+        } else if(kelas == 'suratJalan')
+        {
+          $('.suratJalan h6').text(response.data);
+          $('.txtSuratJalan').text(txt);
+        } else if(kelas == 'barangAging')
+        {
+          $('.barangAging h6').text(response.data);
+          $('.txtBarangAging').text(txt);
+        } else if(kelas == 'belumKirimPemasok')
+        {
+          $('.belumKirimPemasok h6').text(response.data);
+          $('.txtBelumKirimPemasok').text(txt);
+        } else if(kelas == 'belumTerimaSite')
+        {
+          $('.belumTerimaSite h6').text(response.data);
+          $('.txtBelumTerimaSite').text(txt);
+        } else if(kelas == 'batalProses')
+        {
+          $('.batalProses h6').text(response.data);
+          $('.txtBatalProses').text(txt);
+        } else if(kelas == 'chart')
+        {
+          $('.txtChart').text(txt);
+          chartPeriode(response.data[0],response.data[1],response.data[2]);
+        } else if(kelas == 'chartPengiriman')
+        {
+          $('.txtPengirimanChart').text(txt);
+          if (response.status === 200) {
+            var labels = response.labelPerusahaan;
+            var data = response.dataPerusahaan;
+
+            // Check if the response contains valid data
+            if (Array.isArray(labels) && Array.isArray(data) && labels.length === data.length) {
+              chartPengiriman(labels, data);
+            } else {
+              console.error("Invalid data format in the response.");
+            }
+          } else {
+            console.error("Request failed with status: " + response.status);
+          }
+        }                          
+      
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+      
+        Toast.fire({
+            icon: 'success',
+            title: 'Periode berhasil diubah'
+        })
+        
+        
+      },
+      error: function(xhr, status, error) {
+        console.log(xhr);
+        
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+      
+          Toast.fire({
+              icon: 'error',
+              title: xhr.responseJSON.error
+          })
+        
+      }
+  });
+  }
+  $('#document').ready(() => {
+    // Sisa Barang Ho
+      $('.filter-periode-barang-ho').each(function() {
+          $(this).on('click', () => {
+              var periode = $(this).data('periode');
+              var url = "{{ url('sisa-barang-ho-update/periode') }}";
+              var kelas = 'sisaBarangHo';
+              var txt = $(this).data('text');
+              updatePeriode(url, periode, kelas, txt);
+          });
+      })
+      // Barang Masuk
+      $('.filter-periode-barang-masuk').each(function() {
+          $(this).on('click', () => {
+              var periode = $(this).data('periode');
+              var url = "{{ url('barang-masuk-update/periode') }}";
+              var kelas = 'barangMasuk';
+              var txt = $(this).data('text');
+              updatePeriode(url, periode, kelas, txt);
+          });
+      })
+      // Barang Keluar
+      $('.filter-periode-barang-keluar').each(function() {
+          $(this).on('click', () => {
+              var periode = $(this).data('periode');
+              var url = "{{ url('barang-keluar-update/periode') }}";
+              var kelas = 'barangKeluar';
+              var txt = $(this).data('text');
+              updatePeriode(url, periode, kelas, txt);
+          });
+      })
+      // Surat Jalan
+      $('.filter-periode-surat-jalan').each(function() {
+          $(this).on('click', () => {
+              var periode = $(this).data('periode');
+              var url = "{{ url('surat-jalan-update/periode') }}";
+              var kelas = 'suratJalan';
+              var txt = $(this).data('text');
+              updatePeriode(url, periode, kelas, txt);
+          });
+      })
+      // Barang Aging
+      $('.filter-periode-barang-aging').each(function() {
+          $(this).on('click', () => {
+              var periode = $(this).data('periode');
+              var url = "{{ url('barang-aging-update/periode') }}";
+              var kelas = 'barangAging';
+              var txt = $(this).data('text');
+              updatePeriode(url, periode, kelas, txt);
+          });
+      })
+      // Batal Kirim Pemasok
+      $('.filter-periode-belum-kirim-pemasok').each(function() {
+          $(this).on('click', () => {
+              var periode = $(this).data('periode');
+              var url = "{{ url('belum-kirim-pemasok-update/periode') }}";
+              var kelas = 'belumKirimPemasok';
+              var txt = $(this).data('text');
+              updatePeriode(url, periode, kelas, txt);
+          });
+      })
+      // Belum Terima Site
+      $('.filter-periode-belum-terima-site').each(function() {
+          $(this).on('click', () => {
+              var periode = $(this).data('periode');
+              var url = "{{ url('belum-terima-site-update/periode') }}";
+              var kelas = 'belumTerimaSite';
+              var txt = $(this).data('text');
+              updatePeriode(url, periode, kelas, txt);
+          });
+      })
+      // Batal diproses
+      $('.filter-periode-batal-proses').each(function() {
+          $(this).on('click', () => {
+              var periode = $(this).data('periode');
+              var url = "{{ url('batal-proses-update/periode') }}";
+              var kelas = 'batalProses';
+              var txt = $(this).data('text');
+              updatePeriode(url, periode, kelas, txt);
+          });
+      })
+      // Chart
+      // Batal diproses
+      $('.filter-periode-chart').each(function() {
+          $(this).on('click', () => {
+              var periode = $(this).data('periode');
+              var url = "{{ url('chart-update/periode') }}";
+              var kelas = 'chart';
+              var txt = $(this).data('text');
+              updatePeriode(url, periode, kelas, txt);
+          });
+      })
+      // Pengiriman perusahaan
+      $('.filter-periode-pengiriman-chart').each(function() {
+          $(this).on('click', () => {
+              var periode = $(this).data('periode');
+              var url = "{{ url('chart-pengiriman-update/periode') }}";
+              var kelas = 'chartPengiriman';
+              var txt = $(this).data('text');
+              updatePeriode(url, periode, kelas, txt);
+          });
+      })
+  })
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    // Chart surat
+    echarts.init(document.querySelector("#trafficChart")).setOption({
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: '5%',
+        left: 'center'
+      },
+      series: [{
+        name: 'Monitoring HO',
+        type: 'pie',
+        radius: ['40%', '70%'],
+        avoidLabelOverlap: false,
+        label: {
+          show: false,
+          position: 'center'
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: '18',
+            fontWeight: 'bold'
+          }
+        },
+        labelLine: {
+          show: false
+        },
+        data: [{
+            value: '{{ $countProses }}',
+            name: 'Pengiriman Diproses'
+          },   
+          {
+            value: '{{ $countTerima }}',
+            name: 'Pengiriman Diterima'
+          },
+          {
+            value: '{{ $countKirimPemasok }}',
+            name: 'Pengiriman Dikirim'
+          },
+        ]
+      }]
+    });
+
+    // Chart pengiriman
+      var labels = @json($labelPerusahaan);
+      var data = @json($dataPerusahaan);
+      echarts.init(document.querySelector("#pieChart")).setOption({
+        title: {
+          text: 'Pengiriman by Perusahaan',
+          subtext: 'Data Pengiriman',
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left'
+        },
+        series: [{
+          name: 'Access From',
+          type: 'pie',
+          radius: '50%',
+          data: data.map((value, index) => ({
+                  value: value,
+                  name: labels[index]
+              })),
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }]
+      });
+  });
+
+  function chartPeriode(data0, data1, data2)
+  {
+    echarts.init(document.querySelector("#trafficChart")).setOption({
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          top: '5%',
+          left: 'center'
+        },
+        series: [{
+          name: 'Monitoring HO',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          label: {
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '18',
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: [{
+            value: data0,
+            name: 'Pengiriman Diproses'
+          },   
+          {
+            value: data1,
+            name: 'Pengiriman Diterima'
+          },
+          {
+            value: data2,
+            name: 'Pengiriman Dikirim'
+          },
+        ]
+        }]
+      });
+  }
+
+  function chartPengiriman(labels, data)
+  {
+    echarts.init(document.querySelector("#pieChart")).setOption({
+        title: {
+          text: 'Pengiriman by Perusahaan',
+          subtext: 'Data Pengiriman',
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left'
+        },
+        series: [{
+          name: 'Access From',
+          type: 'pie',
+          radius: '50%',
+          data: data.map((value, index) => ({
+                  value: value,
+                  name: labels[index]
+              })),
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }]
+      });
+  }
+</script>
 @endsection

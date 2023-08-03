@@ -179,7 +179,7 @@
                       }
 
                       ?>
-                      @forelse($pengiriman as $row)
+                      @foreach($pengiriman as $row)
                         <tr>
                           <th scope="row">{{ $no++ }}</th>
                           <td>{{ $row->no_faktur }}</td>
@@ -188,7 +188,7 @@
                           <td>{{ date('m/d/Y', strtotime($row->tgl_surat_jalan)) }}</td>
                           <td> 
                             @if(substr($row->no_faktur, 0, 2) == 'SP')
-                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_dikirim_site" value="{{ $row->tgl_kirim_pemasok }}" 
+                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_dikirim_sitexxx" onchange="konfirmasiTglKirimSite({{ $row->id }}, $(this).val())" value="{{ $row->tgl_kirim_pemasok }}" 
                               {{ ($row->status == 'dikirim' || $row->status == 'diterima' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
                             @else 
                             -  
@@ -196,9 +196,9 @@
                           </td>
                           <td>
                             @if(substr($row->no_faktur, 0, 2) == 'SJ')
-                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_diterima_ho" value="{{ $row->tgl_diterima_site }}" {{ ($row->status == 'diterima' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
+                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_diterima_hoxx" onchange="konfirmasiTglHO({{$row->id}}, $(this).val())" value="{{ $row->tgl_diterima_site }}" {{ ($row->status == 'diterima' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
                             @elseif(substr($row->no_faktur, 0, 2) == 'SP')
-                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_diterima_site" value="{{ $row->tgl_diterima_site }}" 
+                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_diterima_sitexxx" onchange="konfirmasiTglSite({{$row->id}}, $(this).val())" value="{{ $row->tgl_diterima_site }}" 
                               {{ ($row->status == 'diterima' || $row->status == 'diproses' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
                             @endif
                           </td>
@@ -217,22 +217,76 @@
                             @if(substr($row->no_faktur, 0, 2) == 'SJ')
                             <a href="{{ url('detail/pengiriman-ho/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
                             <!-- <button type="button" class="btn btn-warning btn-sm" id="printButton" onclick="print(1)"><i class="bi bi-printer"></i></button> -->
-                            <button class="btn btn-warning btn-sm printButtonHo" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
+                            <button class="btn btn-warning btn-sm printButtonHo" onclick="printHo({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalHo {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @elseif(substr($row->no_faktur, 0, 2) == 'SP')
                             <a href="{{ url('detail/pengiriman-site/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
                             <!-- <button type="button" class="btn btn-warning btn-sm" id="printButton" onclick="print(1)"><i class="bi bi-printer"></i></button> -->
-                            <button class="btn btn-warning btn-sm printButton" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
+                            <button class="btn btn-warning btn-sm printButton" onclick="printPemasok({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalSite {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @endif
                           </td>
                         </tr>
-                      @empty
-                      @endforelse
+                      @endforeach
+                      <?php
+                    } else if(isset($_GET['status'])) {
+                        $status = $_GET['status'];
+                        if($status === 'all')
+                        {
+                            $resultStatus = $result;
+                        }
+                      ?>
+                      @foreach($resultStatus as $row)
+                      <tr>
+                          <th scope="row">{{ $no++ }}</th>
+                          <td>{{ $row->no_faktur }}</td>
+                          <td><span class="tooltip-perusahaan" data-perusahaan="{{$row->perusahaan}}">{{ substr($row->perusahaan, 0, 10) }}...</span></td>
+                          <td>{{ $row->ekspedisi }}</td>
+                          <td>{{ date('m/d/Y', strtotime($row->tgl_surat_jalan)) }}</td>
+                          <td> 
+                            @if(substr($row->no_faktur, 0, 2) == 'SP')
+                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_dikirim_sitexxx" onchange="konfirmasiTglKirimSite({{ $row->id }}, $(this).val())" value="{{ $row->tgl_kirim_pemasok }}" 
+                              {{ ($row->status == 'dikirim' || $row->status == 'diterima' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
+                            @else 
+                            -  
+                            @endif
+                          </td>
+                          <td>
+                            @if(substr($row->no_faktur, 0, 2) == 'SJ')
+                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_diterima_hoxx" onchange="konfirmasiTglHO({{$row->id}}, $(this).val())" value="{{ $row->tgl_diterima_site }}" {{ ($row->status == 'diterima' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
+                            @elseif(substr($row->no_faktur, 0, 2) == 'SP')
+                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_diterima_sitexxx" onchange="konfirmasiTglSite({{$row->id}}, $(this).val())" value="{{ $row->tgl_diterima_site }}" 
+                              {{ ($row->status == 'diterima' || $row->status == 'diproses' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
+                            @endif
+                          </td>
+                          <td>          
+                              @if($row->status == 'diproses')
+                              <span class="badge rounded-pill bg-primary">Diproses</span>
+                              @elseif($row->status == 'dikirim')
+                              <span class="badge rounded-pill bg-warning">Dikirim</span>
+                              @elseif($row->status == 'diterima')
+                              <span class="badge rounded-pill bg-success">Diterima</span>
+                              @elseif($row->status == 'dibatalkan')
+                              <span class="badge rounded-pill bg-danger">Dibatalkan</span>
+                              @endif
+                          </td>
+                          <td>
+                            @if(substr($row->no_faktur, 0, 2) == 'SJ')
+                            <a href="{{ url('detail/pengiriman-ho/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
+                            <button class="btn btn-warning btn-sm printButtonHo" onclick="printHo({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
+                            <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalHo {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
+                            @elseif(substr($row->no_faktur, 0, 2) == 'SP')
+                            <a href="{{ url('detail/pengiriman-site/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
+                            <button class="btn btn-warning btn-sm printButton" onclick="printPemasok({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
+                            <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalSite {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
+                            @endif
+                          </td>
+                        </tr>
+                      @endforeach
                       <?php
                     } else {
                       ?>
-                      @forelse($result as $row)
+                      @foreach($result as $row)
                         <tr>
                           <th scope="row">{{ $no++ }}</th>
                           <td>{{ $row->no_faktur }}</td>
@@ -241,7 +295,7 @@
                           <td>{{ date('m/d/Y', strtotime($row->tgl_surat_jalan)) }}</td>
                           <td> 
                             @if(substr($row->no_faktur, 0, 2) == 'SP')
-                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_dikirim_site" value="{{ $row->tgl_kirim_pemasok }}" 
+                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_dikirim_sitexxx" onchange="konfirmasiTglKirimSite({{ $row->id }}, $(this).val())" value="{{ $row->tgl_kirim_pemasok }}" 
                               {{ ($row->status == 'dikirim' || $row->status == 'diterima' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
                             @else 
                             -  
@@ -249,9 +303,9 @@
                           </td>
                           <td>
                             @if(substr($row->no_faktur, 0, 2) == 'SJ')
-                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_diterima_ho" value="{{ $row->tgl_diterima_site }}" {{ ($row->status == 'diterima' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
+                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_diterima_hoxx" onchange="konfirmasiTglHO({{$row->id}}, $(this).val())" value="{{ $row->tgl_diterima_site }}" {{ ($row->status == 'diterima' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
                             @elseif(substr($row->no_faktur, 0, 2) == 'SP')
-                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_diterima_site" value="{{ $row->tgl_diterima_site }}" 
+                              <input type="date" data-id="{{$row->id}}" class="form-control tanggal_diterima_sitexxx" onchange="konfirmasiTglSite({{$row->id}}, $(this).val())" value="{{ $row->tgl_diterima_site }}" 
                               {{ ($row->status == 'diterima' || $row->status == 'diproses' || $row->status == 'dibatalkan') ? 'readonly' : '' }}>
                             @endif
                           </td>
@@ -269,17 +323,16 @@
                           <td>
                             @if(substr($row->no_faktur, 0, 2) == 'SJ')
                             <a href="{{ url('detail/pengiriman-ho/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <button class="btn btn-warning btn-sm printButtonHo" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
+                            <button class="btn btn-warning btn-sm printButtonHo" onclick="printHo({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalHo {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @elseif(substr($row->no_faktur, 0, 2) == 'SP')
                             <a href="{{ url('detail/pengiriman-site/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                            <button class="btn btn-warning btn-sm printButton" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
+                            <button class="btn btn-warning btn-sm printButton" onclick="printPemasok({{ $row->id }})" data-id="{{ $row->id }}"><i class="bi bi-printer"></i></button>
                             <button type="button" data-id="{{ $row->id }}" data-nosurat="{{ $row->no_faktur }}" class="btn btn-danger btn-sm btnBatalSite {{ ($row->status == 'diproses') ? '' : 'disabled' }}"><i class="bi bi-x-lg"></i></button>
                             @endif
                           </td>
                         </tr>
-                      @empty
-                      @endforelse
+                      @endforeach
                       <?php
                     }
                   ?>
@@ -365,21 +418,17 @@
           konfirmasiBatalPemasok(id, no_surat);
         })
       })
-
-      $('.printButton').each(function(){
-          $(this).on('click', function() {
-              var id = $(this).data('id');
-              window.location.href = "{{ url('print') }}/"+id+"";
-          })
-      })
-
-      $('.printButtonHo').each(function(){
-          $(this).on('click', function() {
-              var id = $(this).data('id');
-              window.location.href = "{{ url('printho') }}/"+id+"";
-          })
-      })
   });
+
+  function printPemasok(id)
+  {
+     window.location.href = "{{ url('print') }}/"+id+"";
+  }
+
+  function printHo(id)
+  {
+    window.location.href = "{{ url('printho') }}/"+id+"";
+  }
 
   function inputTglDiterimaHO()
   {
@@ -809,6 +858,11 @@
   $('#filter_pengiriman').on('change', function() {
     var value = $(this).val();
     window.location.href = "{{ url('adminstatus?pengiriman=') }}"+value+"";
+  });
+
+  $('#filter_status').on('change', function() {
+    var value = $(this).val();
+    window.location.href = "{{ url('adminstatus?status=') }}"+value+"";
   });
   // window.onscroll = function() {myFunction()};
 
