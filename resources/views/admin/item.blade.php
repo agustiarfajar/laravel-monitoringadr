@@ -132,9 +132,10 @@
                               <span class="badge rounded-pill bg-success">Terkirim</span>
                               @endif
                               @php 
-                                $tgl_kedatangan = strtotime($row->tgl_kedatangan);
-                                $selisih = $tgl_kedatangan - time();
-                                $hasil = abs(round($selisih / 86400));
+                                
+                                $startDate = \Carbon\Carbon::parse($row->tgl_kedatangan);
+                                $endDate = \Carbon\Carbon::parse(NOW());
+                                $hasil = $endDate->diffInDays($startDate);
                                 
                                 $countDetail = DB::table('pengiriman_ho_detail')->where('id_barang', '=', $row->id)->count();
                               @endphp
