@@ -101,6 +101,7 @@ Route::post('/belum-kirim-pemasok-update/periode', [AdminController::class, 'upd
 Route::post('/belum-terima-site-update/periode', [AdminController::class, 'update_belum_terima_site_periode']);
 Route::post('/batal-proses-update/periode', [AdminController::class, 'update_batal_proses_periode']);
 Route::post('/chart-update/periode', [AdminController::class, 'update_chart_periode']);
+Route::post('/chart-pengiriman-update/periode', [AdminController::class, 'update_chart_pengiriman_periode']);
 
 Route::get('/print/{id}', [PrintController::class, 'print']);
 Route::get('/printho/{id}', [PrintController::class, 'print_ho']);
