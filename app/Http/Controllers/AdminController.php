@@ -104,9 +104,9 @@ class AdminController extends Controller
                             ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
                             ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'd.ekspedisi')
                             ->orderBy('a.no_faktur', 'ASC')
-                            ->where('status', '=', 'diproses')
-                            ->orWhere('status', '=', 'dikirim')
-                            ->orWhere('status', '=', 'diterima')
+                            ->where('a.status', '=', 'diproses')
+                            ->orWhere('a.status', '=', 'dikirim')
+                            ->orWhere('a.status', '=', 'diterima')
                             ->whereMonth('a.tgl_surat_jalan', $date)
                             ->get();
             
@@ -116,12 +116,20 @@ class AdminController extends Controller
                             ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
                             ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'c.pemasok', 'd.ekspedisi')
                             ->orderBy('a.no_faktur', 'ASC')
-                            ->where('status', '=', 'diproses')
-                            ->orWhere('status', '=', 'dikirim')
-                            ->orWhere('status', '=', 'diterima')
+                            ->where('a.status', '=', 'diproses')
+                            ->orWhere('a.status', '=', 'dikirim')
+                            ->orWhere('a.status', '=', 'diterima')
                             ->whereMonth('a.tgl_surat_jalan', $date)
                             ->get();
-            
+        
+        $countBarangKeluarHo = DB::table('pengiriman_ho_detail as a')
+                            ->join('barang as b', 'a.id_barang', '=', 'b.id')
+                            ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
+                            ->where('c.status', '!=', 'dibatalkan')
+                            ->whereMonth('c.tgl_surat_jalan', $date)
+                            ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
+                            ->sum('a.jumlah');
+
         $laporan = $pemasokLaporan->concat($hoLaporan);
         $countLaporan = count($laporan);
 
@@ -188,6 +196,33 @@ class AdminController extends Controller
 
         $countProses = $chartProsesHo + $chartProsesPemasok;
         $countTerima = $chartTerimaHo + $chartTerimaPemasok;
+
+        // Chart perusahaan
+        // Count
+        $perusahaanHoChart = DB::table('pengiriman_ho as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                    ->where('a.status', '!=', 'dibatalkan')                        
+                    ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+                    ->get();
+        $perusahaanPemasokChart = DB::table('pemasok_barang as a')
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                    ->where('a.status', '!=', 'dibatalkan')                        
+                    ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+                    ->get();
+
+        $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
+
+        $perusahaanCounts = [];
+        $dataPerusahaanCounts = [];
+        foreach ($perusahaan as $row) {
+            $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
+            $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
+        }
+        $labelPerusahaan = array_keys($perusahaanCounts);
+        $dataPerusahaan = array_values($perusahaanCounts);
+        
         return view('admin.dashboard', compact(
             'countPengiriman', 
             'countPengirimanAll',
@@ -201,7 +236,10 @@ class AdminController extends Controller
             'countProses',
             'countKirimPemasok',
             'countTerima',
-            'countLaporan'
+            'countLaporan',
+            'countBarangKeluarHo',
+            'labelPerusahaan',
+            'dataPerusahaan'
         ));
     }
 
@@ -273,24 +311,35 @@ class AdminController extends Controller
         if($periode == 'today')
         {
             $date = NOW();
-            $data = DB::table('barang')
-                ->whereDate('tgl_kedatangan', $date)
-                ->whereMonth('tgl_kedatangan', Carbon::now()->month)
-                ->whereYear('tgl_kedatangan', Carbon::now()->year)
-                ->sum('jumlah');
+            $data = DB::table('pengiriman_ho_detail as a')
+                ->join('barang as b', 'a.id_barang', '=', 'b.id')
+                ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->where('c.status', '!=', 'dibatalkan')
+                ->whereDate('c.tgl_surat_jalan', $date)
+                ->whereMonth('c.tgl_surat_jalan', Carbon::now()->month)
+                ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
+                ->sum('a.jumlah');
+
         } else if($periode == 'month')
         {
             $date = Carbon::now()->month;
-            $data = DB::table('barang')
-                ->whereMonth('tgl_kedatangan', $date)
-                ->whereYear('tgl_kedatangan', Carbon::now()->year)
-                ->sum('jumlah');
+            $data = DB::table('pengiriman_ho_detail as a')
+                ->join('barang as b', 'a.id_barang', '=', 'b.id')
+                ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->where('c.status', '!=', 'dibatalkan')
+                ->whereMonth('c.tgl_surat_jalan', $date)
+                ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
+                ->sum('a.jumlah');
+
         } else if($periode == 'year')
         {
             $date = Carbon::now()->year;
-            $data = DB::table('barang')
-                ->whereYear('tgl_kedatangan', $date)
-                ->sum('jumlah');
+            $data = DB::table('pengiriman_ho_detail as a')
+                ->join('barang as b', 'a.id_barang', '=', 'b.id')
+                ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->where('c.status', '!=', 'dibatalkan')
+                ->whereYear('c.tgl_surat_jalan', $date)
+                ->sum('a.jumlah');
         }
         return response()->json(['status' => 200, 'data' => $data], 200);
     }

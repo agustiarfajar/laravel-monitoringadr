@@ -130,7 +130,7 @@
                       <!-- <label for="ekspedisi" class="form-label">Ekspedisi</label>
                       <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required> -->
                       <label for="ekspedisi" class="form-label">Ekspedisi</label>
-                      <select id="ekspedisi" name="id_ekspedisi" class="select-ekspedisi form-select" onchange="getItem()">
+                      <select id="ekspedisi" name="id_ekspedisi" class="select-ekspedisi form-select">
                         <option hidden value="">Pilih Ekspedisi</option>
                         @foreach($ekspedisi as $row)
                         <option value="{{ $row->id }}">{{ $row->ekspedisi }}</option>
@@ -198,7 +198,7 @@
                         <thead>
                             <tr>
                                 <th>Diminta Oleh</th>
-                                <th>Pemasok</th>
+                                <!-- <th>Pemasok</th> -->
                                 <th>Nama Barang</th>
                                 <th>Jumlah</th>
                                 <th>Unit</th>
@@ -244,11 +244,11 @@
         });
 
         $('#btnTambah').click(function() {
-          const user = $('#user').val();
-          const item = $('#item').val();
-          let jumlah = $('#jumlah').val();
-          const unit = $('#unit').val();
-          const no_po = $('#nomor').val();
+          var user = $('#user').val();
+          var item = $('#item').val();
+          var jumlah = $('#jumlah').val();
+          var unit = $('#unit').val();
+          var no_po = $('#nomor').val();
 
           if(user == '' || item == '' || jumlah == '' || unit == '' || no_po == '')
           {
@@ -268,7 +268,7 @@
               no = no+1; 
               totalJumlah += jumlah;  
               $('#table_detail tbody').append(
-                  "<tr id='data-index"+no+"'><td><input type='hidden' name='id_barang[]' value='"+no+"'><input type='hidden' name='user[]' value='"+user+"' id='user"+no+"'><input type='hidden' name='item[]' value='"+item+"'' id='item"+no+"'><input type='hidden' name='jumlah[]' value='"+jumlah+"' id='jumlah"+no+"'><input type='hidden' name='unit[]' value='"+unit+"' id='unit"+no+"'><input type='hidden' name='nomor_po[]' value='"+no_po+"' id='nomor_po"+no+"'>"+user+"</td><td>"+pemasok+"</td><td>"+item+"</td><td>"+jumlah+"</td><td>"+unit+"</td><td>"+no_po+"</td><td><button type='button' class='btn btn-sm btn-danger btnHapusKeranjang' onclick='hapusBarang("+no+")'><i class='bi bi-trash'></i></button></td></tr>"
+                  "<tr id='data-index"+no+"'><td><input type='hidden' name='id_barang[]' value='"+no+"'><input type='hidden' name='user[]' value='"+user+"' id='user"+no+"'><input type='hidden' name='item[]' value='"+item+"'' id='item"+no+"'><input type='hidden' name='jumlah[]' value='"+jumlah+"' id='jumlah"+no+"'><input type='hidden' name='unit[]' value='"+unit+"' id='unit"+no+"'><input type='hidden' name='nomor_po[]' value='"+no_po+"' id='nomor_po"+no+"'>"+user+"</td><td>"+item+"</td><td>"+jumlah+"</td><td>"+unit+"</td><td>"+no_po+"</td><td><button type='button' class='btn btn-sm btn-danger btnHapusKeranjang' onclick='hapusBarang("+no+")'><i class='bi bi-trash'></i></button></td></tr>"
               );
 
               // reset data tambah barang
@@ -298,7 +298,15 @@
           var pemasok = $('#pemasok').val();
           var telp = $('#telpon').val();
           var id_barang_db = $('#id_barang').val();
-        if(perusahaan == '' || pic == '' || id_ekspedisi == '' || pemasok == '' || telp == '' || id_barang_db == '')
+          var user = $('#user').val();
+          var item = $('#item').val();
+          var jumlah = $('#jumlah').val();
+          var unit = $('#unit').val();
+          var no_po = $('#nomor').val();
+          var jmlDetail = $('#table_detail tbody tr').length;
+          console.log(jmlDetail);
+
+        if(perusahaan == '' || pic == '' || id_ekspedisi == '' || pemasok == '' || telp == '' || id_barang_db == '' || jmlDetail < 1)
         {
           Swal.fire({
             icon: 'warning',
