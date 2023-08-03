@@ -17,6 +17,12 @@ input[type="text"] {
   text-transform: uppercase;
 }
 
+
+#output {
+    text-transform: capitalize;
+}
+
+
 body {
   font-family: "Open Sans", sans-serif;
   background: #f6f9ff;

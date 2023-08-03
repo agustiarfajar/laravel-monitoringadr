@@ -262,7 +262,7 @@ class AdminController extends Controller
                 ->whereYear('tgl_kedatangan', $date)
                 ->sum('jumlah');
         }
-        return response()->json(['status' => 200, 'data' => $data], 200);
+        return respons1e()->json(['status' => 200, 'data' => $data], 200);
     }
 
     // Update barang keluar ho di dashboard

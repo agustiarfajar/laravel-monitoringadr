@@ -268,16 +268,15 @@
                     <thead>
                     <tr>
                             <th scope="col" style="width: 3%;">#</th>
-                            <th class="text-center" style="width: 10%;;">Diminta Oleh</th>
-                            <th class="text-center" style="width: 10%;;">Barang</th>
-                            <th scope="col" style="width: 5%;">Sisa / <span class="badge rounded-pill bg-success"> Keluar</span></th>
-                            <th scope="col" style="width: 7%;">Unit</th>
-                            <th scope="col" style="width: 15%;">No PO/PR</th>
-                            <th scope="col" style="width: 10%;">Pemasok</th>
                             <th scope="col" style="width: 15%;">Tgl Kedatangan</th>
-                            <th scope="col" style="width: 10%;">Tujuan</th>
                             <th scope="col" style="width: 3%;">Status</th>
-                            <th scope="col" style="width: 3%;">Aksi</th>
+                            <th class="text-center" style="width: 10%;;">Diminta Oleh</th>
+                            <th scope="col" style="width: 10%;">Perusahaan</th>
+                            <th class="text-center" style="width: 10%;;">Barang</th>
+                            <th scope="col" style="width: 10%;">Pemasok</th>
+                            <th scope="col" style="width: 15%;">No PO/PR</th>
+                            <th scope="col" style="width: 5%;">Jumlah</th>
+                            <th scope="col" style="width: 7%;">Unit</th>
                         </tr>
                     </thead>
                     <tbody>

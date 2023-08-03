@@ -387,7 +387,7 @@
 
             
 
-            <!-- Website Traffic -->
+            <!-- Website Traffic >
           <div class="col-xxl-12 col-md-12">
           <div class="card">
               <div class="filter">
@@ -672,7 +672,7 @@
                 </script>
   
               </div>
-            </div><!-- End Website Traffic -->
+            </div><-- End Website Traffic -->
           </div>
 
         <div class="col-xxl-12 col-md-12">

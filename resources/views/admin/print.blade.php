@@ -200,7 +200,7 @@
                 <td>: {{ $barang->pic_eks }}</td>
             </tr>
             <tr>
-                <td>Telp</td>
+                <td>Telepon</td>
                 <td>: {{ $barang->telpon_eks }}</td>
             </tr>
         </table>

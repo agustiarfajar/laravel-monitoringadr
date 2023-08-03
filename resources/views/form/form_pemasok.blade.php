@@ -80,7 +80,7 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-    <form action="{{ url('simpan-pengiriman-site') }}" method="POST">
+    <form action="{{ url('simpan-pengiriman-site') }}" method="POST" id="">
       @csrf
         <div class="card">
             <div class="card-body">
@@ -122,8 +122,8 @@
                       <input type="text" class="form-control" id="pemasok" name="pemasok" placeholder="Nama Pemasok" required autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                     </div>
                     <div class="col-md-6">
-                      <label for="telp" class="form-label">No.Telpon</label>
-                      <input type="text" class="form-control" id="telp" name="telpon" maxlength="13" placeholder="Nomor Telpon Pemasok" required autocomplete="off">
+                      <label for="telp" class="form-label">No Telepon</label>
+                      <input type="text" class="form-control" id="telp" name="telpon" maxlength="13" placeholder="Nomor Telepon Pemasok" required autocomplete="off">
                     </div>
 
                     <div class="col-md-12">
@@ -300,11 +300,11 @@
           var id_barang_db = $('#id_barang').val();
         if(perusahaan == '' || pic == '' || id_ekspedisi == '' || pemasok == '' || telp == '' || id_barang_db == '')
         {
-            return Swal.fire({
-                icon: 'warning',
-                title: 'Warning',
-                text: 'Pastikan data terisi'
-              });
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Pastikan data terisi'
+          });
         } else {  
           Swal.fire({
               icon: "question",
