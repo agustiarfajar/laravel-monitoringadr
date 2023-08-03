@@ -122,7 +122,7 @@
                             <td>{{ $row->user }}</td>
                             <td><span class="tooltip-perusahaan" data-perusahaan="{{ $row->perusahaan }}">{{ substr($row->perusahaan, 0, 10) }}...</span></td>
                             <td>{{ $row->item }}</td>
-                            <td>{{ $row->jumlah }} / @if($jml_detail_ho > 0) <span class="badge rounded-pill bg-success">{{ $jml_detail_ho }}</span> @else 0 @endif</td>
+                            <td>{{ $row->jumlah }} / @if($jml_detail_ho > 0) <span class="badge rounded-pill bg-success">{{ $jml_detail_ho }}</span> @else <span class="badge rounded-pill bg-success">0</span> @endif</td>
                             <td>{{ $row->unit }}</td>
                             <td>{{ $row->nomor_po }}</td>
                             <td>{{ $row->pemasok }}</td>
