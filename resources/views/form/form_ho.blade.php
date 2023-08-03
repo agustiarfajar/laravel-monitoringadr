@@ -242,7 +242,11 @@
             if($('#perusahaan').val() == '')
             {
               $('#ExtralargeModal').modal('hide');
-              return alert('Pilih perusahaan tujuan');  
+              return Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Pilih perusahaan tujuan'
+              });
             }
 
             $('#ExtralargeModal').modal('show');
@@ -260,11 +264,19 @@
               var unit = row.find('#unit');
               var nomor_po = row.find('#nomor_po');
               var tgl_kedatangan = row.find('#tgl_kedatangan');
-
+              
               if(jumlah.val() == '') {
-                return alert('Isi jumlah barang yang akan dikirim');
+                return Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Isi jumlah barang yang akan dikirim'
+                });
               } else if(jumlah.val() <= 0) {
-                return alert('Isikan jumlah dengan minimal 1');
+                return Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Isikan jumlah dengan minimal 1'
+                });
               } else {
                 var items = {
                   id: id_barang.val(),
@@ -404,7 +416,9 @@
           var perusahaan = $('#perusahaan').val();
           var pic = $('#pic').val();
           var id_ekspedisi = $('#ekspedisi').val();
-        if(perusahaan == '' || pic == '' || id_ekspedisi == '')
+          var jmlDetail = $('#table_delivery tbody tr').length;
+
+        if(perusahaan == '' || pic == '' || id_ekspedisi == '' || jmlDetail < 1)
         {
           Swal.fire({
             icon: 'warning',
