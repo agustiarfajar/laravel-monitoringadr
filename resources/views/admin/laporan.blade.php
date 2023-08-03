@@ -150,7 +150,7 @@
         <div class="row mb-2" id="barang_bulanan_content">
             <!-- Content specific to "Laporan Barang Bulanan" -->
                 <div class="col-12">
-                <table class="table datatable" id="table_laporan">
+                <table class="datatable" id="table_laporan">
                     <thead>
                           <tr>
                               <th scope="col">#</th>
@@ -264,7 +264,7 @@
             <!-- Content specific to "Laporan Barang Aging" -->
             <!-- Add content for "Laporan Barang Aging" here -->
             <div class="col-12">
-            <table class="table datatable" id="table_laporan">
+            <table class="datatable" id="table_laporan">
                     <thead>
                     <tr>
                             <th scope="col" style="width: 3%;">#</th>
@@ -291,7 +291,7 @@
             <!-- Content specific to "Laporan 3" -->
             <!-- Add content for "Laporan 3" here -->
             <div class="col-12">
-                <table class="table datatable">
+                <table class="datatable">
                     <!-- Table content for "Laporan Barang Bulanan" -->
                 </table>
             </div>

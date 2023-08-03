@@ -1286,7 +1286,7 @@ public function update_chart_periode(Request $request)
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                 ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok',
+                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok', 'a.status',
                         'b.perusahaan', 
                         'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
                         'd.ekspedisi')
@@ -1298,7 +1298,7 @@ public function update_chart_periode(Request $request)
                     ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                     ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                     ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                    ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur',
+                    ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur', 'a.status',
                             'b.perusahaan', 
                             'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
                             'd.ekspedisi')
@@ -1316,8 +1316,7 @@ public function update_chart_periode(Request $request)
 
     // Laporan
     public function exportDataToCsv()
-    {
-        
+    {      
 
         // Filter by date
         if(isset($_GET['start-date'])) {
@@ -1328,7 +1327,7 @@ public function update_chart_periode(Request $request)
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                 ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok',
+                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok', 'a.status',
                         'b.perusahaan', 
                         'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
                         'd.ekspedisi')
@@ -1340,7 +1339,7 @@ public function update_chart_periode(Request $request)
                     ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                     ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                     ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                    ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur',
+                    ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur', 'a.status',
                             'b.perusahaan', 
                             'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
                             'd.ekspedisi')
@@ -1361,7 +1360,7 @@ public function update_chart_periode(Request $request)
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
-                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok',
+                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok', 'a.status',
                         'b.perusahaan', 
                         'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
                         'd.ekspedisi')
@@ -1373,7 +1372,7 @@ public function update_chart_periode(Request $request)
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                 ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
-                ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur',
+                ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur', 'a.status',
                         'b.perusahaan', 
                         'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
                         'd.ekspedisi')
