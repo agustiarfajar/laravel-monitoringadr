@@ -144,7 +144,7 @@
                       <i class="bi bi-box-seam"></i>
                     </div>
                     <div class="ps-3 barangKeluar">
-                      <h6>{{ $sisaBarang }}</h6>
+                      <h6>{{ $countBarangKeluarHo }}</h6>
                       <span class="text-muted small pt-2 ps-1">barang</span>
 
                     </div>
@@ -578,6 +578,16 @@
                               updatePeriode(url, periode, kelas, txt);
                           });
                       })
+                      // Pengiriman perusahaan
+                      $('.filter-periode-pengiriman-chart').each(function() {
+                          $(this).on('click', () => {
+                              var periode = $(this).data('periode');
+                              var url = "{{ url('chart-pengiriman-update/periode') }}";
+                              var kelas = 'chart';
+                              var txt = $(this).data('text');
+                              updatePeriode(url, periode, kelas, txt);
+                          });
+                      })
                   })
                   document.addEventListener("DOMContentLoaded", () => {
                     echarts.init(document.querySelector("#trafficChart")).setOption({
@@ -684,9 +694,9 @@
                     <h6>Filter</h6>
                   </li>
   
-                      <li><a class="dropdown-item filter-periode-chart" data-periode="today" data-text="| Today" style="cursor:pointer">Today</a></li>
-                      <li><a class="dropdown-item filter-periode-chart" data-periode="month" data-text="| This Month" style="cursor:pointer">This Month</a></li>
-                      <li><a class="dropdown-item filter-periode-chart" data-periode="year" data-text="| This Year" style="cursor:pointer">This Year</a></li>
+                      <li><a class="dropdown-item filter-periode-pengiriman-chart" data-periode="today" data-text="| Today" style="cursor:pointer">Today</a></li>
+                      <li><a class="dropdown-item filter-periode-pengiriman-chart" data-periode="month" data-text="| This Month" style="cursor:pointer">This Month</a></li>
+                      <li><a class="dropdown-item filter-periode-pengiriman-chart" data-periode="year" data-text="| This Year" style="cursor:pointer">This Year</a></li>
                 </ul>
               </div>
   
@@ -696,9 +706,11 @@
                 <div id="pieChart" style="min-height: 400px;"></div>
 
                   <script>
+                    var labels = @json($labelPerusahaan);
+                    var data = @json($dataPerusahaan);
                     document.addEventListener("DOMContentLoaded", () => {
                       new ApexCharts(document.querySelector("#pieChart"), {
-                        series: [44, 55, 13, 43, 22],
+                        series: data,
                         chart: {
                           height: 350,
                           type: 'pie',
@@ -706,7 +718,7 @@
                             show: true
                           }
                         },
-                        labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+                        labels: labels
                       }).render();
                     });
                   </script>

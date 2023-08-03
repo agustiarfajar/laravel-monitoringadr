@@ -115,7 +115,7 @@
                 <!-- <label for="ekspedisi" class="form-label">Ekspedisi</label>
                 <input type="text" class="form-control" id="ekspedisi" name="ekspedisi" placeholder="Nama Ekspedisi" required> -->
                   <label for="ekspedisi" class="form-label">Ekspedisi</label>
-                  <select id="ekspedisi" name="id_ekspedisi" class="select-ekspedisi form-select" onchange="getItem()">
+                  <select id="ekspedisi" name="id_ekspedisi" class="select-ekspedisi form-select">
                     <option hidden value="">Pilih Ekspedisi</option>
                     @foreach($ekspedisi as $row)
                     <option value="{{ $row->id }}">{{ $row->ekspedisi }}</option>
