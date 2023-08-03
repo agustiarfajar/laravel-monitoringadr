@@ -321,7 +321,7 @@ class AdminController extends Controller
             
             $data = (int) $stok_ho + (int) $jml_brg_ho;
         }
-        return respons1e()->json(['status' => 200, 'data' => $data], 200);
+        return response()->json(['status' => 200, 'data' => $data], 200);
     }
 
     // Update barang keluar ho di dashboard
