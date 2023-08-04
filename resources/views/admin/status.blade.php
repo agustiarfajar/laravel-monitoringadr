@@ -853,15 +853,25 @@
   }
 
   // Filtering
-  $('#filter_pengiriman').on('change', function() {
-    var value = $(this).val();
-    window.location.href = "{{ url('adminstatus?pengiriman=') }}"+value+"";
-  });
+  $(document).ready(function() {
+    // Pasang handler peristiwa perubahan pada kedua dropdown filter
+    $('#filter_pengiriman, #filter_status').on('change', function() {
+        applyFilters();
+    });
 
-  $('#filter_status').on('change', function() {
-    var value = $(this).val();
-    window.location.href = "{{ url('adminstatus?status=') }}"+value+"";
-  });
+    // Fungsi untuk menerapkan filter dan mengarahkan
+    function applyFilters() {
+        var pengiriman = $('#filter_pengiriman').val();
+        var status = $('#filter_status').val();
+        
+        // Buat URL dengan keduanya
+        var url = "{{ url('adminstatus') }}" + "?pengiriman=" + pengiriman + "&status=" + status;
+        
+        // Arahkan pengguna ke URL yang sudah dibuat
+        window.location.href = url;
+    }
+});
+  
   // window.onscroll = function() {myFunction()};
 
   // var button = document.querySelector('.floating-button');
