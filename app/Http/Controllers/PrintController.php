@@ -38,8 +38,8 @@ class PrintController extends Controller
             $barangChunks = array_chunk($barang_detail->toArray(), 10);
 
             
-            $pdf = PDF::loadView('admin.print', compact('barang', 'barang_detail', 'barangChunks'));
-
+            $pdf = PDF::loadView('admin.print', compact('barang', 'barang_detail', 'barangChunks'))
+                ->setPaper('a4', 'portrait');
             $tanggal = now()->format('Ymd'); // Mendapatkan tanggal saat ini dalam format Ymd (misal: 20230803)
             $namaFile = 'Surat_Penyerahan_' . $tanggal . '.pdf';
             return $pdf->download($namaFile);
@@ -70,8 +70,8 @@ class PrintController extends Controller
             $barangChunks = array_chunk($barang_detail->toArray(), 10);
 
 
-            $pdf = PDF::loadView('admin.printho', compact('barang', 'barang_detail', 'barangChunks'));
-
+            $pdf = PDF::loadView('admin.printho', compact('barang', 'barang_detail', 'barangChunks'))
+                ->setPaper('a4', 'portrait');
             $tanggal = now()->format('Ymd'); // Mendapatkan tanggal saat ini dalam format Ymd (misal: 20230803)
             $namaFile = 'Surat_Pengiriman_' . $tanggal . '.pdf';
             return $pdf->download($namaFile);
