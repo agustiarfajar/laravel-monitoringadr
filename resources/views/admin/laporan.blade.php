@@ -100,7 +100,7 @@
 <div class="col-12">
     <div class="card recent-sales overflow-auto">
         <div class="card-body"><div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <h5 class="card-title">Laporan KPI Bulanan</h5>
+            <h5 class="card-title">Laporan</h5>
                 <div style="text-align: left">
                   <!-- Tombol Export to Excel -->
                       <?php 
