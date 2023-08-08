@@ -25,100 +25,100 @@ class AdminController extends Controller
         $date = Carbon::now()->month;
 
         $pengirimanHo = DB::table('pengiriman_ho')
-                        ->where('status', '=', 'diproses')
-                        ->whereMonth('tgl_surat_jalan', $date)
-                        ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                        ->count();
+            ->where('status', '=', 'diproses')
+            ->whereMonth('tgl_surat_jalan', $date)
+            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+            ->count();
         $pengirimanPemasok = DB::table('pemasok_barang')
-                        ->where('status', '=', 'diproses')
-                        ->orWhere('status', '=', 'dikirim')
-                        ->whereMonth('tgl_surat_jalan', $date)
-                        ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                        ->count();
+            ->where('status', '=', 'diproses')
+            ->orWhere('status', '=', 'dikirim')
+            ->whereMonth('tgl_surat_jalan', $date)
+            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+            ->count();
         $pengirimanHoAll = DB::table('pengiriman_ho')
-                        ->where('status', '=', 'diproses')
-                        ->orWhere('status', '=', 'diterima')
-                        ->whereMonth('tgl_surat_jalan', $date)
-                        ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                        ->count();
+            ->where('status', '=', 'diproses')
+            ->orWhere('status', '=', 'diterima')
+            ->whereMonth('tgl_surat_jalan', $date)
+            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+            ->count();
         $pengirimanPemasokAll = DB::table('pemasok_barang')
-                        ->where('status', '=', 'diproses')
-                        ->orWhere('status', '=', 'dikirim')
-                        ->orWhere('status', '=', 'diterima')
-                        ->whereMonth('tgl_surat_jalan', $date)
-                        ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                        ->count();
+            ->where('status', '=', 'diproses')
+            ->orWhere('status', '=', 'dikirim')
+            ->orWhere('status', '=', 'diterima')
+            ->whereMonth('tgl_surat_jalan', $date)
+            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+            ->count();
         $pengirimanHoKirim = PengirimanHo::where('status', 'dikirim')->get();
         $pengirimanPemasokKirim = PemasokBarang::where('status', 'dikirim')->get();
         $barang = Barang::whereMonth('tgl_kedatangan', Carbon::now()->month)
-                        ->whereYear('tgl_kedatangan', Carbon::now()->year)
-                        ->get();
+            ->whereYear('tgl_kedatangan', Carbon::now()->year)
+            ->get();
         $sisaBarang = DB::table('barang')
-                    ->whereMonth('tgl_kedatangan', '=', $date)
-                    ->whereYear('tgl_kedatangan', Carbon::now()->year)
-                    ->sum('jumlah');
+            ->whereMonth('tgl_kedatangan', '=', $date)
+            ->whereYear('tgl_kedatangan', Carbon::now()->year)
+            ->sum('jumlah');
 
         $pengirimanDiprosesHo = DB::table('pengiriman_ho')
-                    ->where('status', '=', 'diproses')
-                    ->whereMonth('tgl_surat_jalan', $date)
-                    ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                    ->count();
+            ->where('status', '=', 'diproses')
+            ->whereMonth('tgl_surat_jalan', $date)
+            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+            ->count();
         $pengirimanDiprosesPemasok = DB::table('pemasok_barang')
-                    ->where('status', '=', 'diproses')
-                    ->whereMonth('tgl_surat_jalan', $date)
-                    ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                    ->count();        
+            ->where('status', '=', 'diproses')
+            ->whereMonth('tgl_surat_jalan', $date)
+            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+            ->count();
         $pengirimanBatalHo = DB::table('pengiriman_ho')
-                            ->where('status', '=', 'dibatalkan')
-                            ->whereMonth('tgl_surat_jalan', $date)
-                            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                            ->count();
+            ->where('status', '=', 'dibatalkan')
+            ->whereMonth('tgl_surat_jalan', $date)
+            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+            ->count();
         $pengirimanBatalPemasok = DB::table('pemasok_barang')
-                            ->where('status', '=', 'dibatalkan')
-                            ->whereMonth('tgl_surat_jalan', $date)
-                            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                            ->count();
+            ->where('status', '=', 'dibatalkan')
+            ->whereMonth('tgl_surat_jalan', $date)
+            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+            ->count();
         $pengirimanHoSudahTerima = DB::table('pengiriman_ho')
-                            ->where('status', '=', 'diterima')
-                            ->whereMonth('tgl_diterima_site', $date)
-                            ->whereYear('tgl_diterima_site', Carbon::now()->year)
-                            ->count();   
+            ->where('status', '=', 'diterima')
+            ->whereMonth('tgl_diterima_site', $date)
+            ->whereYear('tgl_diterima_site', Carbon::now()->year)
+            ->count();
         $pengirimanPemasokSudahTerima = DB::table('pemasok_barang')
-                            ->where('status', '=', 'diterima')
-                            ->whereMonth('tgl_diterima_site', $date)
-                            ->whereYear('tgl_diterima_site', Carbon::now()->year)
-                            ->count();
+            ->where('status', '=', 'diterima')
+            ->whereMonth('tgl_diterima_site', $date)
+            ->whereYear('tgl_diterima_site', Carbon::now()->year)
+            ->count();
         $pemasokLaporan = DB::table('pemasok_barang as a')
-                            ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                            ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
-                            ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                            ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'd.ekspedisi')
-                            ->orderBy('a.no_faktur', 'ASC')
-                            ->where('a.status', '=', 'diproses')
-                            ->orWhere('a.status', '=', 'dikirim')
-                            ->orWhere('a.status', '=', 'diterima')
-                            ->whereMonth('a.tgl_surat_jalan', $date)
-                            ->get();
-            
+            ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+            ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
+            ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+            ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'd.ekspedisi')
+            ->orderBy('a.no_faktur', 'ASC')
+            ->where('a.status', '=', 'diproses')
+            ->orWhere('a.status', '=', 'dikirim')
+            ->orWhere('a.status', '=', 'diterima')
+            ->whereMonth('a.tgl_surat_jalan', $date)
+            ->get();
+
         $hoLaporan = DB::table('pengiriman_ho as a')
-                            ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                            ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
-                            ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                            ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'c.pemasok', 'd.ekspedisi')
-                            ->orderBy('a.no_faktur', 'ASC')
-                            ->where('a.status', '=', 'diproses')
-                            ->orWhere('a.status', '=', 'dikirim')
-                            ->orWhere('a.status', '=', 'diterima')
-                            ->whereMonth('a.tgl_surat_jalan', $date)
-                            ->get();
-        
+            ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+            ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
+            ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+            ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'c.pemasok', 'd.ekspedisi')
+            ->orderBy('a.no_faktur', 'ASC')
+            ->where('a.status', '=', 'diproses')
+            ->orWhere('a.status', '=', 'dikirim')
+            ->orWhere('a.status', '=', 'diterima')
+            ->whereMonth('a.tgl_surat_jalan', $date)
+            ->get();
+
         $countBarangKeluarHo = DB::table('pengiriman_ho_detail as a')
-                            ->join('barang as b', 'a.id_barang', '=', 'b.id')
-                            ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
-                            ->where('c.status', '!=', 'dibatalkan')
-                            ->whereMonth('c.tgl_surat_jalan', $date)
-                            ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
-                            ->sum('a.jumlah');
+            ->join('barang as b', 'a.id_barang', '=', 'b.id')
+            ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
+            ->where('c.status', '!=', 'dibatalkan')
+            ->whereMonth('c.tgl_surat_jalan', $date)
+            ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
+            ->sum('a.jumlah');
 
         $laporan = $pemasokLaporan->concat($hoLaporan);
         $countLaporan = count($laporan);
@@ -130,27 +130,27 @@ class AdminController extends Controller
         $countPengirimanBatal = $pengirimanBatalHo + $pengirimanBatalPemasok;
         $countTerima = $pengirimanHoSudahTerima + $pengirimanPemasokSudahTerima;
         $countPengirimanDikirim = DB::table('pemasok_barang')
-                            ->where('status', '=', 'dikirim')
-                            ->whereMonth('tgl_kirim_pemasok', $date)
-                            ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
-                            ->count();
+            ->where('status', '=', 'dikirim')
+            ->whereMonth('tgl_kirim_pemasok', $date)
+            ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
+            ->count();
         // total seluruh barang di HO
         $stok_ho = DB::table('barang')
-                    ->whereMonth('tgl_kedatangan', Carbon::now()->month)
-                    ->whereYear('tgl_kedatangan', Carbon::now()->year)
-                    ->sum('jumlah');
+            ->whereMonth('tgl_kedatangan', Carbon::now()->month)
+            ->whereYear('tgl_kedatangan', Carbon::now()->year)
+            ->sum('jumlah');
         $jml_brg_ho = DB::table('pengiriman_ho_detail as a')
-                    ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
-                    ->join('barang as c', 'a.id_barang', '=', 'c.id')
-                    ->where('b.status', '!=', 'dibatalkan')
-                    ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
-                    ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
-                    ->sum('a.jumlah');
-        
+            ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
+            ->join('barang as c', 'a.id_barang', '=', 'c.id')
+            ->where('b.status', '!=', 'dibatalkan')
+            ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
+            ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
+            ->sum('a.jumlah');
+
         $countTotalBarangHo = (int) $stok_ho + (int) $jml_brg_ho;
-    
+
         // tgl_kedatangan
-        $limaHariLalu = Carbon::now()->subDays(5);      
+        $limaHariLalu = Carbon::now()->subDays(5);
 
         $countBarangAging = DB::table('barang')
             ->where('tgl_kedatangan', '<', $limaHariLalu)
@@ -160,32 +160,32 @@ class AdminController extends Controller
 
         // Chart
         $chartProsesHo = DB::table('pengiriman_ho')
-                    ->where('status', '=', 'diproses')
-                    ->whereMonth('tgl_surat_jalan', $date)
-                    ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                    ->count();
+            ->where('status', '=', 'diproses')
+            ->whereMonth('tgl_surat_jalan', $date)
+            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+            ->count();
 
         $chartProsesPemasok = DB::table('pemasok_barang')
-                    ->where('status', '=', 'diproses')
-                    ->whereMonth('tgl_surat_jalan', $date)
-                    ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                    ->count();
+            ->where('status', '=', 'diproses')
+            ->whereMonth('tgl_surat_jalan', $date)
+            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+            ->count();
         $countKirimPemasok = DB::table('pemasok_barang')
-                    ->where('status', '=', 'dikirim')
-                    ->whereMonth('tgl_kirim_pemasok', $date)
-                    ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
-                    ->count();
+            ->where('status', '=', 'dikirim')
+            ->whereMonth('tgl_kirim_pemasok', $date)
+            ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
+            ->count();
         $chartTerimaHo = DB::table('pengiriman_ho')
-                    ->where('status', '=', 'diterima')
-                    ->whereMonth('tgl_diterima_site', $date)
-                    ->whereYear('tgl_diterima_site', Carbon::now()->year)
-                    ->count();
+            ->where('status', '=', 'diterima')
+            ->whereMonth('tgl_diterima_site', $date)
+            ->whereYear('tgl_diterima_site', Carbon::now()->year)
+            ->count();
 
         $chartTerimaPemasok = DB::table('pemasok_barang')
-                    ->where('status', '=', 'diterima')
-                    ->whereMonth('tgl_diterima_site', $date)
-                    ->whereYear('tgl_diterima_site', Carbon::now()->year)
-                    ->count();
+            ->where('status', '=', 'diterima')
+            ->whereMonth('tgl_diterima_site', $date)
+            ->whereYear('tgl_diterima_site', Carbon::now()->year)
+            ->count();
 
         $countProses = $chartProsesHo + $chartProsesPemasok;
         $countTerima = $chartTerimaHo + $chartTerimaPemasok;
@@ -193,17 +193,17 @@ class AdminController extends Controller
         // Chart perusahaan
         // Count
         $perusahaanHoChart = DB::table('pengiriman_ho as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->where('a.status', '!=', 'dibatalkan')                        
-                    ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
-                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
-                    ->get();
+            ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+            ->where('a.status', '!=', 'dibatalkan')
+            ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+            ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+            ->get();
         $perusahaanPemasokChart = DB::table('pemasok_barang as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->where('a.status', '!=', 'dibatalkan')                        
-                    ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
-                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
-                    ->get();
+            ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+            ->where('a.status', '!=', 'dibatalkan')
+            ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+            ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+            ->get();
 
         $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
 
@@ -214,16 +214,16 @@ class AdminController extends Controller
         }
         $labelPerusahaan = array_keys($perusahaanCounts);
         $dataPerusahaan = array_values($perusahaanCounts);
-        
+
         return view('admin.dashboard', compact(
-            'countPengiriman', 
+            'countPengiriman',
             'countPengirimanAll',
-            'countBarang', 
+            'countBarang',
             'countTotalBarangHo',
-            'sisaBarang', 
-            'countPengirimanDiproses', 
-            'countPengirimanDikirim', 
-            'countPengirimanBatal', 
+            'sisaBarang',
+            'countPengirimanDiproses',
+            'countPengirimanDikirim',
+            'countPengirimanBatal',
             'countBarangAging',
             'countProses',
             'countKirimPemasok',
@@ -240,23 +240,20 @@ class AdminController extends Controller
     {
         $periode = $request->input('periode');
 
-        if($periode == 'today')
-        {
+        if ($periode == 'today') {
             $date = NOW();
             $data = DB::table('barang')
                 ->whereDate('tgl_kedatangan', $date)
                 ->whereMonth('tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('tgl_kedatangan', Carbon::now()->year)
                 ->sum('jumlah');
-        } else if($periode == 'month')
-        {
+        } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $data = DB::table('barang')
                 ->whereMonth('tgl_kedatangan', $date)
                 ->whereYear('tgl_kedatangan', Carbon::now()->year)
                 ->sum('jumlah');
-        } else if($periode == 'year')
-        {
+        } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $data = DB::table('barang')
                 ->whereYear('tgl_kedatangan', $date)
@@ -270,55 +267,51 @@ class AdminController extends Controller
     {
         $periode = $request->input('periode');
 
-        if($periode == 'today')
-        {
+        if ($periode == 'today') {
             $date = NOW();
             $stok_ho = DB::table('barang')
-                    ->whereDate('tgl_kedatangan', $date)
-                    ->whereMonth('tgl_kedatangan', Carbon::now()->month)
-                    ->whereYear('tgl_kedatangan', Carbon::now()->year)
-                    ->sum('jumlah');
+                ->whereDate('tgl_kedatangan', $date)
+                ->whereMonth('tgl_kedatangan', Carbon::now()->month)
+                ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                ->sum('jumlah');
 
             $jml_brg_ho = DB::table('pengiriman_ho_detail as a')
-                        ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
-                        ->join('barang as c', 'a.id_barang', '=', 'c.id')
-                        ->where('b.status', '!=', 'dibatalkan')
-                        ->whereDate('c.tgl_kedatangan', $date)
-                        ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
-                        ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
-                        ->sum('a.jumlah');
-            
-            $data = (int) $stok_ho + (int) $jml_brg_ho;
+                ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
+                ->join('barang as c', 'a.id_barang', '=', 'c.id')
+                ->where('b.status', '!=', 'dibatalkan')
+                ->whereDate('c.tgl_kedatangan', $date)
+                ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
+                ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
+                ->sum('a.jumlah');
 
-        } else if($periode == 'month')
-        {
+            $data = (int) $stok_ho + (int) $jml_brg_ho;
+        } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $stok_ho = DB::table('barang')
-                    ->whereMonth('tgl_kedatangan', Carbon::now()->month)
-                    ->whereYear('tgl_kedatangan', Carbon::now()->year)
-                    ->sum('jumlah');
+                ->whereMonth('tgl_kedatangan', Carbon::now()->month)
+                ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                ->sum('jumlah');
             $jml_brg_ho = DB::table('pengiriman_ho_detail as a')
-                    ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
-                    ->join('barang as c', 'a.id_barang', '=', 'c.id')
-                    ->where('b.status', '!=', 'dibatalkan')
-                    ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
-                    ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
-                    ->sum('a.jumlah');
-        
+                ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
+                ->join('barang as c', 'a.id_barang', '=', 'c.id')
+                ->where('b.status', '!=', 'dibatalkan')
+                ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
+                ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
+                ->sum('a.jumlah');
+
             $data = (int) $stok_ho + (int) $jml_brg_ho;
-        } else if($periode == 'year')
-        {
+        } else if ($periode == 'year') {
             $date = Carbon::now()->year;
-            $stok_ho = DB::table('barang')                  
-                    ->whereYear('tgl_kedatangan', Carbon::now()->year)
-                    ->sum('jumlah');
+            $stok_ho = DB::table('barang')
+                ->whereYear('tgl_kedatangan', Carbon::now()->year)
+                ->sum('jumlah');
             $jml_brg_ho = DB::table('pengiriman_ho_detail as a')
-                        ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
-                        ->join('barang as c', 'a.id_barang', '=', 'c.id')
-                        ->where('b.status', '!=', 'dibatalkan')
-                        ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
-                        ->sum('a.jumlah');
-            
+                ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
+                ->join('barang as c', 'a.id_barang', '=', 'c.id')
+                ->where('b.status', '!=', 'dibatalkan')
+                ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
+                ->sum('a.jumlah');
+
             $data = (int) $stok_ho + (int) $jml_brg_ho;
         }
         return response()->json(['status' => 200, 'data' => $data], 200);
@@ -329,20 +322,17 @@ class AdminController extends Controller
     {
         $periode = $request->input('periode');
 
-        if($periode == 'today')
-        {
+        if ($periode == 'today') {
             $date = NOW();
             $data = DB::table('pengiriman_ho_detail as a')
-                    ->join('barang as b', 'a.id_barang', '=', 'b.id')
-                    ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
-                    ->where('c.status', '!=', 'dibatalkan')
-                    ->whereDate('c.tgl_surat_jalan', $date)
-                    ->whereMonth('c.tgl_surat_jalan', Carbon::now()->month)
-                    ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
-                    ->sum('a.jumlah');
-
-        } else if($periode == 'month')
-        {
+                ->join('barang as b', 'a.id_barang', '=', 'b.id')
+                ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->where('c.status', '!=', 'dibatalkan')
+                ->whereDate('c.tgl_surat_jalan', $date)
+                ->whereMonth('c.tgl_surat_jalan', Carbon::now()->month)
+                ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
+                ->sum('a.jumlah');
+        } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $data = DB::table('pengiriman_ho_detail as a')
                 ->join('barang as b', 'a.id_barang', '=', 'b.id')
@@ -351,28 +341,25 @@ class AdminController extends Controller
                 ->whereMonth('c.tgl_surat_jalan', $date)
                 ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
                 ->sum('a.jumlah');
-
-        } else if($periode == 'year')
-        {
+        } else if ($periode == 'year') {
             $date = Carbon::now()->year;
-                    $data = DB::table('pengiriman_ho_detail as a')
-                    ->join('barang as b', 'a.id_barang', '=', 'b.id')
-                    ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
-                    ->where('c.status', '!=', 'dibatalkan')
-                    ->whereYear('c.tgl_surat_jalan', $date)
-                    ->sum('a.jumlah');
+            $data = DB::table('pengiriman_ho_detail as a')
+                ->join('barang as b', 'a.id_barang', '=', 'b.id')
+                ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->where('c.status', '!=', 'dibatalkan')
+                ->whereYear('c.tgl_surat_jalan', $date)
+                ->sum('a.jumlah');
         }
         return response()->json(['status' => 200, 'data' => $data], 200);
     }
 
-    
+
     // Update surat jalan di dashboard
     public function update_surat_jalan_periode(Request $request)
     {
         $periode = $request->input('periode');
 
-        if($periode == 'today')
-        {
+        if ($periode == 'today') {
             $date = NOW();
 
             $pengirimanHoAll = DB::table('pengiriman_ho')
@@ -391,11 +378,9 @@ class AdminController extends Controller
                 ->whereMonth('tgl_surat_jalan', Carbon::now()->month)
                 ->whereYear('tgl_surat_jalan', Carbon::now()->year)
                 ->count();
-
-        } else if($periode == 'month')
-        {
+        } else if ($periode == 'month') {
             $date = Carbon::now()->month;
-            
+
             $pengirimanHoAll = DB::table('pengiriman_ho')
                 ->where('status', '=', 'diproses')
                 ->orWhere('status', '=', 'diterima')
@@ -410,8 +395,7 @@ class AdminController extends Controller
                 ->whereMonth('tgl_surat_jalan', $date)
                 ->whereYear('tgl_surat_jalan', Carbon::now()->year)
                 ->count();
-        } else if($periode == 'year')
-        {
+        } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $pengirimanHoAll = DB::table('pengiriman_ho')
                 ->where('status', '=', 'diproses')
@@ -436,12 +420,11 @@ class AdminController extends Controller
     {
         $periode = $request->input('periode');
         $barang = Barang::all();
-        
-        if($periode == 'today')
-        {
+
+        if ($periode == 'today') {
             $date = NOW();
 
-            $limaHariLalu = Carbon::now()->subDays(5);      
+            $limaHariLalu = Carbon::now()->subDays(5);
 
             $data = DB::table('barang')
                 ->where('tgl_kedatangan', '<', $limaHariLalu)
@@ -449,23 +432,21 @@ class AdminController extends Controller
                 ->whereMonth('tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('tgl_kedatangan', Carbon::now()->year)
                 ->sum('jumlah');
-        } else if($periode == 'month')
-        {
+        } else if ($periode == 'month') {
             $date = Carbon::now()->month;
 
-            $limaHariLalu = Carbon::now()->subDays(5);      
+            $limaHariLalu = Carbon::now()->subDays(5);
 
             $data = DB::table('barang')
                 ->where('tgl_kedatangan', '<', $limaHariLalu)
                 ->whereMonth('tgl_kedatangan', $date)
                 ->whereYear('tgl_kedatangan', Carbon::now()->year)
                 ->sum('jumlah');
-        } else if($periode == 'year')
-        {
+        } else if ($periode == 'year') {
             $date = Carbon::now()->year;
 
 
-            $limaHariLalu = Carbon::now()->subDays(5);      
+            $limaHariLalu = Carbon::now()->subDays(5);
 
             $data = DB::table('barang')
                 ->where('tgl_kedatangan', '<', $limaHariLalu)
@@ -479,8 +460,7 @@ class AdminController extends Controller
     {
         $periode = $request->input('periode');
 
-        if($periode == 'today')
-        {
+        if ($periode == 'today') {
             $date = NOW();
             $data = DB::table('pemasok_barang')
                 ->where('status', '=', 'diproses')
@@ -488,23 +468,19 @@ class AdminController extends Controller
                 ->whereMonth('tgl_surat_jalan', Carbon::now()->month)
                 ->whereYear('tgl_surat_jalan', Carbon::now()->year)
                 ->count();
-        } else if($periode == 'month')
-        {
+        } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $data = DB::table('pemasok_barang')
                 ->where('status', '=', 'diproses')
                 ->whereMonth('tgl_surat_jalan', $date)
                 ->whereYear('tgl_surat_jalan', Carbon::now()->year)
                 ->count();
-            
-        } else if($periode == 'year')
-        {
+        } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $data = DB::table('pemasok_barang')
                 ->where('status', '=', 'diproses')
                 ->whereYear('tgl_surat_jalan', $date)
                 ->count();
-            
         }
         return response()->json(['status' => 200, 'data' => $data], 200);
     }
@@ -513,32 +489,27 @@ class AdminController extends Controller
     {
         $periode = $request->input('periode');
 
-        if($periode == 'today')
-        {
-            $date = NOW();            
+        if ($periode == 'today') {
+            $date = NOW();
             $data = DB::table('pemasok_barang')
-                    ->where('status', '=', 'dikirim')
-                    ->whereDate('tgl_kirim_pemasok', $date)
-                    ->whereMonth('tgl_kirim_pemasok', Carbon::now()->month)
-                    ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
-                    ->count();
-            
-        } else if($periode == 'month')
-        {
+                ->where('status', '=', 'dikirim')
+                ->whereDate('tgl_kirim_pemasok', $date)
+                ->whereMonth('tgl_kirim_pemasok', Carbon::now()->month)
+                ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
+                ->count();
+        } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $data = DB::table('pemasok_barang')
-                    ->where('status', '=', 'dikirim')
-                    ->whereMonth('tgl_kirim_pemasok', $date)
-                    ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
-                    ->count();
-            
-        } else if($periode == 'year')
-        {
+                ->where('status', '=', 'dikirim')
+                ->whereMonth('tgl_kirim_pemasok', $date)
+                ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
+                ->count();
+        } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $data = DB::table('pemasok_barang')
-                    ->where('status', '=', 'dikirim')
-                    ->whereYear('tgl_surat_jalan', $date)
-                    ->count();
+                ->where('status', '=', 'dikirim')
+                ->whereYear('tgl_surat_jalan', $date)
+                ->count();
         }
         return response()->json(['status' => 200, 'data' => $data]);
     }
@@ -547,236 +518,224 @@ class AdminController extends Controller
     {
         $periode = $request->input('periode');
 
-        if($periode == 'today')
-        {
+        if ($periode == 'today') {
             $date = NOW();
             $pengirimanBatalHo = DB::table('pengiriman_ho')
-                            ->where('status', '=', 'dibatalkan')
-                            ->whereDate('tgl_surat_jalan', $date)
-                            ->whereMonth('tgl_surat_jalan', Carbon::now()->month)        
-                            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                            ->count();
+                ->where('status', '=', 'dibatalkan')
+                ->whereDate('tgl_surat_jalan', $date)
+                ->whereMonth('tgl_surat_jalan', Carbon::now()->month)
+                ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+                ->count();
             $pengirimanBatalPemasok = DB::table('pemasok_barang')
-                            ->where('status', '=', 'dibatalkan')
-                            ->whereDate('tgl_surat_jalan', $date)
-                            ->whereMonth('tgl_surat_jalan', Carbon::now()->month)        
-                            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                            ->count();
+                ->where('status', '=', 'dibatalkan')
+                ->whereDate('tgl_surat_jalan', $date)
+                ->whereMonth('tgl_surat_jalan', Carbon::now()->month)
+                ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+                ->count();
             $data = $pengirimanBatalHo + $pengirimanBatalPemasok;
-            
-        } else if($periode == 'month')
-        {
+        } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $pengirimanBatalHo = DB::table('pengiriman_ho')
-                            ->where('status', '=', 'dibatalkan')
-                            ->whereMonth('tgl_surat_jalan', $date)     
-                            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                            ->count();
+                ->where('status', '=', 'dibatalkan')
+                ->whereMonth('tgl_surat_jalan', $date)
+                ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+                ->count();
             $pengirimanBatalPemasok = DB::table('pemasok_barang')
-                            ->where('status', '=', 'dibatalkan')
-                            ->whereMonth('tgl_surat_jalan', $date)
-                            ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                            ->count();
+                ->where('status', '=', 'dibatalkan')
+                ->whereMonth('tgl_surat_jalan', $date)
+                ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+                ->count();
             $data = $pengirimanBatalHo + $pengirimanBatalPemasok;
-            
-        } else if($periode == 'year')
-        {
+        } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $pengirimanBatalHo = DB::table('pengiriman_ho')
-                            ->where('status', '=', 'dibatalkan')
-                            ->whereYear('tgl_surat_jalan', $date)
-                            ->count();
+                ->where('status', '=', 'dibatalkan')
+                ->whereYear('tgl_surat_jalan', $date)
+                ->count();
             $pengirimanBatalPemasok = DB::table('pemasok_barang')
-                            ->where('status', '=', 'dibatalkan')
-                            ->whereYear('tgl_surat_jalan', $date)
-                            ->count();
+                ->where('status', '=', 'dibatalkan')
+                ->whereYear('tgl_surat_jalan', $date)
+                ->count();
             $data = $pengirimanBatalHo + $pengirimanBatalPemasok;
         }
         return response()->json(['status' => 200, 'data' => $data], 200);
     }
 
-// Chart perusahaan
-public function update_chart_pengiriman_periode(Request $request)
-{
-    $periode = $request->input('periode');
-    if($periode == 'today')
+    // Chart perusahaan
+    public function update_chart_pengiriman_periode(Request $request)
     {
-        $date = NOW();
-        $perusahaanHoChart = DB::table('pengiriman_ho as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->where('a.status', '!=', 'dibatalkan')     
-                    ->whereDate('a.tgl_surat_jalan', $date)                   
-                    ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
-                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
-                    ->get();
-        $perusahaanPemasokChart = DB::table('pemasok_barang as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->where('a.status', '!=', 'dibatalkan')               
-                    ->whereDate('a.tgl_surat_jalan', $date)          
-                    ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
-                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
-                    ->get();
+        $periode = $request->input('periode');
+        if ($periode == 'today') {
+            $date = NOW();
+            $perusahaanHoChart = DB::table('pengiriman_ho as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                ->where('a.status', '!=', 'dibatalkan')
+                ->whereDate('a.tgl_surat_jalan', $date)
+                ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+                ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+                ->get();
+            $perusahaanPemasokChart = DB::table('pemasok_barang as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                ->where('a.status', '!=', 'dibatalkan')
+                ->whereDate('a.tgl_surat_jalan', $date)
+                ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+                ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+                ->get();
 
-        $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
+            $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
 
-        $perusahaanCounts = [];
-        foreach ($perusahaan as $row) {
-            $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
-            $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
+            $perusahaanCounts = [];
+            foreach ($perusahaan as $row) {
+                $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
+                $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
+            }
+            $labelPerusahaan = array_keys($perusahaanCounts);
+            $dataPerusahaan = array_values($perusahaanCounts);
+        } else if ($periode == 'month') {
+            $date = Carbon::now()->month;
+            $perusahaanHoChart = DB::table('pengiriman_ho as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                ->where('a.status', '!=', 'dibatalkan')
+                ->whereMonth('a.tgl_surat_jalan', $date)
+                ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+                ->get();
+            $perusahaanPemasokChart = DB::table('pemasok_barang as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                ->where('a.status', '!=', 'dibatalkan')
+                ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
+                ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
+                ->get();
+
+            $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
+
+            $perusahaanCounts = [];
+            foreach ($perusahaan as $row) {
+                $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
+                $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
+            }
+            $labelPerusahaan = array_keys($perusahaanCounts);
+            $dataPerusahaan = array_values($perusahaanCounts);
+        } else if ($periode == 'year') {
+            $date = Carbon::now()->year;
+            $perusahaanHoChart = DB::table('pengiriman_ho as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                ->where('a.status', '!=', 'dibatalkan')
+                ->whereYear('a.tgl_surat_jalan', $date)
+                ->get();
+            $perusahaanPemasokChart = DB::table('pemasok_barang as a')
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                ->where('a.status', '!=', 'dibatalkan')
+                ->whereYear('a.tgl_surat_jalan', $date)
+                ->get();
+
+            $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
+
+            $perusahaanCounts = [];
+            foreach ($perusahaan as $row) {
+                $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
+                $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
+            }
+            $labelPerusahaan = array_keys($perusahaanCounts);
+            $dataPerusahaan = array_values($perusahaanCounts);
         }
-        $labelPerusahaan = array_keys($perusahaanCounts);
-        $dataPerusahaan = array_values($perusahaanCounts);
-
-    } else if($periode == 'month')
-    {
-        $date = Carbon::now()->month;
-        $perusahaanHoChart = DB::table('pengiriman_ho as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->where('a.status', '!=', 'dibatalkan')                       
-                    ->whereMonth('a.tgl_surat_jalan', $date)
-                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
-                    ->get();
-        $perusahaanPemasokChart = DB::table('pemasok_barang as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->where('a.status', '!=', 'dibatalkan')                      
-                    ->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
-                    ->whereYear('a.tgl_surat_jalan', Carbon::now()->year)
-                    ->get();
-
-        $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
-
-        $perusahaanCounts = [];
-        foreach ($perusahaan as $row) {
-            $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
-            $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
-        }
-        $labelPerusahaan = array_keys($perusahaanCounts);
-        $dataPerusahaan = array_values($perusahaanCounts);
-    } else if($periode == 'year')
-    {
-        $date = Carbon::now()->year;
-        $perusahaanHoChart = DB::table('pengiriman_ho as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->where('a.status', '!=', 'dibatalkan')                       
-                    ->whereYear('a.tgl_surat_jalan', $date)
-                    ->get();
-        $perusahaanPemasokChart = DB::table('pemasok_barang as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->where('a.status', '!=', 'dibatalkan')                      
-                    ->whereYear('a.tgl_surat_jalan', $date)
-                    ->get();
-
-        $perusahaan = $perusahaanPemasokChart->concat($perusahaanHoChart);
-
-        $perusahaanCounts = [];
-        foreach ($perusahaan as $row) {
-            $perusahaan = $row->perusahaan; // Assuming you have a "name" column in your "teams" table
-            $perusahaanCounts[$perusahaan] = isset($perusahaanCounts[$perusahaan]) ? $perusahaanCounts[$perusahaan] + 1 : 1;
-        }
-        $labelPerusahaan = array_keys($perusahaanCounts);
-        $dataPerusahaan = array_values($perusahaanCounts);
+        return response()->json(['status' => 200, 'labelPerusahaan' => $labelPerusahaan, 'dataPerusahaan' => $dataPerusahaan]);
     }
-    return response()->json(['status' => 200, 'labelPerusahaan' => $labelPerusahaan, 'dataPerusahaan' => $dataPerusahaan]);
-}
     // Chart dashboard
-public function update_chart_periode(Request $request)
+    public function update_chart_periode(Request $request)
     {
         $periode = $request->input('periode');
 
-        if($periode == 'today')
-        {
+        if ($periode == 'today') {
             $date = NOW();
             $chartProsesHo = DB::table('pengiriman_ho')
-                    ->where('status', '=', 'diproses')
-                    ->whereDate('tgl_surat_jalan', $date)
-                    ->whereMonth('tgl_surat_jalan', Carbon::now()->month)
-                    ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                    ->count();
+                ->where('status', '=', 'diproses')
+                ->whereDate('tgl_surat_jalan', $date)
+                ->whereMonth('tgl_surat_jalan', Carbon::now()->month)
+                ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+                ->count();
 
             $chartProsesPemasok = DB::table('pemasok_barang')
-                        ->where('status', '=', 'diproses')
-                        ->whereDate('tgl_surat_jalan', $date)
-                        ->whereMonth('tgl_surat_jalan', Carbon::now()->month)
-                        ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                        ->count();
+                ->where('status', '=', 'diproses')
+                ->whereDate('tgl_surat_jalan', $date)
+                ->whereMonth('tgl_surat_jalan', Carbon::now()->month)
+                ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+                ->count();
             $countKirimPemasok = DB::table('pemasok_barang')
-                        ->where('status', '=', 'dikirim')
-                        ->whereDate('tgl_kirim_pemasok', $date)
-                        ->whereMonth('tgl_kirim_pemasok', Carbon::now()->month)
-                        ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
-                        ->count();
+                ->where('status', '=', 'dikirim')
+                ->whereDate('tgl_kirim_pemasok', $date)
+                ->whereMonth('tgl_kirim_pemasok', Carbon::now()->month)
+                ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
+                ->count();
             $chartTerimaHo = DB::table('pengiriman_ho')
-                        ->where('status', '=', 'diterima')
-                        ->whereDate('tgl_diterima_site', $date)
-                        ->whereMonth('tgl_diterima_site', Carbon::now()->month)
-                        ->whereYear('tgl_diterima_site', Carbon::now()->year)
-                        ->count();
+                ->where('status', '=', 'diterima')
+                ->whereDate('tgl_diterima_site', $date)
+                ->whereMonth('tgl_diterima_site', Carbon::now()->month)
+                ->whereYear('tgl_diterima_site', Carbon::now()->year)
+                ->count();
 
             $chartTerimaPemasok = DB::table('pemasok_barang')
-                        ->where('status', '=', 'diterima')
-                        ->whereDate('tgl_diterima_site', $date)
-                        ->whereMonth('tgl_diterima_site', Carbon::now()->month)
-                        ->whereYear('tgl_diterima_site', Carbon::now()->year)
-                        ->count();
+                ->where('status', '=', 'diterima')
+                ->whereDate('tgl_diterima_site', $date)
+                ->whereMonth('tgl_diterima_site', Carbon::now()->month)
+                ->whereYear('tgl_diterima_site', Carbon::now()->year)
+                ->count();
             $countProses = $chartProsesHo + $chartProsesPemasok;
             $countTerima = $chartTerimaHo + $chartTerimaPemasok;
-        } else if($periode == 'month')
-        {
-            $date = Carbon::now()->month;            
+        } else if ($periode == 'month') {
+            $date = Carbon::now()->month;
             $chartProsesHo = DB::table('pengiriman_ho')
-                    ->where('status', '=', 'diproses')
-                    ->whereMonth('tgl_surat_jalan', $date)
-                    ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                    ->count();
+                ->where('status', '=', 'diproses')
+                ->whereMonth('tgl_surat_jalan', $date)
+                ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+                ->count();
 
             $chartProsesPemasok = DB::table('pemasok_barang')
-                        ->where('status', '=', 'diproses')
-                        ->whereMonth('tgl_surat_jalan', $date)
-                        ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                        ->count();
+                ->where('status', '=', 'diproses')
+                ->whereMonth('tgl_surat_jalan', $date)
+                ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+                ->count();
             $countKirimPemasok = DB::table('pemasok_barang')
-                        ->where('status', '=', 'dikirim')
-                        ->whereMonth('tgl_kirim_pemasok', $date)
-                        ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
-                        ->count();
+                ->where('status', '=', 'dikirim')
+                ->whereMonth('tgl_kirim_pemasok', $date)
+                ->whereYear('tgl_kirim_pemasok', Carbon::now()->year)
+                ->count();
             $chartTerimaHo = DB::table('pengiriman_ho')
-                        ->where('status', '=', 'diterima')
-                        ->whereMonth('tgl_diterima_site', $date)
-                        ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                        ->count();
+                ->where('status', '=', 'diterima')
+                ->whereMonth('tgl_diterima_site', $date)
+                ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+                ->count();
 
             $chartTerimaPemasok = DB::table('pemasok_barang')
-                        ->where('status', '=', 'diterima')
-                        ->whereMonth('tgl_diterima_site', $date)
-                        ->whereYear('tgl_surat_jalan', Carbon::now()->year)
-                        ->count();
+                ->where('status', '=', 'diterima')
+                ->whereMonth('tgl_diterima_site', $date)
+                ->whereYear('tgl_surat_jalan', Carbon::now()->year)
+                ->count();
             $countProses = $chartProsesHo + $chartProsesPemasok;
             $countTerima = $chartTerimaHo + $chartTerimaPemasok;
-        } else if($periode == 'year')
-        {
+        } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $chartProsesHo = DB::table('pengiriman_ho')
-                    ->where('status', '=', 'diproses')
-                    ->whereYear('tgl_surat_jalan', $date)
-                    ->count();
+                ->where('status', '=', 'diproses')
+                ->whereYear('tgl_surat_jalan', $date)
+                ->count();
 
             $chartProsesPemasok = DB::table('pemasok_barang')
-                        ->where('status', '=', 'diproses')
-                        ->whereYear('tgl_surat_jalan', $date)
-                        ->count();
+                ->where('status', '=', 'diproses')
+                ->whereYear('tgl_surat_jalan', $date)
+                ->count();
             $countKirimPemasok = DB::table('pemasok_barang')
-                        ->where('status', '=', 'dikirim')
-                        ->whereYear('tgl_kirim_pemasok', $date)
-                        ->count();
+                ->where('status', '=', 'dikirim')
+                ->whereYear('tgl_kirim_pemasok', $date)
+                ->count();
             $chartTerimaHo = DB::table('pengiriman_ho')
-                        ->where('status', '=', 'diterima')
-                        ->whereYear('tgl_diterima_site', $date)
-                        ->count();
+                ->where('status', '=', 'diterima')
+                ->whereYear('tgl_diterima_site', $date)
+                ->count();
 
             $chartTerimaPemasok = DB::table('pemasok_barang')
-                        ->where('status', '=', 'diterima')
-                        ->whereYear('tgl_diterima_site', $date)
-                        ->count();
+                ->where('status', '=', 'diterima')
+                ->whereYear('tgl_diterima_site', $date)
+                ->count();
             $countProses = $chartProsesHo + $chartProsesPemasok;
             $countTerima = $chartTerimaHo + $chartTerimaPemasok;
         }
@@ -795,59 +754,98 @@ public function update_chart_periode(Request $request)
 
     public function adminstatus()
     {
+        $pengiriman = !empty($_GET['pengiriman']);
+        $status = !empty($_GET['status']);
+
         $pemasok = DB::table('pemasok_barang as a')
-                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
-                ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
-                ->orderBy('a.no_faktur', 'DESC')
-                ->get();
+        ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+        ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+        ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
+        ->orderBy('a.no_faktur', 'DESC');
 
         $ho = DB::table('pengiriman_ho as a')
-                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
-                ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
-                ->orderBy('a.no_faktur', 'DESC')
-                ->get();
+        ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+        ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+        ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
+        ->orderBy('a.no_faktur', 'DESC');
 
-        $result = $pemasok->concat($ho);
+        if ($status) {
+            $filterStatus = $_GET['status'];
 
-        // filter status
-        if(isset($_GET['status']))
-        {
-            $status = $_GET['status'];
+            if ($filterStatus != "all") {
+                if ($pengiriman) {
+                    $jenisPengiriman = $_GET['pengiriman'];
 
-            $pemasokStatus = DB::table('pemasok_barang as a')
-                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
-                ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
-                ->orderBy('a.no_faktur', 'DESC')
-                ->where('a.status', '=', $status)
-                ->get();
+                    if ($jenisPengiriman == "ho") {
+                        $result = $ho->where('a.status', '=', $filterStatus)->get();
+                    } else if ($jenisPengiriman == "pemasok") {
+                        $result = $pemasok->where('a.status', '=', $filterStatus)->get();
+                    } else {
+                        $result = $pemasok->where('a.status', '=', $filterStatus)->get();
+                        $hoResult = $ho->where('a.status', '=', $filterStatus)->get();
+                    }
 
-            $hoStatus = DB::table('pengiriman_ho as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                    ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
-                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
-                    ->orderBy('a.no_faktur', 'DESC')
-                    ->where('a.status', '=', $status)
-                    ->get();
+                    if (!empty($hoResult)) {
+                        $result = $result->concat($hoResult);
+                    }
+                }
+            } else {
+                if ($pengiriman) {
+                    $jenisPengiriman = $_GET['pengiriman'];
 
-            $resultStatus = $pemasokStatus->concat($hoStatus);
-            return view('admin.status', compact('pemasok', 'ho', 'result', 'resultStatus'));
+                    if ($jenisPengiriman == "ho") {
+                        $result = $ho->get();
+                    } else if ($jenisPengiriman == "pemasok") {
+                        $result = $pemasok->get();
+                    } else {
+                        $result = $pemasok->get();
+                        $hoResult = $ho->get();
+                    }
+
+                    if (!empty($hoResult)) {
+                        $result = $result->concat($hoResult);
+                    }
+                }
+            }
+        } else {
+            if ($pengiriman) {
+                $jenisPengiriman = $_GET['pengiriman'];
+
+                if ($jenisPengiriman == "ho") {
+                    $result = $ho->get();
+                } else if ($jenisPengiriman == "pemasok") {
+                    $result = $pemasok->get();
+                } else {
+                    $result = $pemasok->get();
+                    $hoResult = $ho->get();
+                }
+
+                if (!empty($hoResult)) {
+                    $result = $result->concat($hoResult);
+                }
+            } else {
+                $result = $pemasok->get();
+                $hoResult = $ho->get();
+
+                if (!empty($hoResult)) {
+                    $result = $result->concat($hoResult);
+                }
+            }
         }
 
-        return view('admin.status', compact('pemasok', 'ho', 'result'));
+        return view('admin.status', compact('result'));
     }
+
 
     public function daftarbarang()
     {
         // $barang = Barang::orderBy('tgl_kedatangan', 'DESC')->get();
         $barang = DB::table('barang as a')
-                ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                ->select('a.*', 'b.perusahaan')
-                ->orderBy('a.tgl_kedatangan', 'DESC')
-                ->get();
-    
+            ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+            ->select('a.*', 'b.perusahaan')
+            ->orderBy('a.tgl_kedatangan', 'DESC')
+            ->get();
+
         return view('admin.item', compact('barang'));
     }
 
@@ -865,8 +863,7 @@ public function update_chart_periode(Request $request)
     public function edit_item($id)
     {
         $cek = Barang::findOrFail($id);
-        if($cek)
-        {
+        if ($cek) {
             $perusahaan = Perusahaan::orderBy('perusahaan', 'ASC')->get();
             $barang = Barang::where('id', $id)->first();
 
@@ -894,24 +891,22 @@ public function update_chart_periode(Request $request)
         $cek = Barang::findOrFail($id);
         $params = $request->all();
         // dd($params);
-        if($cek)
-        {
+        if ($cek) {
             try {
                 $cek->update($params);
-    
+
                 return redirect()->to('daftar-barang')->with('success', 'Item berhasil diupdate');
             } catch (\Exception $e) {
                 throw new Exception($e->getMessage());
             }
-        }        
+        }
     }
 
     public function delete_item($id)
     {
         $cek = Barang::findOrFail($id);
 
-        if($cek)
-        {
+        if ($cek) {
             try {
                 Barang::where('id', $id)->delete();
             } catch (\Exception $e) {
@@ -927,23 +922,22 @@ public function update_chart_periode(Request $request)
     {
         $cek = PemasokBarang::findOrFail($id);
 
-        if($cek) 
-        {
+        if ($cek) {
             $barang = DB::table('pemasok_barang as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
-                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
-                    ->where('a.id', $id)
-                    ->first();
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+                ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
+                ->where('a.id', $id)
+                ->first();
 
             $barang_detail = DB::table('pemasok_barang as a')
-                    ->join('pemasok_barang_detail as b', 'a.no_faktur', '=', 'b.no_faktur')
-                    ->select('b.*')
-                    ->where('a.id', '=', $id)
-                    ->get();
+                ->join('pemasok_barang_detail as b', 'a.no_faktur', '=', 'b.no_faktur')
+                ->select('b.*')
+                ->where('a.id', '=', $id)
+                ->get();
 
             return view('admin.detail', compact('barang', 'barang_detail'));
-        }        
+        }
         // return view('admin.detail');
     }
 
@@ -951,41 +945,38 @@ public function update_chart_periode(Request $request)
     {
         $cek = PengirimanHo::findOrFail($id);
 
-        if($cek) 
-        {  
+        if ($cek) {
             $barang = DB::table('pengiriman_ho as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-                    ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
-                    ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
-                    ->where('a.id', $id)
-                    ->first();
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                ->join('ms_ekspedisi as c', 'a.id_ekspedisi', '=', 'c.id')
+                ->select('a.*', 'b.perusahaan', 'c.ekspedisi')
+                ->where('a.id', $id)
+                ->first();
 
             $barang_detail = DB::table('pengiriman_ho as a')
-                    ->join('pengiriman_ho_detail as b', 'a.no_faktur', '=', 'b.no_faktur')
-                    ->select('b.*')
-                    ->where('a.id', '=', $id)
-                    ->orderBy('b.tgl_kedatangan', 'ASC')
-                    ->get();
+                ->join('pengiriman_ho_detail as b', 'a.no_faktur', '=', 'b.no_faktur')
+                ->select('b.*')
+                ->where('a.id', '=', $id)
+                ->orderBy('b.tgl_kedatangan', 'ASC')
+                ->get();
 
             return view('admin.detail_ho', compact('barang', 'barang_detail'));
-        }        
+        }
         // return view('admin.detail');
     }
 
     public function update_status_kirim(Request $request, $id)
     {
         $barang = PemasokBarang::findOrFail($id);
-        if($barang) 
-        {
+        if ($barang) {
             try {
                 $barang->update([
                     'tgl_kirim_pemasok' => $request->input('tgl_kirim_pemasok'),
                     'status' => 'dikirim',
                 ]);
-    
+
                 return redirect()->to('adminstatus')->with('success', 'Status berhasil diubah');
-            } catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 throw new \Exception($e->getMessage());
             }
         }
@@ -995,17 +986,15 @@ public function update_chart_periode(Request $request)
     {
         $barang = PemasokBarang::findOrFail($id);
 
-        if($barang) 
-        {
+        if ($barang) {
             try {
                 $barang->update([
                     'tgl_diterima_site' => $request->input('tgl_diterima_site'),
                     'status' => 'diterima',
                 ]);
-    
+
                 return redirect()->to('adminstatus')->with('success', 'Status berhasil diubah');
-            } catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 throw new \Exception($e->getMessage());
             }
         }
@@ -1015,17 +1004,15 @@ public function update_chart_periode(Request $request)
     {
         $barang = PengirimanHo::findOrFail($id);
 
-        if($barang) 
-        {
+        if ($barang) {
             try {
                 $barang->update([
                     'tgl_diterima_site' => $request->input('tgl_diterima'),
                     'status' => 'diterima',
                 ]);
-    
+
                 return redirect()->to('adminstatus')->with('success', 'Status berhasil diubah');
-            } catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 throw new \Exception($e->getMessage());
             }
         }
@@ -1035,20 +1022,18 @@ public function update_chart_periode(Request $request)
         $ho = PengirimanHo::findOrFail($id);
         $no_faktur = $request->input('no_faktur');
         $getBarang = DB::table('pengiriman_ho_detail as a')
-                    ->join('barang as b', 'a.id_barang', '=', 'b.id')
-                    ->select('a.id_barang', 'a.jumlah', 'b.jumlah as stok')
-                    ->where('a.no_faktur', '=', $no_faktur)
-                    ->get();
-        if($ho) 
-        {
+            ->join('barang as b', 'a.id_barang', '=', 'b.id')
+            ->select('a.id_barang', 'a.jumlah', 'b.jumlah as stok')
+            ->where('a.no_faktur', '=', $no_faktur)
+            ->get();
+        if ($ho) {
             try {
                 $ho->update([
                     'status' => 'dibatalkan',
                 ]);
 
                 // Mengembalikan stok barang yang dibatalkan
-                foreach($getBarang as $row)
-                {
+                foreach ($getBarang as $row) {
                     $id_barang = $row->id_barang;
                     $jumlah = $row->jumlah;
                     $stok = $row->stok;
@@ -1060,8 +1045,7 @@ public function update_chart_periode(Request $request)
                 }
 
                 return redirect()->to('adminstatus')->with('success', 'Status berhasil diubah');
-            } catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 throw new \Exception($e->getMessage());
             }
         }
@@ -1071,16 +1055,14 @@ public function update_chart_periode(Request $request)
     {
         $pemasok = PemasokBarang::findOrFail($id);
 
-        if($pemasok) 
-        {
+        if ($pemasok) {
             try {
                 $pemasok->update([
                     'status' => 'dibatalkan',
                 ]);
 
                 return redirect()->to('adminstatus')->with('success', 'Status berhasil diubah');
-            } catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 throw new \Exception($e->getMessage());
             }
         }
@@ -1099,7 +1081,7 @@ public function update_chart_periode(Request $request)
         $validator = Validator::make($request->all(), [
             'ekspedisi' => 'required|string|unique:ms_ekspedisi',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
@@ -1126,7 +1108,7 @@ public function update_chart_periode(Request $request)
         $params = $request->all();
 
         $validator = Validator::make($request->all(), [
-            'ekspedisi' => 'required|string|unique:ms_ekspedisi'.',id,'.$ekspedisi->id,
+            'ekspedisi' => 'required|string|unique:ms_ekspedisi' . ',id,' . $ekspedisi->id,
         ]);
 
         if ($validator->fails()) {
@@ -1135,7 +1117,7 @@ public function update_chart_periode(Request $request)
                 'error' => 'Nama Ekspedisi sudah ada'
             ], 422);
         }
-        
+
         try {
             Ekspedisi::where('id', $id)->update([
                 'ekspedisi' => $request->input('ekspedisi'),
@@ -1143,7 +1125,7 @@ public function update_chart_periode(Request $request)
                 'telpon' => $request->input('telpon'),
                 'alamat' => $request->input('alamat')
             ]);
-            
+
             return response()->json(['success' => 'Data berhasil diubah'], 200);
             // return redirect()->to('perusahaan')->with('success', 'Data berhasil diubah');
         } catch (\Exception $e) {
@@ -1155,8 +1137,7 @@ public function update_chart_periode(Request $request)
     {
         $cek = Ekspedisi::findOrFail($id);
 
-        if($cek)
-        {
+        if ($cek) {
             try {
                 Ekspedisi::where('id', $id)->delete();
             } catch (\Exception $e) {
@@ -1182,14 +1163,14 @@ public function update_chart_periode(Request $request)
         $validator = Validator::make($request->all(), [
             'perusahaan' => 'required|string|unique:ms_perusahaan',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
                 'error' => 'Nama perusahaan sudah ada'
             ], 422);
         }
-        
+
         try {
             Perusahaan::create([
                 'perusahaan' => $params['perusahaan']
@@ -1207,7 +1188,7 @@ public function update_chart_periode(Request $request)
         $params = $request->all();
 
         $validator = Validator::make($request->all(), [
-            'perusahaan' => 'required|string|unique:ms_perusahaan'.',id,'.$perusahaan->id,
+            'perusahaan' => 'required|string|unique:ms_perusahaan' . ',id,' . $perusahaan->id,
         ]);
 
         if ($validator->fails()) {
@@ -1216,12 +1197,12 @@ public function update_chart_periode(Request $request)
                 'error' => 'Nama perusahaan sudah ada'
             ], 422);
         }
-        
+
         try {
             Perusahaan::where('id', $id)->update([
                 'perusahaan' => $request->input('perusahaan')
             ]);
-            
+
             return response()->json(['success' => 'Data berhasil diubah'], 200);
             // return redirect()->to('perusahaan')->with('success', 'Data berhasil diubah');
         } catch (\Exception $e) {
@@ -1229,14 +1210,13 @@ public function update_chart_periode(Request $request)
             return response()->json(['error' => $e->getMessage()], 422);
         }
     }
-    
+
 
     public function delete_perusahaan($id)
     {
         $cek = Perusahaan::findOrFail($id);
 
-        if($cek)
-        {
+        if ($cek) {
             try {
                 Perusahaan::where('id', $id)->delete();
             } catch (\Exception $e) {
@@ -1253,32 +1233,31 @@ public function update_chart_periode(Request $request)
     public function laporan()
     {
         $pemasok = DB::table('pemasok_barang as a')
-                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
-                ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'd.ekspedisi')
-                ->orderBy('a.no_faktur', 'ASC')
-                ->where('status', '=', 'diproses')
-                ->orWhere('status', '=', 'dikirim')
-                ->orWhere('status', '=', 'diterima')
-                ->get();
+            ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+            ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
+            ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+            ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'd.ekspedisi')
+            ->orderBy('a.no_faktur', 'ASC')
+            ->where('status', '=', 'diproses')
+            ->orWhere('status', '=', 'dikirim')
+            ->orWhere('status', '=', 'diterima')
+            ->get();
 
         $ho = DB::table('pengiriman_ho as a')
-                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
-                ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'c.pemasok', 'd.ekspedisi')
-                ->orderBy('a.no_faktur', 'ASC')
-                ->where('status', '=', 'diproses')
-                ->orWhere('status', '=', 'dikirim')
-                ->orWhere('status', '=', 'diterima')
-                ->get();
+            ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+            ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
+            ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+            ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'c.pemasok', 'd.ekspedisi')
+            ->orderBy('a.no_faktur', 'ASC')
+            ->where('status', '=', 'diproses')
+            ->orWhere('status', '=', 'dikirim')
+            ->orWhere('status', '=', 'diterima')
+            ->get();
 
         $result = $pemasok->concat($ho);
 
         // Filter
-        if(isset($_GET['start-date']))
-        {
+        if (isset($_GET['start-date'])) {
             $tgl_mulai = Carbon::parse($_GET['start-date']);
             $tgl_selesai = Carbon::parse($_GET['end-date']);
 
@@ -1286,25 +1265,45 @@ public function update_chart_periode(Request $request)
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                 ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok', 'a.status',
-                        'b.perusahaan', 
-                        'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
-                        'd.ekspedisi')
+                ->select(
+                    'a.tgl_kirim_pemasok',
+                    'a.tgl_surat_jalan',
+                    'a.tgl_diterima_site',
+                    'a.no_faktur',
+                    'a.pemasok',
+                    'a.status',
+                    'b.perusahaan',
+                    'c.item',
+                    'c.nomor_po',
+                    'c.jumlah',
+                    'c.unit',
+                    'd.ekspedisi'
+                )
                 ->orderBy('a.no_faktur', 'ASC')
                 ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
                 ->get();
 
             $ho_filter = DB::table('pengiriman_ho as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                    ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
-                    ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                    ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur', 'a.status',
-                            'b.perusahaan', 
-                            'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
-                            'd.ekspedisi')
-                    ->orderBy('a.no_faktur', 'ASC')
-                    ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
-                    ->get();
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
+                ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->select(
+                    DB::raw('NULL as tgl_kirim_pemasok'),
+                    'a.tgl_diterima_site',
+                    'a.tgl_surat_jalan',
+                    'a.no_faktur',
+                    'a.status',
+                    'b.perusahaan',
+                    'c.item',
+                    'c.pemasok',
+                    'c.nomor_po',
+                    'c.jumlah',
+                    'c.unit',
+                    'd.ekspedisi'
+                )
+                ->orderBy('a.no_faktur', 'ASC')
+                ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
+                ->get();
 
             $result_filter = $pemasok_filter->concat($ho_filter);
 
@@ -1316,10 +1315,10 @@ public function update_chart_periode(Request $request)
 
     // Laporan
     public function exportDataToCsv()
-    {      
+    {
 
         // Filter by date
-        if(isset($_GET['start-date'])) {
+        if (isset($_GET['start-date'])) {
             $tgl_mulai = Carbon::parse($_GET['start-date'])->format('Y-m-d');
             $tgl_selesai = Carbon::parse($_GET['end-date'])->format('Y-m-d');
 
@@ -1327,63 +1326,101 @@ public function update_chart_periode(Request $request)
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                 ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok', 'a.status',
-                        'b.perusahaan', 
-                        'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
-                        'd.ekspedisi')
+                ->select(
+                    'a.tgl_kirim_pemasok',
+                    'a.tgl_surat_jalan',
+                    'a.tgl_diterima_site',
+                    'a.no_faktur',
+                    'a.pemasok',
+                    'a.status',
+                    'b.perusahaan',
+                    'c.item',
+                    'c.nomor_po',
+                    'c.jumlah',
+                    'c.unit',
+                    'd.ekspedisi'
+                )
                 ->orderBy('a.no_faktur', 'ASC')
                 ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
                 ->get();
 
             $ho_filter = DB::table('pengiriman_ho as a')
-                    ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                    ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
-                    ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                    ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur', 'a.status',
-                            'b.perusahaan', 
-                            'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
-                            'd.ekspedisi')
-                    ->orderBy('a.no_faktur', 'ASC')
-                    ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
-                    ->get();
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
+                ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->select(
+                    DB::raw('NULL as tgl_kirim_pemasok'),
+                    'a.tgl_diterima_site',
+                    'a.tgl_surat_jalan',
+                    'a.no_faktur',
+                    'a.status',
+                    'b.perusahaan',
+                    'c.item',
+                    'c.pemasok',
+                    'c.nomor_po',
+                    'c.jumlah',
+                    'c.unit',
+                    'd.ekspedisi'
+                )
+                ->orderBy('a.no_faktur', 'ASC')
+                ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
+                ->get();
 
-                    $result_filter = $pemasok_filter->concat($ho_filter);
+            $result_filter = $pemasok_filter->concat($ho_filter);
 
-                    $fileName = "Laporan_KPI_Bulanan_{$tgl_mulai}_to_{$tgl_selesai}.xlsx";
-                    $filePath = "temp/{$fileName}";
-                    Excel::store(new LaporanKpiExport($result_filter), $filePath);
-            
-                    return response()->download(storage_path("app/{$filePath}"))->deleteFileAfterSend(true);
-                }
-    else {
-        $pemasok = DB::table('pemasok_barang as a')
+            $fileName = "Laporan_KPI_Bulanan_{$tgl_mulai}_to_{$tgl_selesai}.xlsx";
+            $filePath = "temp/{$fileName}";
+            Excel::store(new LaporanKpiExport($result_filter), $filePath);
+
+            return response()->download(storage_path("app/{$filePath}"))->deleteFileAfterSend(true);
+        } else {
+            $pemasok = DB::table('pemasok_barang as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                 ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
-                ->select('a.tgl_kirim_pemasok', 'a.tgl_surat_jalan', 'a.tgl_diterima_site', 'a.no_faktur', 'a.pemasok', 'a.status',
-                        'b.perusahaan', 
-                        'c.item', 'c.nomor_po', 'c.jumlah', 'c.unit',
-                        'd.ekspedisi')
+                ->select(
+                    'a.tgl_kirim_pemasok',
+                    'a.tgl_surat_jalan',
+                    'a.tgl_diterima_site',
+                    'a.no_faktur',
+                    'a.pemasok',
+                    'a.status',
+                    'b.perusahaan',
+                    'c.item',
+                    'c.nomor_po',
+                    'c.jumlah',
+                    'c.unit',
+                    'd.ekspedisi'
+                )
                 ->orderBy('a.no_faktur', 'ASC')
                 //->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
                 ->get();
 
-        $ho = DB::table('pengiriman_ho as a')
+            $ho = DB::table('pengiriman_ho as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
                 ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
-                ->select(DB::raw('NULL as tgl_kirim_pemasok'), 'a.tgl_diterima_site', 'a.tgl_surat_jalan', 'a.no_faktur', 'a.status',
-                        'b.perusahaan', 
-                        'c.item', 'c.pemasok', 'c.nomor_po', 'c.jumlah', 'c.unit',
-                        'd.ekspedisi')
+                ->select(
+                    DB::raw('NULL as tgl_kirim_pemasok'),
+                    'a.tgl_diterima_site',
+                    'a.tgl_surat_jalan',
+                    'a.no_faktur',
+                    'a.status',
+                    'b.perusahaan',
+                    'c.item',
+                    'c.pemasok',
+                    'c.nomor_po',
+                    'c.jumlah',
+                    'c.unit',
+                    'd.ekspedisi'
+                )
                 ->orderBy('a.no_faktur', 'ASC')
                 //->whereMonth('a.tgl_surat_jalan', Carbon::now()->month)
                 ->get();
 
-        $data = $pemasok->merge($ho);
+            $data = $pemasok->merge($ho);
 
-        return Excel::download(new LaporanKpiExport($data), 'Laporan_KPI_Bulanan.xlsx');
-
+            return Excel::download(new LaporanKpiExport($data), 'Laporan_KPI_Bulanan.xlsx');
         }
     }
 }
