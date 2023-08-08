@@ -72,7 +72,7 @@
 
         /* Styling untuk tabel barang */
         .shipment-info {
-            width: 100%;
+            width: 98%;
             border-collapse: collapse;
             margin-top: 10px;
             margin-bottom: 5px;
@@ -87,7 +87,8 @@
 
         .shipment-info th {
             background-color: #f2f2f2;
-            font-weight: normal;
+            font-weight: bold;
+            text-align: center;
         }
 
         .signatures table {
@@ -112,16 +113,6 @@
             width: 25%;
             height: 60px; /* Ubah nilai height sesuai dengan keinginan Anda */
         }
-        
-        html{
-            border: 1px solid transparent;
-        }
-        body{
-            border: 1px solid transparent;
-        }
-        div{
-            border: 1px solid transparent;
-        }
 
         @media screen and (max-width: 600px) {
             .container {
@@ -132,7 +123,7 @@
     </style> 
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="padding-top:0 !important;">
         <p>Kepada:</p>
         <p>{{ $barang->perusahaan }}</p>
         <p>Up: {{ $barang->pic }}</p>
@@ -140,15 +131,18 @@
         <h1>Surat Jalan Pengiriman Barang</h1>
         <a>Dengan ini kami kirimkan barang melalui ekspedisi {{ $barang->ekspedisi }} dengan rincian barang sebagai berikut:</a>
         <table class="shipment-info">
+            <thead>
             <tr>
-                <th>No.</th>
-                <th>Nama Barang</th>
-                <th>Pemasok</th>
-                <th>No. PO PR</th>
-                <th>User</th>
-                <th>Jumlah</th>
-                <th>Unit</th>
+                <th style="width: 2%"> No.</th>
+                <th style="width: 30%"> Nama Barang</th>
+                <th style="width: 20%">Pemasok</th>
+                <th style="width: 20%">No. PO PR</th>
+                <th style="width: 15%">User</th>
+                <th style="width: 10%">Jumlah</th>
+                <th style="width: 3%">Unit</th>
             </tr>
+            </thead>
+            <tbody>
             @php $i = 1; @endphp
             @foreach($barangChunks as $chunk)
                 @foreach($chunk as $row)
@@ -166,15 +160,18 @@
             </table>
             <div style="page-break-before: always;"></div>
             <table class="shipment-info">
-                <tr>
-                    <th>No.</th>
-                    <th>Nama Barang</th>
-                    <th>Pemasok</th>
-                    <th>No. PO PR</th>
-                    <th>User</th>
-                    <th>Jumlah</th>
-                    <th>Unit</th>
-                </tr>
+            <thead>
+            <tr>
+                <th style="width: 2%"> No.</th>
+                <th style="width: 30%"> Nama Barang</th>
+                <th style="width: 20%">Pemasok</th>
+                <th style="width: 20%">No. PO PR</th>
+                <th style="width: 16%">User</th>
+                <th style="width: 10%">Jumlah</th>
+                <th style="width: 2%">Unit</th>
+            </tr>
+            </thead>
+            <tbody>
             @endif
             @endforeach           
             <!-- Isi tabel dengan data lainnya sesuai kebutuhan -->
@@ -183,7 +180,7 @@
         <div style="page-break-inside: avoid;">
         <a>Demikian surat jalan ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</a>
         <br><br>
-        <p style="text-align: left;">Jakarta, {{ now()->format('d M Y') }}</p>
+        <p style="text-align: left;">Jakarta, {{ date('d M Y', strtotime($barang->tgl_surat_jalan)) }}</p>
         <div class="signatures">
             <table>
                 <tr>
@@ -199,7 +196,6 @@
                     <td colspan="2">_________________</td>
                 </tr>
             </table>
-        </div>
         </div>
     </div>
 </body>

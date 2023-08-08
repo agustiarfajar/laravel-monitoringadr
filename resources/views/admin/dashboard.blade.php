@@ -389,14 +389,13 @@
 
             <!-- Website Traffic -->
           <div class="col-xxl-12 col-md-12">
-          <div class="card">
+            <div class="card">
               <div class="filter">
                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                   <li class="dropdown-header text-start">
                     <h6>Filter</h6>
                   </li>
-  
                       <li><a class="dropdown-item filter-periode-chart" data-periode="today" data-text="| Today" style="cursor:pointer">Today</a></li>
                       <li><a class="dropdown-item filter-periode-chart" data-periode="month" data-text="| This Month" style="cursor:pointer">This Month</a></li>
                       <li><a class="dropdown-item filter-periode-chart" data-periode="year" data-text="| This Year" style="cursor:pointer">This Year</a></li>
@@ -409,8 +408,8 @@
                 <div id="trafficChart" style="min-height: 400px;" class="echart"></div>  
   
               </div>
-            </div><!-- End Website Traffic -->
-          </div>
+            </div>
+          </div><!-- End Website Traffic -->
 
         <div class="col-xxl-12 col-md-12">
           <div class="card">
@@ -431,11 +430,11 @@
                 <h5 class="card-title">Chart Pengiriman Perusahaan <span class="txtPengirimanChart">| This Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Chart pengiriman dari HO dan Pemasok ke perusahaan tujuan"></i></h5>
   
                 <div id="pieChart" style="min-height: 400px;"></div>
-                  <!-- End Pie Chart -->
-                </div>
+                
               </div>
           </div>
-        </div>          
+        </div><!-- End Pie Chart -->   
+             
       </div>
     </section>
 

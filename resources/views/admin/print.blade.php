@@ -9,7 +9,7 @@
             font-family: Calibri, sans-serif;
             font-size: 12px;
             margin: 8px; /* Margin normal untuk elemen body */
-            margin-top: 90px;
+            margin-top: 110px;
             margin-bottom: 50px;
         }
 
@@ -22,6 +22,7 @@
             margin: 3px auto;
             background-color: #fff;
             padding: 20px;
+            padding-top: 0 !mportant;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
@@ -104,6 +105,8 @@
             border: 1px solid #ccc;
             padding: 6px;
             text-align: left;
+            word-wrap: break-word; /* Mengatur wrap kata pada teks yang panjang */
+            white-space: normal; /* Mengatur spasi putih pada teks yang panjang */
         }
 
         .underline {
@@ -113,7 +116,8 @@
 
         .shipment-info th {
             background-color: #f2f2f2;
-            font-weight: normal;
+            font-weight: bold;
+            text-align: center;
         }
 
         .signatures table {
@@ -136,26 +140,26 @@
             width: 25%;
             height: 60px; /* Ubah nilai height sesuai dengan keinginan Anda */
         }
-        
         html{
-            border: 1px solid transparent;
+            border: 1px solid transparant;
         }
         body{
-            border: 1px solid transparent;
+            border: 1px solid transparant;
         }
         div{
-            border: 1px solid transparent;
+            border: 1px solid transparant;
         }
 
         @media screen and (max-width: 600px) {
             .container {
                 padding: 10px;
+                padding-top: 0 !mportant;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="padding-top:0 !important;">
         <p>Kepada:</p>
         <p>{{ $barang->pemasok }}</p>
         <p>Jakarta</p>
@@ -163,32 +167,39 @@
         <h1>Surat Jalan Penyerahan Barang</h1>
         <a>Dengan ini kami mohon untuk menyerahkan barang sebagai berikut:</a>
         <table class="shipment-info">
-            <tr>
-                <th>No.</th>
-                <th>Nama Barang</th>
-                <th>Jumlah</th>
-                <th>No. PO PR</th>
-            </tr>
-            @php $i = 1; @endphp
-            @foreach($barangChunks as $chunk)
-                @foreach($chunk as $row)
-            <tr>
-                <td>{{ $i++ }}</td>
-                <td>{{ $row->item }}</td>
-                <td>{{ $row->jumlah }} {{ $row->unit }}</td>
-                <td>{{ $row->nomor_po }}</td>
-            </tr>
-            @endforeach 
-            @if ($loop->remaining > 0)
-            </table>
-            <div style="page-break-before: always; "></div>
-            <table class="shipment-info">
+        <thead>
                 <tr>
-                    <th>No.</th>
-                    <th>Nama Barang</th>
-                    <th>Jumlah</th>
-                    <th>No. PO PR</th>
+                    <th style="width: 5%">No.</th>
+                    <th style="width: 60%">Nama Barang</th>
+                    <th style="width: 10%">Jumlah</th>
+                    <th style="width: 25%">No. PO PR</th>
                 </tr>
+            </thead>
+            <tbody>
+                @php $i = 1; @endphp
+                @foreach($barangChunks as $chunk)
+                    @foreach($chunk as $row)
+                        <tr>
+                            <td>{{ $i++ }}</td>
+                            <td>{{ $row->item }}</td>
+                            <td>{{ $row->jumlah }} {{ $row->unit }}</td>
+                            <td>{{ $row->nomor_po }}</td>
+                        </tr>
+                    @endforeach
+                    @if ($loop->remaining > 100)
+                        </tbody>
+                    <!-- <div style="page-break-before: always; "></div> -->
+                    <div>
+                        <table class="shipment-info">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%">No.</th>
+                                    <th style="width: 50%">Nama Barang</th>
+                                    <th style="width: 15%">Jumlah</th>
+                                    <th style="width: 30%">No. PO PR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
             @endif
             @endforeach
             
@@ -196,6 +207,7 @@
         </table>
         
         <div style="page-break-inside: avoid;">
+        
         <a>Atas nama <b>{{ $barang->perusahaan }}</b>, mohon barang tersebut diserahkan kepada:</a>
         <table class="expedition-info">
             <tr>
@@ -218,7 +230,7 @@
         <br>
         <a>Demikianlah surat jalan ini kami buat, dan dapat dipergunakan sebagaimana mestinya.</a>
         <br></br>
-        <p style="text-align: left;">Jakarta, {{ now()->format('d M Y') }}</p>
+        <p style="text-align: left;">Jakarta, {{ date('d M Y', strtotime($barang->tgl_surat_jalan)) }}</p>
         <div class="signatures">
         <table>
             <tr>
