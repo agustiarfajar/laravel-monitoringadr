@@ -76,15 +76,15 @@ class LaporanKpiBarangAgingExport implements FromCollection, WithHeadings, WithS
         $lastRow = $sheet->getHighestRow();
 
         // Set background color for cells from B2 to the last row
-        $sheet->getStyle('B2:B' . $lastRow)->applyFromArray([
-            'fill' => [
-                'fillType' => Fill::FILL_SOLID,
-                'color' => ['rgb' => 'FF0000'], // Red color
-            ],
-            'font' => [
-                'color' => ['rgb' => 'FFFFFF'], // White color
-            ],  
-        ]);
+        // $sheet->getStyle('B2:B' . $lastRow)->applyFromArray([
+        //     'fill' => [
+        //         'fillType' => Fill::FILL_SOLID,
+        //         'color' => ['rgb' => 'FF0000'], // Red color
+        //     ],
+        //     'font' => [
+        //         'color' => ['rgb' => 'FFFFFF'], // White color
+        //     ],
+        // ]);
         $cellRange = 'A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow();
 
         return [
