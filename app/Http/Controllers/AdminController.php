@@ -1255,7 +1255,7 @@ class AdminController extends Controller
             $query = DB::table('barang as a')
             ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
             ->orderBy('a.tgl_kedatangan', 'DESC')
-            ->where('a.tgl_kedatangan', '<=', $thresholdDate)
+            // ->where('a.tgl_kedatangan', '<=', $thresholdDate)
             ->where('a.jumlah', '!=', 0);
 
             if (!empty($tgl_mulai) && !empty($tgl_selesai)) {
@@ -1366,7 +1366,8 @@ class AdminController extends Controller
             $query = DB::table('barang as a')
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
                 ->orderBy('a.tgl_kedatangan', 'DESC')
-                ->where('a.tgl_kedatangan', '<=', $thresholdDate);
+                // ->where('a.tgl_kedatangan', '<=', $thresholdDate);
+                ->where('a.jumlah', '!=', 0);
 
             if (!empty($tgl_mulai) && !empty($tgl_selesai)) {
                 $query->whereBetween('a.tgl_kedatangan', [$tgl_mulai, $tgl_selesai]);
