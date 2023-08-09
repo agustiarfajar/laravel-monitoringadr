@@ -387,7 +387,7 @@
 
             
 
-            <!-- Website Traffic -->
+            <!-- Website Traffic >
           <div class="col-xxl-12 col-md-12">
             <div class="card">
               <div class="filter">
@@ -409,7 +409,7 @@
   
               </div>
             </div>
-          </div><!-- End Website Traffic -->
+          </div><-- End Website Traffic -->
 
         <div class="col-xxl-12 col-md-12">
           <div class="card">
@@ -454,14 +454,17 @@ function updatePeriode(url, periode, kelas, txt)
         if(kelas == 'sisaBarangHo'){
           $('.sisaBarangHo h6').text(response.data);
           $('.txtSisaBarangHoPeriode').text(txt);
+
         } else if(kelas == 'barangMasuk')
         {
           $('.barangMasuk h6').text(response.data);
           $('.txtBarangMasuk').text(txt);
+
         } else if(kelas == 'barangKeluar')
         {
           $('.barangKeluar h6').text(response.data);
           $('.txtBarangKeluar').text(txt);
+
         } else if(kelas == 'suratJalan')
         {
           $('.suratJalan h6').text(response.data);
@@ -642,48 +645,48 @@ function updatePeriode(url, periode, kelas, txt)
   
   document.addEventListener("DOMContentLoaded", () => {
     // Chart surat
-    echarts.init(document.querySelector("#trafficChart")).setOption({
-      tooltip: {
-        trigger: 'item'
-      },
-      legend: {
-        top: '5%',
-        left: 'center'
-      },
-      series: [{
-        name: 'Monitoring HO',
-        type: 'pie',
-        radius: ['40%', '70%'],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          position: 'center'
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: '18',
-            fontWeight: 'bold'
-          }
-        },
-        labelLine: {
-          show: false
-        },
-        data: [{
-            value: '{{ $countProses }}',
-            name: 'Pengiriman Diproses'
-          },   
-          {
-            value: '{{ $countTerima }}',
-            name: 'Pengiriman Diterima'
-          },
-          {
-            value: '{{ $countKirimPemasok }}',
-            name: 'Pengiriman Dikirim'
-          },
-        ]
-      }]
-    });
+    //echarts.init(document.querySelector("#trafficChart")).setOption({
+    //  tooltip: {
+    //    trigger: 'item'
+    //  },
+    //  legend: {
+    //    top: '5%',
+    //    left: 'center'
+    //  },
+    //  series: [{
+    //    name: 'Monitoring HO',
+    //    type: 'pie',
+    //    radius: ['40%', '70%'],
+    //    avoidLabelOverlap: false,
+    //    label: {
+    //      show: false,
+    //      position: 'center'
+    //    },
+    //    emphasis: {
+    //      label: {
+    //        show: true,
+    //        fontSize: '18',
+    //        fontWeight: 'bold'
+    //      }
+    //    },
+    //    labelLine: {
+    //      show: false
+    //    },
+    //    data: [{
+    //        value: '{{ $countProses }}',
+    //        name: 'Pengiriman Diproses'
+    //      },   
+    //      {
+    //        value: '{{ $countTerima }}',
+    //        name: 'Pengiriman Diterima'
+    //      },
+    //      {
+    //        value: '{{ $countKirimPemasok }}',
+    //        name: 'Pengiriman Dikirim'
+    //      },
+    //    ]
+    //  }]
+    //});
 
     // Chart pengiriman
       var labels = @json($labelPerusahaan);

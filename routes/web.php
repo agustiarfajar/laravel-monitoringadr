@@ -23,9 +23,9 @@ use App\Http\Controllers\PrintController;
 #});
 
 
-Route::get('/', [HomeController::class, 'main']);
+//Route::get('/', [HomeController::class, 'main']);
 
-Route::get('/login', [HomeController::class, 'login']);
+Route::get('/', [HomeController::class, 'login']);
 Route::get('/register', [HomeController::class, 'regist']);
 Route::get('/faq', [HomeController::class, 'faq']);
 

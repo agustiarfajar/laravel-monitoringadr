@@ -316,7 +316,7 @@
                                         <th class="text-center" style="width: 10%;;">Barang</th>
                                         <th scope="col" style="width: 10%;">Pemasok</th>
                                         <th scope="col" style="width: 15%;">No PO/PR</th>
-                                        <th scope="col" style="width: 5%;">Jumlah</th>
+                                        <th scope="col" style="width: 5%;">Sisa</th>
                                         <th scope="col" style="width: 7%;">Unit</th>
                                     </tr>
                                 </thead>
@@ -369,7 +369,7 @@
                                             <td>{{ $row->item }}</td>
                                             <td>{{ $row->pemasok }}</td>
                                             <td>{{ $row->nomor_po }}</td>
-                                            <td>{{ $jml_detail_ho }}</td>
+                                            <td>{{ $row->jumlah }}</td>
                                             <td>{{ $row->unit }}</td>
                                         </tr>
                                     @endforeach
