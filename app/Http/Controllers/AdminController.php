@@ -117,8 +117,8 @@ class AdminController extends Controller
             ->join('barang as b', 'a.id_barang', '=', 'b.id')
             ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
             ->where('c.status', '!=', 'dibatalkan')
-            ->whereMonth('c.tgl_surat_jalan', $date)
-            ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
+            ->whereMonth('a.tgl_kedatangan', Carbon::now()->month)
+            ->whereYear('a.tgl_kedatangan', Carbon::now()->year)
             ->sum('a.jumlah');
 
         $laporan = $pemasokLaporan->concat($hoLaporan);
@@ -286,6 +286,7 @@ class AdminController extends Controller
                 ->sum('a.jumlah');
 
             $data = (int) $stok_ho + (int) $jml_brg_ho;
+
         } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $stok_ho = DB::table('barang')
@@ -301,6 +302,7 @@ class AdminController extends Controller
                 ->sum('a.jumlah');
 
             $data = (int) $stok_ho + (int) $jml_brg_ho;
+
         } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $stok_ho = DB::table('barang')
@@ -329,26 +331,28 @@ class AdminController extends Controller
                 ->join('barang as b', 'a.id_barang', '=', 'b.id')
                 ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->where('c.status', '!=', 'dibatalkan')
-                ->whereDate('c.tgl_surat_jalan', $date)
-                ->whereMonth('c.tgl_surat_jalan', Carbon::now()->month)
-                ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
+                ->whereDate('a.tgl_kedatangan', $date)
+                ->whereMonth('a.tgl_kedatangan', Carbon::now()->month)
+                ->whereYear('a.tgl_kedatangan', Carbon::now()->year)
                 ->sum('a.jumlah');
+
         } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $data = DB::table('pengiriman_ho_detail as a')
                 ->join('barang as b', 'a.id_barang', '=', 'b.id')
                 ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->where('c.status', '!=', 'dibatalkan')
-                ->whereMonth('c.tgl_surat_jalan', $date)
-                ->whereYear('c.tgl_surat_jalan', Carbon::now()->year)
+                ->whereMonth('a.tgl_kedatangan', Carbon::now()->month)
+                ->whereYear('a.tgl_kedatangan', Carbon::now()->year)
                 ->sum('a.jumlah');
+
         } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $data = DB::table('pengiriman_ho_detail as a')
                 ->join('barang as b', 'a.id_barang', '=', 'b.id')
                 ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->where('c.status', '!=', 'dibatalkan')
-                ->whereYear('c.tgl_surat_jalan', $date)
+                ->whereYear('a.tgl_kedatangan', $date)
                 ->sum('a.jumlah');
         }
         return response()->json(['status' => 200, 'data' => $data], 200);
@@ -1369,6 +1373,7 @@ class AdminController extends Controller
             $result_barang_aging = $query->get();
             $fileName = "Laporan_KPI_Barang_Aging_{$tgl_mulai}_to_{$tgl_selesai}.xlsx";
             $filePath = "temp/{$fileName}";
+            
             return Excel::download(new LaporanKpiBarangAgingExport($result_barang_aging), $fileName);
         } else {
             // Filter by date

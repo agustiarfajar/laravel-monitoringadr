@@ -135,11 +135,10 @@
               if(isset($_GET['status'])) {
                 ?>
                             <option value="all" <?= $_GET['status'] == 'all' ? 'selected' : '' ?>>Semua</option>
-                            <option value="diproses" <?= $_GET['status'] == 'diproses' ? 'selected' : '' ?>>Diproses
-                            </option>
+                            <option value="diproses" <?= $_GET['status'] == 'diproses' ? 'selected' : '' ?>>Diproses</option>
                             <option value="dikirim" <?= $_GET['status'] == 'dikirim' ? 'selected' : '' ?>>Dikirim</option>
                             <option value="diterima" <?= $_GET['status'] == 'diterima' ? 'selected' : '' ?>>Diterima
-                            </option>
+                            <option value="dibatalkan" <?= $_GET['status'] == 'dibatalkan' ? 'selected' : '' ?>>Dibatalkan</option>
                             <?php
               } else {
                 ?>
@@ -147,6 +146,7 @@
                             <option value="diproses">Diproses</option>
                             <option value="dikirim">Dikirim</option>
                             <option value="diterima">Diterima</option>
+                            <option value="dibatalkan">Dibatalkan</option>
                             <?php
               }
 
