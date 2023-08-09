@@ -60,7 +60,7 @@
   
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-login.html">
+    <a class="nav-link collapsed" href="/">
       <i class="bi bi-box-arrow-in-right"></i>
       <span>Logout</span>
     </a>
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="card-body" >
-                  <h5 class="card-title"><a href="/daftar-barang" class="card-title">Barang Masuk</a> <span class="txtBarangMasuk">| This Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Total jumlah barang dalam Qty yang diterima di HO"></i></h5>
+                  <h5 class="card-title">Barang Masuk <span class="txtBarangMasuk">| This Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Total jumlah barang dalam Qty yang diterima di HO"></i></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
