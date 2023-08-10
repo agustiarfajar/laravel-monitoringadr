@@ -108,7 +108,7 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Perusahaan</th>
-                    <th scope="col">Edit</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody id="tbody">

@@ -163,7 +163,7 @@
                     <th scope="col">Alamat</th>
                     <th scope="col">PIC Ekspedisi</th>
                     <th scope="col">Nomor Telepon</th>
-                    <th scope="col">Edit</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody id="tbody">

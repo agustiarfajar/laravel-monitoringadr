@@ -103,7 +103,7 @@
                             <th scope="col" style="width: 10%;">Pemasok</th>
                             <th scope="col" style="width: 15%;">Tgl Kedatangan</th>
                             <th scope="col" style="width: 3%;">Status</th>
-                            <th scope="col" style="width: 3%;">Aksi</th>
+                            <th scope="col" style="width: 3%;">Action</th>
                         </tr>
                         </thead>
                         <tbody>
