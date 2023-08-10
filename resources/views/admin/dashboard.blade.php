@@ -28,6 +28,19 @@
           <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
         </a>
       </li>
+
+      <li>
+        <a href="/user-access">
+          <i class="bi bi-circle-fill"></i><span>User</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="/role-access">
+          <i class="bi bi-circle-fill"></i><span>Role</span>
+        </a>
+      </li>
+
     </ul>
   </li><!-- End Tables Nav -->
 

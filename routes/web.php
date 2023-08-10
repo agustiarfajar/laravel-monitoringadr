@@ -6,6 +6,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\PrintController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,3 +107,9 @@ Route::post('/chart-pengiriman-update/periode', [AdminController::class, 'update
 
 Route::get('/print/{id}', [PrintController::class, 'print']);
 Route::get('/printho/{id}', [PrintController::class, 'print_ho']);
+
+//User
+Route::get('/user-access', [UserController::class, 'view_user']);
+
+//Role
+Route::get('/role-access', [RoleController::class, 'view_role']);
