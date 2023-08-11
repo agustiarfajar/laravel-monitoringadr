@@ -47,6 +47,13 @@
   <li class="nav-heading">Menu</li>
 
   <li class="nav-item">
+    <a class="nav-link collapsed" href="/daftar-barang">
+      <i class="bi bi-box-seam"></i><span>Barang Diterima di HO</span>
+    </a>
+  
+  </li><!-- End Ekspedisi Nav -->
+
+  <li class="nav-item">
     <a class="nav-link collapsed" href="{{ url('adminstatus') }}">
       <i class="bi bi-ui-checks"></i><span>Pengiriman</span>
     </a>  
@@ -54,12 +61,7 @@
 
   
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/daftar-barang">
-      <i class="bi bi-box-seam"></i><span>Barang Diterima di HO</span>
-    </a>
   
-  </li><!-- End Ekspedisi Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="/laporan">
