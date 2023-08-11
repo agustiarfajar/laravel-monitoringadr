@@ -286,7 +286,6 @@ class AdminController extends Controller
                 ->sum('a.jumlah');
 
             $data = (int) $stok_ho + (int) $jml_brg_ho;
-
         } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $stok_ho = DB::table('barang')
@@ -302,7 +301,6 @@ class AdminController extends Controller
                 ->sum('a.jumlah');
 
             $data = (int) $stok_ho + (int) $jml_brg_ho;
-
         } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $stok_ho = DB::table('barang')
@@ -335,7 +333,6 @@ class AdminController extends Controller
                 ->whereMonth('a.tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('a.tgl_kedatangan', Carbon::now()->year)
                 ->sum('a.jumlah');
-
         } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $data = DB::table('pengiriman_ho_detail as a')
@@ -345,7 +342,6 @@ class AdminController extends Controller
                 ->whereMonth('a.tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('a.tgl_kedatangan', Carbon::now()->year)
                 ->sum('a.jumlah');
-
         } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $data = DB::table('pengiriman_ho_detail as a')
@@ -758,7 +754,7 @@ class AdminController extends Controller
     }
 
     public function adminstatus()
-    {   
+    {
         $pengiriman = !empty($_GET['pengiriman']);
         $status = !empty($_GET['status']);
 
@@ -793,6 +789,12 @@ class AdminController extends Controller
                     if (!empty($hoResult)) {
                         $result = $result->concat($hoResult);
                     }
+                } else {
+                    $result = $pemasok->where('a.status', '=', $filterStatus)->get();
+                    $hoResult = $ho->where('a.status', '=', $filterStatus)->get();
+                    if (!empty($hoResult)) {
+                        $result = $result->concat($hoResult);
+                    }
                 }
             } else {
                 if ($pengiriman) {
@@ -807,6 +809,12 @@ class AdminController extends Controller
                         $hoResult = $ho->get();
                     }
 
+                    if (!empty($hoResult)) {
+                        $result = $result->concat($hoResult);
+                    }
+                } else {
+                    $result = $pemasok->where('a.status', '=', $filterStatus)->get();
+                    $hoResult = $ho->where('a.status', '=', $filterStatus)->get();
                     if (!empty($hoResult)) {
                         $result = $result->concat($hoResult);
                     }
@@ -841,7 +849,6 @@ class AdminController extends Controller
         return view('admin.status', compact('result'));
     }
 
-
     public function daftarbarang()
     {
         // $barang = Barang::orderBy('tgl_kedatangan', 'DESC')->get();
@@ -849,6 +856,7 @@ class AdminController extends Controller
             ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
             ->select('a.*', 'b.perusahaan')
             ->orderBy('a.tgl_kedatangan', 'DESC')
+            ->where('a.is_deleted',false)
             ->get();
 
         return view('admin.item', compact('barang'));
@@ -913,7 +921,9 @@ class AdminController extends Controller
 
         if ($cek) {
             try {
-                Barang::where('id', $id)->delete();
+                Barang::where('id', $id)->update([
+                    'is_deleted' =>true
+                ]);
             } catch (\Exception $e) {
                 // Validation failed, handle the error
                 return response()->json(['error' => $e->getMessage()], 422);
@@ -1253,10 +1263,11 @@ class AdminController extends Controller
             $thresholdDate = $currentDate->subDays(5)->toDateString();
 
             $query = DB::table('barang as a')
-            ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
-            ->orderBy('a.tgl_kedatangan', 'DESC')
-            // ->where('a.tgl_kedatangan', '<=', $thresholdDate)
-            ->where('a.jumlah', '!=', 0);
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
+                ->orderBy('a.tgl_kedatangan', 'DESC')
+                // ->where('a.tgl_kedatangan', '<=', $thresholdDate)
+                ->where('a.jumlah', '!=', 0)
+                ->where('a.is_deleted',false);
 
             if (!empty($tgl_mulai) && !empty($tgl_selesai)) {
                 $query->whereBetween('a.tgl_kedatangan', [$tgl_mulai, $tgl_selesai]);
@@ -1266,26 +1277,26 @@ class AdminController extends Controller
             return view('admin.laporan', compact('result_barang_aging'));
         } else {
             $pemasok = DB::table('pemasok_barang as a')
-            ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-            ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
-            ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-            ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'd.ekspedisi')
-            ->orderBy('a.no_faktur', 'ASC')
-            ->where('status', '=', 'diproses')
-            ->orWhere('status', '=', 'dikirim')
-            ->orWhere('status', '=', 'diterima')
-            ->get();
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
+                ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'd.ekspedisi')
+                ->orderBy('a.no_faktur', 'ASC')
+                ->where('status', '=', 'diproses')
+                ->orWhere('status', '=', 'dikirim')
+                ->orWhere('status', '=', 'diterima')
+                ->get();
 
             $ho = DB::table('pengiriman_ho as a')
-            ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-            ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
-            ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-            ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'c.pemasok', 'd.ekspedisi')
-            ->orderBy('a.no_faktur', 'ASC')
-            ->where('status', '=', 'diproses')
-            ->orWhere('status', '=', 'dikirim')
-            ->orWhere('status', '=', 'diterima')
-            ->get();
+                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', 'd.id')
+                ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                ->select('a.*', 'b.perusahaan', 'c.item', 'c.jumlah', 'c.unit', 'c.nomor_po', 'c.pemasok', 'd.ekspedisi')
+                ->orderBy('a.no_faktur', 'ASC')
+                ->where('status', '=', 'diproses')
+                ->orWhere('status', '=', 'dikirim')
+                ->orWhere('status', '=', 'diterima')
+                ->get();
 
             $result_bulanan = $pemasok->concat($ho);
 
@@ -1294,48 +1305,48 @@ class AdminController extends Controller
                 $tgl_selesai = Carbon::parse($_GET['end-date']);
 
                 $pemasok_filter = DB::table('pemasok_barang as a')
-                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
-                ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select(
-                    'a.tgl_kirim_pemasok',
-                    'a.tgl_surat_jalan',
-                    'a.tgl_diterima_site',
-                    'a.no_faktur',
-                    'a.pemasok',
-                    'a.status',
-                    'b.perusahaan',
-                    'c.item',
-                    'c.nomor_po',
-                    'c.jumlah',
-                    'c.unit',
-                    'd.ekspedisi'
-                )
-                ->orderBy('a.no_faktur', 'ASC')
-                ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
-                ->get();
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                    ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
+                    ->join('pemasok_barang_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                    ->select(
+                        'a.tgl_kirim_pemasok',
+                        'a.tgl_surat_jalan',
+                        'a.tgl_diterima_site',
+                        'a.no_faktur',
+                        'a.pemasok',
+                        'a.status',
+                        'b.perusahaan',
+                        'c.item',
+                        'c.nomor_po',
+                        'c.jumlah',
+                        'c.unit',
+                        'd.ekspedisi'
+                    )
+                    ->orderBy('a.no_faktur', 'ASC')
+                    ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
+                    ->get();
 
                 $ho_filter = DB::table('pengiriman_ho as a')
-                ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
-                ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
-                ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
-                ->select(
-                    DB::raw('NULL as tgl_kirim_pemasok'),
-                    'a.tgl_diterima_site',
-                    'a.tgl_surat_jalan',
-                    'a.no_faktur',
-                    'a.status',
-                    'b.perusahaan',
-                    'c.item',
-                    'c.pemasok',
-                    'c.nomor_po',
-                    'c.jumlah',
-                    'c.unit',
-                    'd.ekspedisi'
-                )
-                ->orderBy('a.no_faktur', 'ASC')
-                ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
-                ->get();
+                    ->join('ms_perusahaan as b', 'a.id_perusahaan', 'b.id')
+                    ->join('ms_ekspedisi as d', 'a.id_ekspedisi', '=', 'd.id')
+                    ->join('pengiriman_ho_detail as c', 'a.no_faktur', '=', 'c.no_faktur')
+                    ->select(
+                        DB::raw('NULL as tgl_kirim_pemasok'),
+                        'a.tgl_diterima_site',
+                        'a.tgl_surat_jalan',
+                        'a.no_faktur',
+                        'a.status',
+                        'b.perusahaan',
+                        'c.item',
+                        'c.pemasok',
+                        'c.nomor_po',
+                        'c.jumlah',
+                        'c.unit',
+                        'd.ekspedisi'
+                    )
+                    ->orderBy('a.no_faktur', 'ASC')
+                    ->whereBetween('a.tgl_surat_jalan', [$tgl_mulai, $tgl_selesai])
+                    ->get();
                 $result_bulanan_filter = $pemasok_filter->concat($ho_filter);
 
                 return view('admin.laporan', compact('result_bulanan', 'result_bulanan_filter'));
@@ -1367,12 +1378,13 @@ class AdminController extends Controller
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
                 ->orderBy('a.tgl_kedatangan', 'DESC')
                 // ->where('a.tgl_kedatangan', '<=', $thresholdDate);
-                ->where('a.jumlah', '!=', 0);
+                ->where('a.jumlah', '!=', 0)
+                ->where('a.is_deleted',false);
 
             if (!empty($tgl_mulai) && !empty($tgl_selesai)) {
                 $query->whereBetween('a.tgl_kedatangan', [$tgl_mulai, $tgl_selesai]);
                 $fileName = "Laporan_KPI_Barang_Aging_{$_GET['start-date']}_to_{$_GET['end-date']}.xlsx";
-            }else{
+            } else {
                 $fileName = "Laporan_KPI_Barang_Aging.xlsx";
             }
             $result_barang_aging = $query->get();
