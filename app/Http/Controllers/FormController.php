@@ -52,7 +52,7 @@ class FormController extends Controller
     }
 
     public function get_item(Request $request)
-    {   
+    {
         $perusahaan = $request->input('perusahaan');
 
         $item = DB::table('barang as a')
@@ -60,10 +60,11 @@ class FormController extends Controller
                 ->select('a.*', 'b.perusahaan')
                 ->where('a.id_perusahaan', '=', $perusahaan)
                 ->where('a.jumlah', '>', 0)
+                ->where('a.is_deleted',false)
                 ->get();
 
         return response()->json(['data' => $item]);
-        
+
     }
 
     public function index2()
@@ -99,7 +100,7 @@ class FormController extends Controller
             ]);
 
             // Store ke tabel detail barang
-            for($i = 0; $i < count($brg); $i++) 
+            for($i = 0; $i < count($brg); $i++)
             {
                 $res_detail = PemasokBarangDetail::create([
                     'no_faktur' => $no_faktur,
@@ -120,8 +121,8 @@ class FormController extends Controller
     public function simpan_pengiriman_ho(Request $request)
     {
         $params = $request->all();
-        // dd($params);    
-        
+        // dd($params);
+
         $no_faktur = $this->noPengirimanOtomatis();
 
         if(Arr::has($params, 'id_barang'))
@@ -137,9 +138,9 @@ class FormController extends Controller
                     'status' => 'diproses',
                     'tgl_surat_jalan' => Date::now(),
                 ]);
-    
+
                 // Store ke tabel detail barang
-                for($i = 0; $i < count($brg); $i++) 
+                for($i = 0; $i < count($brg); $i++)
                 {
                     $res_detail = PengirimanHoDetail::create([
                         'no_faktur' => $no_faktur,
@@ -152,16 +153,16 @@ class FormController extends Controller
                         'nomor_po' => $params['nomor_po'][$i],
                         'tgl_kedatangan' => $params['tgl_kedatangan'][$i],
                     ]);
-    
+
                 }
-    
+
                 $barang = DB::table('barang')->whereIn('id', $params['id_barang'])->get();
                 $i = 0;
                 foreach($barang as $row)
                 {
                     $stok = $row->jumlah;
                     $jml_kirim = $params['jumlah'][$i];
-    
+
                     DB::table('barang')->where('id', $params['id_barang'][$i])->update([
                         "jumlah"=> (int) $stok - (int) $jml_kirim
                     ]);
@@ -171,10 +172,10 @@ class FormController extends Controller
                     //     ->where('id', $params['id_barang'][$i])
                     //     ->where('jumlah', '=', 0)
                     //     ->delete();
-    
+
                     $i++;
                 }
-    
+
                 return redirect()->to('adminstatus')->with('success', 'Data berhasil disimpan');
             } catch (Exception $e) {
                 throw new \Exception($e->getMessage());
@@ -182,7 +183,7 @@ class FormController extends Controller
         } else {
             return redirect()->to('adminstatus')->with('error', 'Data gagal disimpan, data barang tidak ada');
         }
-        
+
     }
 
     public function reset()
@@ -199,7 +200,7 @@ class FormController extends Controller
         // Contoh menggunakan Eloquent ORM pada Laravel:
         FormData::where('id', $id)->delete();
         // Anda dapat menyesuaikan logika penghapusan data sesuai dengan kebutuhan Anda
-    
+
         // Setelah berhasil menghapus data, Anda dapat mengembalikan respons atau melakukan tindakan lain yang diperlukan
         return response()->json(['message' => 'Data berhasil dihapus']);
     }

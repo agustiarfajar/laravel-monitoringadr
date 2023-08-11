@@ -856,6 +856,7 @@ class AdminController extends Controller
             ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
             ->select('a.*', 'b.perusahaan')
             ->orderBy('a.tgl_kedatangan', 'DESC')
+            ->where('a.is_deleted',false)
             ->get();
 
         return view('admin.item', compact('barang'));
@@ -920,7 +921,9 @@ class AdminController extends Controller
 
         if ($cek) {
             try {
-                Barang::where('id', $id)->delete();
+                Barang::where('id', $id)->update([
+                    'is_deleted' =>true
+                ]);
             } catch (\Exception $e) {
                 // Validation failed, handle the error
                 return response()->json(['error' => $e->getMessage()], 422);
@@ -1263,7 +1266,8 @@ class AdminController extends Controller
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
                 ->orderBy('a.tgl_kedatangan', 'DESC')
                 // ->where('a.tgl_kedatangan', '<=', $thresholdDate)
-                ->where('a.jumlah', '!=', 0);
+                ->where('a.jumlah', '!=', 0)
+                ->where('a.is_deleted',false);
 
             if (!empty($tgl_mulai) && !empty($tgl_selesai)) {
                 $query->whereBetween('a.tgl_kedatangan', [$tgl_mulai, $tgl_selesai]);
@@ -1374,7 +1378,8 @@ class AdminController extends Controller
                 ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
                 ->orderBy('a.tgl_kedatangan', 'DESC')
                 // ->where('a.tgl_kedatangan', '<=', $thresholdDate);
-                ->where('a.jumlah', '!=', 0);
+                ->where('a.jumlah', '!=', 0)
+                ->where('a.is_deleted',false);
 
             if (!empty($tgl_mulai) && !empty($tgl_selesai)) {
                 $query->whereBetween('a.tgl_kedatangan', [$tgl_mulai, $tgl_selesai]);
