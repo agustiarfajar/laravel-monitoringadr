@@ -21,7 +21,7 @@
 
               <!-- Multi Columns Form -->
               <form class="row g-3" action="" method="POST">
-                
+
                 <div class="col-md-6">
                     <label for="exampleDataList" class="form-label">Nama Perusahaan</label>
                     <input type="text" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Perusahaan tujuan">
@@ -91,14 +91,14 @@
                   <label for="inputPO5" class="form-label">Nomor PO/PR</label>
                   <input type="text" class="form-control" id="inputPO5">
                 </div>
-            
+
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary">Submit</button>
                   <button type="reset" class="btn btn-secondary">Reset</button>
                 </div>
-              </form><!-- End Multi Columns Form -->                
+              </form><!-- End Multi Columns Form -->
             </div>
-            
+
         </div>
-            
+
 @endsection

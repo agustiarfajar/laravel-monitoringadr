@@ -50,7 +50,7 @@
 
   <main id="main" class="main">
         <!-- End Left side columns -->
-        @yield('content') 
+        @yield('content')
         <!-- Right side columns -->
         <div class="col-lg-4">
         </div>

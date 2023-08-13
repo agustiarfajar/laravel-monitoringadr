@@ -1,263 +1,315 @@
 @extends('admin.master')
-
-@section('sidebar')
-<aside id="sidebar" class="sidebar">
-
-<ul class="sidebar-nav" id="sidebar-nav">
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="{{ url('admin-dashboard') }}">
-      <i class="bi bi-grid"></i>
-      <span>Dashboard</span>
-    </a>
-  </li><!-- End Dashboard Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-menu-button-wide-fill"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="{{ url('perusahaan') }}">
-          <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ url('ekspedisi') }}">
-          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
-        </a>
-      </li>
-      <li>
-        <a href="/user-access">
-          <i class="bi bi-circle-fill"></i><span>User</span>
-        </a>
-      </li>
-      <li>
-        <a href="/role-access" class="active">
-          <i class="bi bi-circle-fill"></i><span>Role</span>
-        </a>
-      </li>
-    </ul>
-  </li><!-- End Tables Nav -->
-
-  <li class="nav-heading">Menu</li>
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/daftar-barang">
-      <i class="bi bi-box-seam"></i><span>Barang Diterima di HO</span>
-    </a>
-  
-  </li><!-- End Ekspedisi Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="{{ url('adminstatus') }}">
-      <i class="bi bi-ui-checks"></i><span>Pengiriman</span>
-    </a>  
-  </li>
-
-  
-
-  
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/laporan">
-      <i class="bi bi-file-earmark-bar-graph"></i><span>Laporan</span>
-    </a>
-  
-  </li><!-- End Ekspedisi Nav -->
-
-  <li class="nav-heading">Pages</li>
-
-  
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/">
-      <i class="bi bi-box-arrow-in-right"></i>
-      <span>Logout</span>
-    </a>
-  </li><!-- End Login Page Nav -->
-
-</ul>
-
-</aside>
-@endsection
-
+@section('dashboard', 'collapsed')
+@section('role', 'active')
+@section('barangHO', 'collapsed')
+@section('pengiriman', 'collapsed')
+@section('laporan', 'collapsed')
 @section('content')
-<style>
-    .hidden-form {
-        display: none;
-        opacity: 0;
-        height: 0;
-        overflow: hidden;
-        transition: opacity 0.3s, height 0.3s;
-    }
-    
-    .visible-form {
-        display: block;
-        opacity: 1;
-        height: auto;
-    }
+    <style>
+        .hidden-form {
+            display: none;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: opacity 0.3s, height 0.3s;
+        }
 
-    .btn-danger {
-        background-color: #dc3545;
-        color: white;
-    }
-</style>
+        .visible-form {
+            display: block;
+            opacity: 1;
+            height: auto;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
 
     <div class="pagetitle">
-      <h1>Daftar Role</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/admin-dashboard">Dashboard</a></li>
-          <li class="breadcrumb-item active">Daftar Role</li>
-        </ol>
-      </nav>
+        <h1>Daftar Role</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin-dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Daftar Role</li>
+            </ol>
+        </nav>
     </div><!-- End Page Title -->
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Tambah Role</h5>
-                <a type="button" id="tambahButton" class="btn btn-primary"><i id="icon" class="bi bi-plus"></i> Tambah</a>
-                <br><br>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Tambah Role</h5>
+            <a type="button" id="tambahButton" class="btn btn-primary"><i id="icon" class="bi bi-plus"></i> Tambah</a>
+            <br><br>
 
-                <form id="tambahForm" class="hidden-form row g-3">
-                    <!-- Elemen-elemen form Anda -->
-                    @csrf
-                    
-                    <div class="col-md-6">
-                      <label for="role" class="form-label">Role</label>
-                      <input type="text" name="role" id="role" class="form-control" placeholder="Masukkan role" autocomplete="off">
-                    </div>
-                    
-                    <div class="col-md-6">
-                      <label for="role" class="form-label">Hak Akses</label>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Master User Edit</label>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Master User Delete</label>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Master Role Edit</label>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Master Role Delete</label>
-                      </div>
-                    </div>
+            <form id="tambahForm" class="hidden-form row g-3" action="{{ url('saveRole') }}" method="POST">
+                <!-- Elemen-elemen form Anda -->
+                @csrf
 
-                    
+                <div class="col-md-6">
+                    <label for="role" class="form-label">Role</label>
+                    <input type="text" name="name" id="role" class="form-control" placeholder="Masukkan role"
+                        autocomplete="off">
+                </div>
 
-                    <div class="text-right">
-                        <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
-                    </div>
+                <div class="col-md-6">
+                    <label for="role" class="form-label">Hak Akses</label>
+                    @php
+                        $master = ['perusahaan', 'ekspedisi', 'user', 'role'];
+                    @endphp
+                    @foreach ($permission as $item)
+                        @if (in_array($item->name, $master))
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" value="{{ $item->id }}"
+                                    name="permission[]" role="switch" id="flexSwitchCheckDefault">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Master
+                                    {{ $item->name }}</label>
+                            </div>
+                        @else
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" value="{{ $item->id }}"
+                                    name="permission[]" role="switch" id="flexSwitchCheckDefault">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">{{ $item->name }}</label>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
 
-                </form>
-             
+
+
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    {{-- <!-- Modal Edit >  --}}
+    <div class="modal fade" id="modalEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="modalEditLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditLabel">Form Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="ubahForm" class="row g-3" method="POST">
+                        <!-- Elemen-elemen form Anda -->
+                        @csrf
+                        <div class="form-group">
+                            <label for="role" class="form-label">Role</label>
+                            <input type="text" name="name" id="roleEdit" class="form-control"
+                                placeholder="Masukkan role" autocomplete="off">
+                        </div>
+                        <div class="form-group formHakAkses">
+                            <label for="role" class="form-label">Hak Akses</label>
+                            @php
+                                $master = ['perusahaan', 'ekspedisi', 'user', 'role'];
+                            @endphp
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        
-        <!-- Modal Edit >
-        <div class="modal fade" id="modalEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
-          <div class="modal-dialog">
+    </div>
+    {{-- Modal Hapus --}}
+    <div class="modal fade" id="modalHapus" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="modalHapusLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalEditLabel">Form Edit User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <form id="formUbah" method="post">
-                @csrf
-                <input type="hidden" id="id_edit">
-              <div class="modal-body">
-                <div class="form-group mb-3">
-                    <label for="ekspedisi" class="form-label">Nama Ekspedisi</label>
-                    <input type="text" name="ekspedisi" id="ekspedisi_edit" class="form-control" placeholder="Masukkan nama ekspedisi" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="pic_eks" class="form-label">PIC Ekspedisi</label>
-                    <input type="text" name="pic_eks" id="pic_eks_edit" class="form-control" placeholder="Masukkan nama PIC ekspedisi" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="telpon" class="form-label">Nomor Telepon</label>
-                    <input type="text" name="telpon" id="telpon_edit" maxlength="13" class="form-control" placeholder="Masukkan nomor telepon ekspedisi" autocomplete="off">
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="alamat" class="form-label">Alamat Ekspedisi</label>
-                    <input type="text" name="alamat" id="alamat_edit" class="form-control" placeholder="Masukkan alamat ekspedisi" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
-                  </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="button" id="btnUbah" class="btn btn-primary">Ubah</button>
-              </div>
-              </form>
-            </div>
-          </div>
-        </div-->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalHapusLabel">Hapus Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="deleteModalMessage">
 
-        <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Daftar Role</h5>
-              
-              <!-- Daftar User -->
-              <table class="datatable" id="tabel_ekspedisi">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Daftar Role</h5>
+
+            <!-- Daftar User -->
+            <table class="datatable" id="tabel_ekspedisi">
                 <thead>
-                  <tr>
-                    <th scope="col" style="width: 3%">#</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Action</th>
-                  </tr>
+                    <tr>
+                        <th scope="col" style="width: 3%">#</th>
+                        <th scope="col">Role {{ \Auth::user()->role }}</th>
+                        <th scope="col">Action</th>
+                    </tr>
                 </thead>
                 <tbody id="tbody">
-                  <tr>
-                    <td>1</td>
-                    <td>User</td>
-                    <td>
-                        <button type="button" class="btn btn-warning btn-sm btnEdit"><i class="bi bi-pencil-square"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm btnHapus"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Admin</td>
-                    <td>
-                        <button type="button" class="btn btn-warning btn-sm btnEdit"><i class="bi bi-pencil-square"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm btnHapus"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
+                    @php
+                        $no = 1;
+                    @endphp
+                    @foreach ($role as $item)
+                        <tr>
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>
+                                <button type="button" class="btn btn-warning btn-sm btnEdit"
+                                    data-id="{{ $item->id }}" data-role="{{ $item->name }}"><i
+                                        class="bi bi-pencil-square"></i></button>
+                                @if (auth()->check() &&
+                                        auth()->user()->hasRole($item->name))
+                                    <button type="button" class="btn btn-danger btn-sm btnHapus"
+                                        data-id="{{ $item->id }}" disabled><i class="bi bi-trash"></i></button>
+                                @else
+                                    <button type="button" class="btn btn-danger btn-sm btnHapus"
+                                        data-id="{{ $item->id }}"><i class="bi bi-trash"></i></button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+
                 </tbody>
-              </table>
-              <!-- End Daftar Role -->
-
-            </div>
+            </table>
+            <!-- End Daftar Role -->
         </div>
-        <a href="{{ url('/admin-dashboard') }}"><i class="bi bi-arrow-left">Kembali</i></a>
+    </div>
+    <a href="{{ url('/admin-dashboard') }}"><i class="bi bi-arrow-left">Kembali</i></a>
 
-<script>
-    var tambahButton = document.getElementById("tambahButton");
-    var tambahForm = document.getElementById("tambahForm");
-    var icon = document.querySelector("#tambahButton i"); // Memilih elemen <i> dalam tombol
+    <script>
+        $(document).ready(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
 
-    tambahButton.addEventListener("click", function(event) {
-        event.preventDefault();
-        
-        if (tambahForm.classList.contains("visible-form")) {
-            tambahForm.classList.remove("visible-form");
-            icon.classList.remove("bi-x");
-            icon.classList.add("bi-plus");
-            tambahButton.classList.remove("btn-danger");
-            tambahButton.innerHTML = '<i class="bi bi-plus"></i> Tambah';
-        } else {
-            tambahForm.classList.add("visible-form");
-            icon.classList.remove("bi-plus");
-            icon.classList.add("bi-x");
-            tambahButton.classList.add("btn-danger");
-            tambahButton.innerHTML = '<i class="bi bi-x"></i> Batal';
-        }
-    });
-</script>
+            @if (session()->has('success'))
+                Toast.fire({
+                    icon: 'success',
+                    title: '{{ Session::get('success') }}'
+                })
+            @elseif (session()->has('error'))
+                Toast.fire({
+                    icon: 'error',
+                    title: '{{ Session::get('error') }}'
+                })
+            @endif
+
+            $('.btnEdit').on('click', function() {
+                var id = $(this).data('id');
+                var role = $(this).data('role');
+
+                $('#roleEdit').val(role);
+                $('#ubahForm').attr('action', 'updateRole/' + id)
+                $('#modalEdit').modal('show');
+
+                $.ajax({
+                    url: '/getRole/json/' +
+                        id, // Ganti dengan URL rute yang sesuai di aplikasi Anda
+                    type: 'GET',
+                    success: function(data) {
+
+                        var formHakAkses = $('.formHakAkses');
+
+                        formHakAkses.empty(); // Hapus elemen-elemen sebelumnya jika ada
+
+                        $.each(data.allpermission, function(index, permission) {
+                            var isChecked = data.permission.hasOwnProperty(permission
+                                .id) ? 'checked' : '';
+
+                            var checkbox = `
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" value="${permission.id}" name="permission[]" role="switch"
+                            id="flexSwitchCheckDefault${permission.id}" ${isChecked}>
+                        <label class="form-check-label" for="flexSwitchCheckDefault${permission.id}">
+                            ${permission.name}
+                        </label>
+                    </div>
+                `;
+
+                            formHakAkses.append(checkbox);
+                        });
+
+
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            })
+            $('.btnHapus').on('click', function() {
+                var id = $(this).data('id');
+
+                // $('#roleEdit').val(role);
+                // $('#ubahForm').attr('action', 'updateRole/' + id)
+                $('#modalHapus').modal('show');
+
+                $.ajax({
+                    url: '/getCountUser/json/' + id,
+                    type: 'GET',
+                    success: function(data) {
+                        var deleteModalMessage = $('.deleteModalMessage');
+                        deleteModalMessage.empty();
+
+                        var msgContainer = $('<div class="delete-modal-message text-center">');
+                        var icon = $(
+                            '<i class="bi bi-question-circle-fill text-warning" style="font-size: 3rem;"></i>'
+                        );
+                        var msgText =
+                            `<p class="mb-3">Apakah Anda yakin akan menghapus role <strong>${data.role}</strong> dan <strong>${data.total_user}</strong> user?</p>`;
+                        var msgButtons = `
+            <div class="d-flex justify-content-center">
+
+                <form action="/deleteRole/${id}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Ya</button>
+                    <button type="button" class="btn btn-secondary mr-3" data-dismiss="modal">Batal</button>
+                </form>
+            </div>
+        `;
+
+                        msgContainer.append(icon);
+                        msgContainer.append(msgText);
+                        msgContainer.append(msgButtons);
+
+                        deleteModalMessage.append(msgContainer);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            })
+        });
+        var tambahButton = document.getElementById("tambahButton");
+        var tambahForm = document.getElementById("tambahForm");
+        var icon = document.querySelector("#tambahButton i"); // Memilih elemen <i> dalam tombol
+
+        tambahButton.addEventListener("click", function(event) {
+            event.preventDefault();
+
+            if (tambahForm.classList.contains("visible-form")) {
+                tambahForm.classList.remove("visible-form");
+                icon.classList.remove("bi-x");
+                icon.classList.add("bi-plus");
+                tambahButton.classList.remove("btn-danger");
+                tambahButton.innerHTML = '<i class="bi bi-plus"></i> Tambah';
+            } else {
+                tambahForm.classList.add("visible-form");
+                icon.classList.remove("bi-plus");
+                icon.classList.add("bi-x");
+                tambahButton.classList.add("btn-danger");
+                tambahButton.innerHTML = '<i class="bi bi-x"></i> Batal';
+            }
+        });
+    </script>
 
 @endsection

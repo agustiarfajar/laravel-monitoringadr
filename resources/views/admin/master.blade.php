@@ -58,7 +58,7 @@
   <!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
-  @yield('sidebar')
+  @include('layout.sidebar')
   <!-- End Sidebar-->
 
   <!-- ======= Main ======= -->
@@ -84,7 +84,7 @@
   <script src="{{ asset('NiceAdmin/assets/vendor/tinymce/tinymce.min.js')}}"></script>
   <script src="{{ asset('NiceAdmin/assets/vendor/php-email-form/validate.js')}}"></script>
   <link href="https://cdn.datatables.net/v/bs5/dt-1.13.5/datatables.min.css" rel="stylesheet"/>
-  
+
   <!-- Template Main JS File -->
   <script src="{{ asset('NiceAdmin/assets/js/main.js')}}"></script>
   <!--script>
@@ -100,10 +100,10 @@
   </script-->
   <!-- Sweetalert -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.16/sweetalert2.min.js"></script>
-  
+
   <!-- <script src="https://cdn.datatables.net/v/bs5/dt-1.13.5/datatables.min.js"></script> -->
   <!-- Select2 -->
-  
+
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 

@@ -1,76 +1,10 @@
 @extends('admin.master')
 
-@section('sidebar')
-<aside id="sidebar" class="sidebar">
-
-<ul class="sidebar-nav" id="sidebar-nav">
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="{{ url('admin-dashboard') }}">
-      <i class="bi bi-grid"></i>
-      <span>Dashboard</span>
-    </a>
-  </li><!-- End Dashboard Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-menu-button-wide-fill"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="{{ url('perusahaan') }}">
-          <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ url('ekspedisi') }}">
-          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
-        </a>
-      </li>
-    </ul>
-  </li><!-- End Tables Nav -->
-
-  <li class="nav-heading">Menu</li>
-
-  <li class="nav-item">
-    <a class="nav-link " href="/daftar-barang">
-      <i class="bi bi-box-seam"></i><span>Barang Diterima di HO</span>
-    </a>
-  
-  </li><!-- End Ekspedisi Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="{{ url('adminstatus') }}">
-      <i class="bi bi-ui-checks"></i><span>Pengiriman</span>
-    </a>  
-  </li>
-
-  
-
-  
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/laporan">
-      <i class="bi bi-file-earmark-bar-graph"></i><span>Laporan</span>
-    </a>
-  
-  </li><!-- End Ekspedisi Nav -->
-
-  <li class="nav-heading">Pages</li>
-
-  
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/">
-      <i class="bi bi-box-arrow-in-right"></i>
-      <span>Logout</span>
-    </a>
-  </li><!-- End Login Page Nav -->
-
-</ul>
-
-</aside>
-@endsection
+@section('dashboard', 'collapsed')
+@section('master', 'collapsed')
+@section('submaster', 'collapse')
+@section('pengiriman', 'collapsed')
+@section('laporan', 'collapsed')
 
 @section('content')
     <div class="pagetitle">
@@ -106,7 +40,7 @@
                   </select>
                 </div>
 
-                
+
                 <div class="col-md-12">
                   <label for="pemasok" class="form-label">Pemasok</label>
                   <input type="text" class="form-control" name="pemasok" id="pemasok" placeholder="Nama Supplier" value="{{ $barang->pemasok }}" required>
@@ -153,7 +87,7 @@
                   <button type="button" class="btn btn-primary" onclick="konfirmasiSimpan()">Submit</button>
                   <button type="reset" id="btnReset" class="btn btn-secondary">Reset</button>
                 </div>
-              </form><!-- End Multi Columns Form -->                
+              </form><!-- End Multi Columns Form -->
             </div>
             </div>
             </div>
@@ -170,7 +104,7 @@
     $('#btnReset').click(function() {
       $(".select-perusahaan").val('').trigger('change');
     })
-      
+
   })
   // Sweetalert
   function konfirmasiSimpan()
@@ -205,7 +139,7 @@
                 Swal.fire("Informasi","Data batal diubah","error");
             }
         });
-      } 
+      }
   }
-</script>           
+</script>
 @endsection
