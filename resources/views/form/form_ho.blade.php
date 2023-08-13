@@ -1,76 +1,9 @@
 @extends('admin.master')
-
-@section('sidebar')
-<aside id="sidebar" class="sidebar">
-
-<ul class="sidebar-nav" id="sidebar-nav">
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="{{ url('admin-dashboard') }}">
-      <i class="bi bi-grid"></i>
-      <span>Dashboard</span>
-    </a>
-  </li><!-- End Dashboard Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-menu-button-wide-fill"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="{{ url('perusahaan') }}">
-          <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ url('ekspedisi') }}">
-          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
-        </a>
-      </li>
-    </ul>
-  </li><!-- End Tables Nav -->
-
-  <li class="nav-heading">Menu</li>
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/daftar-barang">
-      <i class="bi bi-box-seam"></i><span>Barang Diterima di HO</span>
-    </a>
-  
-  </li><!-- End Ekspedisi Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link " href="{{ url('adminstatus') }}">
-      <i class="bi bi-ui-checks"></i><span>Pengiriman</span>
-    </a>  
-  </li>
-
-  
-
-  
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/laporan">
-      <i class="bi bi-file-earmark-bar-graph"></i><span>Laporan</span>
-    </a>
-  
-  </li><!-- End Ekspedisi Nav -->
-
-  <li class="nav-heading">Pages</li>
-
-  
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/">
-      <i class="bi bi-box-arrow-in-right"></i>
-      <span>Logout</span>
-    </a>
-  </li><!-- End Login Page Nav -->
-
-</ul>
-
-</aside>
-@endsection
+@section('dashboard', 'collapsed')
+@section('master', 'collapsed')
+@section('submaster', 'collapse')
+@section('barangHO', 'collapsed')
+@section('laporan', 'collapsed')
 
 @section('content')
     <div class="pagetitle">
@@ -98,7 +31,7 @@
                     @endforeach
                   </select>
               </div>
-              
+
               <div class="col-md-6">
                 <label for="pic" class="form-label">PIC Perusahaan</label>
                 <input type="text" class="form-control" list="dataOptions" id="pic" name="pic" placeholder="Nama penerima">
@@ -134,11 +67,11 @@
         </div>
               </div>
               <!-- Multi Columns Form -->
-                  
+
         </div>
 
       <!-- Full Screen Modal -->
-            
+
               <div class="modal fade" id="ExtralargeModal" tabindex="-1">
                 <div class="modal-dialog modal-xl">
                   <div class="modal-content">
@@ -194,20 +127,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                 </div>
 
                 <div style="text-align: right">
-                    
+
                     <!--button type="reset" class="btn btn-outline-danger" onclick="resetTable()">Reset</button-->
                     <button type="button" class="btn btn-primary" onclick="konfirmasiSimpan()">Submit</button>
                 </div>
             </div>
         </div>
         <a href="{{url('/adminstatus')}}"><i class="bi bi-arrow-left">Kembali</i></a>
-      </form>   
+      </form>
 
     <!--script>
         function resetTable() {
@@ -218,7 +151,7 @@
     </script-->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script>
-      
+
       var myObject = {};
       $(document).ready(function() {
         $('.select-perusahaan').select2({
@@ -228,7 +161,7 @@
         $('.select-ekspedisi').select2({
           theme: 'bootstrap-5'
         });
-        
+
         $('#table_item').on('click', '.cek-barang', function() {
           var row = $(this).closest('tr'); // Get the closest table row
           var input = row.find('.jml_kirim'); // Find the input field in the row
@@ -239,7 +172,7 @@
             input.prop('disabled', true); // Enable the input field
           }
         });
-        
+
         $('#btnTambah').on('click', function() {
             if($('#perusahaan').val() == '')
             {
@@ -266,7 +199,7 @@
               var unit = row.find('#unit');
               var nomor_po = row.find('#nomor_po');
               var tgl_kedatangan = row.find('#tgl_kedatangan');
-              
+
               if(jumlah.val() == '') {
                 return Swal.fire({
                   icon: 'warning',
@@ -306,13 +239,13 @@
                   row += '<td><input type="hidden" name="jumlah[]" value="'+myObject[i].jumlah+'">' + myObject[i].jumlah + '</td>';
                   row += '<td><input type="hidden" name="unit[]" value="'+myObject[i].unit+'">' + myObject[i].unit + '</td>';
                   row += '<td><input type="hidden" name="nomor_po[]" value="'+myObject[i].nomor_po+'"><input type="hidden" name="tgl_kedatangan[]" value="'+myObject[i].tgl_kedatangan+'">' + myObject[i].nomor_po + '</td>';
-                  row += '<td><button type="button" class="btn btn-sm btn-danger btnHapusKeranjang" onclick="hapusBarang('+myObject[i].id+')"><i class="bi bi-trash"></i></button></td>';  
+                  row += '<td><button type="button" class="btn btn-sm btn-danger btnHapusKeranjang" onclick="hapusBarang('+myObject[i].id+')"><i class="bi bi-trash"></i></button></td>';
                   row += '</tr>';
                   tbody_delivery.append(row);
                 }
               }
                 $('#ExtralargeModal').modal('hide');
-                
+
               }
           });
 
@@ -338,7 +271,7 @@
               },
               success: function(response) {
                   var tbody = $('#table_item tbody');
-                  tbody.empty(); 
+                  tbody.empty();
 
                   if(response.data.length == 0)
                   {
@@ -347,7 +280,7 @@
                     row += '</tr>';
                     tbody.append(row);
                   }
-                  
+
                   for (var i = 0; i < response.data.length; i++) {
                       var row = '<tr>';
                       row += '<td><input type="hidden" id="id_barang" value="'+response.data[i].id+'"><input type="hidden" id="user" value="'+response.data[i].user+'">' + (i+1) + '</td>';

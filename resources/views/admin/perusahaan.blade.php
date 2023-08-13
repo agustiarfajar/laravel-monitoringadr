@@ -1,77 +1,9 @@
 @extends('admin.master')
-
-@section('sidebar')
-<aside id="sidebar" class="sidebar">
-
-<ul class="sidebar-nav" id="sidebar-nav">
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="{{ url('admin-dashboard') }}">
-      <i class="bi bi-grid"></i>
-      <span>Dashboard</span>
-    </a>
-  </li><!-- End Dashboard Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-menu-button-wide-fill"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="{{ url('perusahaan') }}" class="active">
-          <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ url('ekspedisi') }}">
-          <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
-        </a>
-      </li>
-    </ul>
-  </li><!-- End Tables Nav -->
-
-  <li class="nav-heading">Menu</li>
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/daftar-barang">
-      <i class="bi bi-box-seam"></i><span>Barang Diterima di HO</span>
-    </a>
-  
-  </li><!-- End Ekspedisi Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="{{ url('adminstatus') }}">
-      <i class="bi bi-ui-checks"></i><span>Pengiriman</span>
-    </a>  
-  </li>
-
-  
-
-  
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/laporan">
-      <i class="bi bi-file-earmark-bar-graph"></i><span>Laporan</span>
-    </a>
-  
-  </li><!-- End Ekspedisi Nav -->
-
-  <li class="nav-heading">Pages</li>
-
-  
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="/">
-      <i class="bi bi-box-arrow-in-right"></i>
-      <span>Logout</span>
-    </a>
-  </li><!-- End Login Page Nav -->
-
-</ul>
-
-</aside>
-@endsection
-
+@section('dashboard', 'collapsed')
+@section('perusahaan', 'active')
+@section('barangHO', 'collapsed')
+@section('pengiriman', 'collapsed')
+@section('laporan', 'collapsed')
 @section('content')
     <div class="pagetitle">
       <h1>Daftar Perusahaan</h1>
@@ -96,14 +28,14 @@
                 </div>
                 <button type="button" onclick="konfirmasiSimpan()" class="btn btn-primary col-md-1"><i class="bi bi-plus-lg"></i></button>
                 </form>
-            </div>  
+            </div>
             </div>
         </div>
 
         <div class="card">
             <div class="card-body">
               <h5 class="card-title">Daftar Perusahaan</h5>
-              
+
               <!-- Daftar Perusahaan -->
               <table class="table table-hover" id="tabel_perusahaan">
                 <thead>
@@ -130,7 +62,7 @@
                   <tr>
                     <td align="center" colspan="3">Tidak ada data</td>
                   </tr>
-                  @endforelse 
+                  @endforelse
                 </tbody>
               </table>
               <!-- End Daftar Perusahaan -->
@@ -147,7 +79,7 @@
           showConfirmButton: false,
           timer: 3000
       });
-      
+
       @if(session()->has('success'))
       Toast.fire({
           icon: 'success',
@@ -159,7 +91,7 @@
           title: '{{Session::get("error")}}'
       })
       @endif
-      
+
       editButton();
   });
 
@@ -216,11 +148,11 @@
                     icon: 'success',
                     title: 'Data berhasil disimpan'
                 })
-    
+
               },
               error: function(xhr, status, error) {
                 console.log(xhr);
-                
+
                 var Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
@@ -232,14 +164,14 @@
                       icon: 'error',
                       title: xhr.responseJSON.error
                   })
-      
+
               }
           });
         } else {
             Swal.fire("Informasi","Data batal disimpan","error");
         }
     });
-    } 
+    }
   }
 
   function konfirmasiHapus(id)
@@ -281,12 +213,12 @@
                     icon: 'success',
                     title: 'Data berhasil dihapus'
                 })
-                
-                
+
+
               },
               error: function(xhr, status, error) {
                 console.log(xhr);
-                
+
                 var Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
@@ -306,7 +238,7 @@
                       title: xhr.responseJSON.error
                   })
                 }
-      
+
               }
           });
         } else {
@@ -360,12 +292,12 @@
                 icon: 'success',
                 title: 'Data berhasil diubah'
             })
-            
-            
+
+
           },
           error: function(xhr, status, error) {
             console.log(xhr);
-            
+
             var Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -377,11 +309,11 @@
                   icon: 'error',
                   title: xhr.responseJSON.error
               })
-  
+
           }
       });
     }
-  } 
+  }
 
   function editButton()
   {
