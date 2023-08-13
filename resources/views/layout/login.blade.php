@@ -52,14 +52,11 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Silahkan Login Ke Akun Anda</h5>
+                    <h5 class="card-title text-center pb-0 fs-4">Silahkan Login Ke Akun Andas</h5>
                     <p class="text-center small">Masukan email dan password untuk Login</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
-
-                    
-                    <form action="/admin-dashboard" method="POST">
+                  <form class="row g-3 needs-validation" method="POST" action="{{ url('prosesLogin') }}" novalidate>
                     @csrf
                     <div class="col-12">
                         <label for="yourEmail" class="form-label">Email</label>
@@ -84,8 +81,6 @@
                     <div class="col-12">
                         <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
-                </form>
-
                   </form>
 
                 </div>
@@ -122,20 +117,19 @@
 </body>
 
 <script>
-    document.querySelector("form").addEventListener("submit", function(event) {
-        event.preventDefault();
+    // document.querySelector("form").addEventListener("submit", function(event) {
+    //     event.preventDefault();
 
-        const email = document.querySelector("#yourEmail").value;
-        const password = document.querySelector("#yourPassword").value;
+    //     const email = document.querySelector("#yourEmail").value;
+    //     const password = document.querySelector("#yourPassword").value;
 
-        if (!email || !password) {
-            alert("Mohon isi semua field terlebih dahulu.");
-            return;
-        }
+    //     if (!email || !password) {
+    //         alert("Mohon isi semua field terlebih dahulu.");
+    //         return;
+    //     }
 
-        this.submit();
-        window.location.href = "/admin-dashboard";
-    });
+    //     this.submit();
+    // });
 </script>
 
 
