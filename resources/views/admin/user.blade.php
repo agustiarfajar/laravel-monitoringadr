@@ -71,15 +71,11 @@
                 </div>
                 <div class="col-md-6">
                     <label for="pass" class="form-label">Password</label>
-                    <input type="password" name="password" id="pass"
-                        class="form-control @error('password') is-invalid
-                    @enderror"
+                    <input type="password" name="password" id="pass" class="form-control"
                         placeholder="Masukkan password" autocomplete="off">
-                    @error('password')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                    <div class="invalid-feedback">
+                        Password harus minimal 8 karakter, mengandung angka, huruf besar, huruf kecil, dan karakter khusus.
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label for="confirm" class="form-label">Konfirmasi Password</label>
@@ -159,15 +155,12 @@
                         </div>
                         <div class="form-group">
                             <label for="Edit" class="form-label">Password</label>
-                            <input type="password" name="password" id="passEdit"
-                                class="form-control @error('password') is-invalid
-                    @enderror"
+                            <input type="password" name="password" id="passEdit" class="form-control"
                                 placeholder="Masukkan password" autocomplete="off">
-                            @error('password')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <div class="invalid-feedback">
+                                Password harus minimal 8 karakter, mengandung angka, huruf besar, huruf kecil, dan karakter
+                                khusus.
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="confirmEdit" class="form-label">Konfirmasi Password</label>
@@ -300,7 +293,15 @@
                 var password = $('#pass').val();
                 var confirm = $('#confirm').val();
                 var confirmInput = $('#confirm');
+                var passwordInput = $('#pass');
 
+                const passwordRegex =
+                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,}$/;
+
+                if (!password.match(passwordRegex)) {
+                    passwordInput.addClass("is-invalid");
+                    return;
+                }
                 if (password !== confirm) {
                     confirmInput.addClass('is-invalid');
                     return;
@@ -313,7 +314,14 @@
                 var password = $('#passEdit').val();
                 var confirm = $('#confirmEdit').val();
                 var confirmInput = $('#confirmEdit');
+                var passwordInput = $('#passEdit');
+                const passwordRegex =
+                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,}$/;
 
+                if (!password.match(passwordRegex)) {
+                    passwordInput.addClass("is-invalid");
+                    return;
+                }
                 if (password !== confirm) {
                     confirmInput.addClass('is-invalid');
                     return;
