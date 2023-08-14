@@ -85,7 +85,7 @@
         @can('barangHO')
             <li class="nav-item">
                 <a class="nav-link @yield('barangHO')" href="/daftar-barang">
-                    <i class="bi bi-box-seam"></i><span>Barang Diterima di HO</span>
+                    <i class="bi bi-box-fill"></i><span>Barang Diterima di HO</span>
                 </a>
 
             </li><!-- End Ekspedisi Nav -->

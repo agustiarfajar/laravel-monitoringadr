@@ -125,7 +125,7 @@
 
                         <div class="d-flex align-items-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-box-seam"></i>
+                                <i class="bi bi-box-fill"></i>
                             </div>
                             <div class="ps-3 sisaBarangHo">
                                 <h6>{{ $sisaBarang }}</h6>
