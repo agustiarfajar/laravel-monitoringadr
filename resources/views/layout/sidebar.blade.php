@@ -15,7 +15,7 @@
                 <i class="bi bi-menu-button-wide-fill"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="tables-nav" class="nav-content @yield('submaster')" data-bs-parent="#sidebar-nav">
-                @can('dashboard')
+                @can('perusahaan')
                     <li>
                         <a href="{{ url('perusahaan') }}" class="@yield('perusahaan')">
                             <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
