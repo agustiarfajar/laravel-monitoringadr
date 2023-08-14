@@ -84,7 +84,7 @@
                               @endif
                             </td>
                             <td>
-                              <button type="button" class="btn btn-primary btn-sm btnEdit {{ ($countDetail > 0) ? 'disabled' : '' }}" data-id="{{ $row->id }}"><i class="bi bi-pencil"></i></button>
+                              <button type="button" class="btn btn-primary btn-sm btnEdit {{ ($jml_detail_ho > 0) ? 'disabled' : '' }}" data-id="{{ $row->id }}"><i class="bi bi-pencil"></i></button>
                               <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="{{ $row->id }}" onclick="konfirmasiHapus({{ $row->id }})"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
