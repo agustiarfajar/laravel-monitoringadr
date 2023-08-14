@@ -127,6 +127,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/saveRole', [RoleController::class, 'save_role']);
     Route::post('/updateRole/{id}', [RoleController::class, 'update_role']);
     Route::delete('/deleteRole/{id}', [RoleController::class, 'delete_role']);
+    Route::get('/checkNameRole/{name}', [RoleController::class, 'checkNameRole']);
     Route::get('/getRole/json/{id}', [RoleController::class, 'getRoleByJson']);
     Route::get('/getCountUser/json/{id}', [RoleController::class, 'getCountUser']);
 });

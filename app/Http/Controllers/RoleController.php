@@ -47,6 +47,26 @@ class RoleController extends Controller
         ];
         return response()->json($data, 200);
     }
+    public function checkNameRole($name){
+        $checkId = !empty($_GET['id']);
+        if ($checkId) {
+            $role = Role::where('name', $name)->where('id','!=',$_GET['id'])->count();
+        }else{
+            $role = Role::where('name', $name)->count();
+        }
+
+        if ($role != 0) {
+            $msg = [
+                'name' => true
+            ];
+            return response()->json($msg, 200);
+        }else{
+            $msg = [
+                'name' => false
+            ];
+            return response()->json($msg, 200);
+        }
+    }
     public function getCountUser($id)
     {
         $role = Role::findOrFail($id);
