@@ -10,43 +10,78 @@
                 </a>
             </li><!-- End Dashboard Nav -->
         @endcan
-        <li class="nav-item">
-            <a class="nav-link @yield('master')" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide-fill"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="tables-nav" class="nav-content @yield('submaster')" data-bs-parent="#sidebar-nav">
-                @can('perusahaan')
-                    <li>
-                        <a href="{{ url('perusahaan') }}" class="@yield('perusahaan')">
-                            <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
-                        </a>
-                    </li>
-                @endcan
-                @can('ekspedisi')
-                    <li>
-                        <a href="{{ url('ekspedisi') }}" class="@yield('ekspedisi')">
-                            <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
-                        </a>
-                    </li>
-                @endcan
-                @can('user')
-                    <li>
-                        <a href="{{ url('/user-access') }}" class="@yield('user')">
-                            <i class="bi bi-circle-fill"></i><span>User</span>
-                        </a>
-                    </li>
-                @endcan
-                @can('role')
-                    <li>
-                        <a href="{{ url('/role-access') }}" class="@yield('role')">
-                            <i class="bi bi-circle-fill"></i><span>Role</span>
-                        </a>
-                    </li>
-                @endcan
-            </ul>
-        </li><!-- End Tables Nav -->
-
-        <li class="nav-heading">Menu</li>
+        @if (auth()->check())
+            @php
+                $user = auth()->user();
+                $permissions = $user->getAllPermissions();
+                $listPermission = [];
+            @endphp
+            @foreach ($permissions as $permission)
+                @php
+                    array_push($listPermission, $permission->name);
+                @endphp
+            @endforeach
+            @php
+                $master = ['perusahaan', 'ekspedisi', 'user', 'role'];
+                $menu = ['barangHO', 'pengiriman', 'laporan'];
+                $countPermissionMaster = 0;
+                $countPermissionMenu = 0;
+            @endphp
+            @foreach ($listPermission as $item)
+                @if (in_array($item, $master))
+                    @php
+                        $countPermissionMaster = $countPermissionMaster + 1;
+                    @endphp
+                @endif
+                @if (in_array($item, $menu))
+                    @php
+                        $countPermissionMenu = $countPermissionMenu + 1;
+                    @endphp
+                @endif
+            @endforeach
+        @endif
+        @if ($countPermissionMaster != 0)
+            <li class="nav-item">
+                <a class="nav-link @yield('master')" data-bs-target="#tables-nav" data-bs-toggle="collapse"
+                    href="#">
+                    <i class="bi bi-menu-button-wide-fill"></i><span>Master</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="tables-nav" class="nav-content @yield('submaster')" data-bs-parent="#sidebar-nav">
+                    @can('perusahaan')
+                        <li>
+                            <a href="{{ url('perusahaan') }}" class="@yield('perusahaan')">
+                                <i class="bi bi-circle-fill"></i><span>Perusahaan</span>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('ekspedisi')
+                        <li>
+                            <a href="{{ url('ekspedisi') }}" class="@yield('ekspedisi')">
+                                <i class="bi bi-circle-fill"></i><span>Ekspedisi</span>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('user')
+                        <li>
+                            <a href="{{ url('/user-access') }}" class="@yield('user')">
+                                <i class="bi bi-circle-fill"></i><span>User</span>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('role')
+                        <li>
+                            <a href="{{ url('/role-access') }}" class="@yield('role')">
+                                <i class="bi bi-circle-fill"></i><span>Role</span>
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li><!-- End Tables Nav -->
+        @endif
+        @if ($countPermissionMenu != 0)
+            <li class="nav-heading">Menu</li>
+        @endif
         @can('barangHO')
             <li class="nav-item">
                 <a class="nav-link @yield('barangHO')" href="/daftar-barang">

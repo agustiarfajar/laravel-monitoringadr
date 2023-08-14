@@ -50,6 +50,9 @@
                     <label for="role" class="form-label">Role</label>
                     <input type="text" name="name" id="role" class="form-control" placeholder="Masukkan role"
                         autocomplete="off">
+                    <div class="invalid-feedback">
+                        Nama role sudah digunakan
+                    </div>
                 </div>
 
                 <div class="col-md-6">
@@ -78,7 +81,7 @@
 
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
+                    <button type="button" class="btn btn-primary" id="btnSubmitCreate">Submit</button>
                 </div>
 
             </form>
@@ -100,9 +103,12 @@
                         <!-- Elemen-elemen form Anda -->
                         @csrf
                         <div class="form-group">
-                            <label for="role" class="form-label">Role</label>
+                            <label for="roleEdit" class="form-label">Role</label>
                             <input type="text" name="name" id="roleEdit" class="form-control"
                                 placeholder="Masukkan role" autocomplete="off">
+                            <div class="invalid-feedback">
+                                Nama role sudah digunakan
+                            </div>
                         </div>
                         <div class="form-group formHakAkses">
                             <label for="role" class="form-label">Hak Akses</label>
@@ -111,7 +117,7 @@
                             @endphp
                         </div>
                         <div class="text-right">
-                            <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
+                            <button type="button" class="btn btn-primary" id="btnSubmitEdit">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -210,6 +216,7 @@
                 $('#roleEdit').val(role);
                 $('#ubahForm').attr('action', 'updateRole/' + id)
                 $('#modalEdit').modal('show');
+                $('#roleEdit').removeClass('is-invalid');
 
                 $.ajax({
                     url: '/getRole/json/' +
@@ -244,6 +251,36 @@
                         console.error(error);
                     }
                 });
+                $('#btnSubmitEdit').on('click', function() {
+                    var selectedPermissions = $('input[name="permission[]"]:checked').length;
+                    var role = $('#roleEdit').val();
+                    var roleInput = $('#roleEdit');
+                    $.ajax({
+                        url: '/checkNameRole/' + role + '?id=' + id,
+                        type: 'GET',
+                        success: function(data) {
+                            if (data.name) {
+                                roleInput.addClass('is-invalid');
+                                return;
+                            } else {
+                                roleInput.removeClass(
+                                    'is-invalid'
+                                    ); // Hapus is-invalid jika nama peran tidak ada masalah
+                                if (selectedPermissions === 0) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Pilih setidaknya satu hak akses.!'
+                                    })
+                                    return false; // Mencegah formulir disubmit
+                                }
+
+                                // Jika konfirmasi password sesuai, submit formulir
+                                $('#ubahForm').submit();
+                            }
+                        }
+                    })
+                });
             })
             $('.btnHapus').on('click', function() {
                 var id = $(this).data('id');
@@ -272,7 +309,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Ya</button>
-                    <button type="button" class="btn btn-secondary mr-3" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-secondary mr-3" data-bs-dismiss="modal" aria-label="Close">Batal</button>
                 </form>
             </div>
         `;
@@ -289,6 +326,36 @@
                 });
             })
         });
+        $('#btnSubmitCreate').on('click', function() {
+            var selectedPermissions = $('input[name="permission[]"]:checked').length;
+            var role = $('#role').val();
+            var roleInput = $('#role');
+            $.ajax({
+                url: '/checkNameRole/' + role,
+                type: 'GET',
+                success: function(data) {
+                    if (data.name) {
+                        roleInput.addClass('is-invalid');
+                        return;
+                    } else {
+                        roleInput.removeClass(
+                            'is-invalid'); // Hapus is-invalid jika nama peran tidak ada masalah
+                        if (selectedPermissions === 0) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Pilih setidaknya satu hak akses.!'
+                            })
+                            return false; // Mencegah formulir disubmit
+                        }
+
+                        // Jika konfirmasi password sesuai, submit formulir
+                        $('#tambahForm').submit();
+                    }
+                }
+            })
+        });
+
         var tambahButton = document.getElementById("tambahButton");
         var tambahForm = document.getElementById("tambahForm");
         var icon = document.querySelector("#tambahButton i"); // Memilih elemen <i> dalam tombol
