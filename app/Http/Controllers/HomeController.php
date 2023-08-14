@@ -39,11 +39,8 @@ class HomeController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect('admin-dashboard');
-            // dd(auth()->check());
+            return redirect('/');
         }
-
-        dd('gagal');
     }
     public function faq()
     {

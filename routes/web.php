@@ -27,7 +27,31 @@ use App\Http\Controllers\RoleController;
 
 //Route::get('/', [HomeController::class, 'main']);
 Route::get('/', function () {
-    return redirect('/admin-dashboard');
+    if (auth()->user()->can('dashboard')) {
+        return redirect('/admin-dashboard');
+    }
+    if (auth()->user()->can('perusahaan')) {
+        return redirect('/perusahaan');
+    }
+    if (auth()->user()->can('ekspedisi')) {
+        return redirect('/ekspedisi');
+    }
+    if (auth()->user()->can('user')) {
+        return redirect('/user-access');
+    }
+    if (auth()->user()->can('role')) {
+        return redirect('/role-access');
+    }
+    if (auth()->user()->can('barangHO')) {
+        return redirect('/daftar-barang');
+    }
+    if (auth()->user()->can('pengiriman')) {
+        return redirect('/adminstatus');
+    }
+    if (auth()->user()->can('laporan')) {
+        return redirect('/laporan');
+    }
+    // return redirect('/admin-dashboard');
 })->middleware('auth');
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::post('/logout', [HomeController::class, 'logout'])->name('logout');
