@@ -52,7 +52,7 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Silahkan Login Ke Akun Andas</h5>
+                    <h5 class="card-title text-center pb-0 fs-4">Silahkan Login Ke Akun Anda</h5>
                     <p class="text-center small">Masukan email dan password untuk Login</p>
                   </div>
 
