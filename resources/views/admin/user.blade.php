@@ -384,7 +384,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Ya</button>
-                    <button type="button" class="btn btn-secondary mr-3" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-secondary mr-3" data-bs-dismiss="modal" aria-label="Close">Batal</button>
                 </form>
             </div>
         `;
