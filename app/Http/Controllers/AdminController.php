@@ -55,6 +55,7 @@ class AdminController extends Controller
             ->whereYear('tgl_kedatangan', Carbon::now()->year)
             ->get();
         $sisaBarang = DB::table('barang')
+            ->where('is_deleted', 0)
             ->whereMonth('tgl_kedatangan', '=', $date)
             ->whereYear('tgl_kedatangan', Carbon::now()->year)
             ->sum('jumlah');
@@ -117,6 +118,7 @@ class AdminController extends Controller
             ->join('barang as b', 'a.id_barang', '=', 'b.id')
             ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
             ->where('c.status', '!=', 'dibatalkan')
+            ->where('b.is_deleted', false)
             ->whereMonth('a.tgl_kedatangan', Carbon::now()->month)
             ->whereYear('a.tgl_kedatangan', Carbon::now()->year)
             ->sum('a.jumlah');
@@ -139,11 +141,13 @@ class AdminController extends Controller
         $stok_ho = DB::table('barang')
             ->whereMonth('tgl_kedatangan', Carbon::now()->month)
             ->whereYear('tgl_kedatangan', Carbon::now()->year)
+            ->where('is_deleted', false)
             ->sum('jumlah');
         $jml_brg_ho = DB::table('pengiriman_ho_detail as a')
             ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
             ->join('barang as c', 'a.id_barang', '=', 'c.id')
             ->where('b.status', '!=', 'dibatalkan')
+            ->where('c.is_deleted', false)
             ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
             ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
             ->sum('a.jumlah');
@@ -154,6 +158,7 @@ class AdminController extends Controller
         $limaHariLalu = Carbon::now()->subDays(5);
 
         $countBarangAging = DB::table('barang')
+            ->where('is_deleted', false)
             ->where('tgl_kedatangan', '<', $limaHariLalu)
             ->whereMonth('tgl_kedatangan', Carbon::now()->month)
             ->whereYear('tgl_kedatangan', Carbon::now()->year)
@@ -244,6 +249,7 @@ class AdminController extends Controller
         if ($periode == 'today') {
             $date = NOW();
             $data = DB::table('barang')
+                ->where('is_deleted', false)
                 ->whereDate('tgl_kedatangan', $date)
                 ->whereMonth('tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('tgl_kedatangan', Carbon::now()->year)
@@ -251,12 +257,14 @@ class AdminController extends Controller
         } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $data = DB::table('barang')
+                ->where('is_deleted', false)
                 ->whereMonth('tgl_kedatangan', $date)
                 ->whereYear('tgl_kedatangan', Carbon::now()->year)
                 ->sum('jumlah');
         } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $data = DB::table('barang')
+                ->where('is_deleted', false)
                 ->whereYear('tgl_kedatangan', $date)
                 ->sum('jumlah');
         }
@@ -271,6 +279,7 @@ class AdminController extends Controller
         if ($periode == 'today') {
             $date = NOW();
             $stok_ho = DB::table('barang')
+                ->where('is_deleted', false)
                 ->whereDate('tgl_kedatangan', $date)
                 ->whereMonth('tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('tgl_kedatangan', Carbon::now()->year)
@@ -280,6 +289,7 @@ class AdminController extends Controller
                 ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
                 ->join('barang as c', 'a.id_barang', '=', 'c.id')
                 ->where('b.status', '!=', 'dibatalkan')
+                ->where('c.is_deleted', false)
                 ->whereDate('c.tgl_kedatangan', $date)
                 ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
@@ -289,6 +299,7 @@ class AdminController extends Controller
         } else if ($periode == 'month') {
             $date = Carbon::now()->month;
             $stok_ho = DB::table('barang')
+                ->where('is_deleted', false)
                 ->whereMonth('tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('tgl_kedatangan', Carbon::now()->year)
                 ->sum('jumlah');
@@ -296,6 +307,7 @@ class AdminController extends Controller
                 ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
                 ->join('barang as c', 'a.id_barang', '=', 'c.id')
                 ->where('b.status', '!=', 'dibatalkan')
+                ->where('c.is_deleted', false)
                 ->whereMonth('c.tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
                 ->sum('a.jumlah');
@@ -304,12 +316,14 @@ class AdminController extends Controller
         } else if ($periode == 'year') {
             $date = Carbon::now()->year;
             $stok_ho = DB::table('barang')
+                ->where('is_deleted', false)
                 ->whereYear('tgl_kedatangan', Carbon::now()->year)
                 ->sum('jumlah');
             $jml_brg_ho = DB::table('pengiriman_ho_detail as a')
                 ->join('pengiriman_ho as b', 'a.no_faktur', '=', 'b.no_faktur')
                 ->join('barang as c', 'a.id_barang', '=', 'c.id')
                 ->where('b.status', '!=', 'dibatalkan')
+                ->where('c.is_deleted', false)
                 ->whereYear('c.tgl_kedatangan', Carbon::now()->year)
                 ->sum('a.jumlah');
 
@@ -329,6 +343,7 @@ class AdminController extends Controller
                 ->join('barang as b', 'a.id_barang', '=', 'b.id')
                 ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->where('c.status', '!=', 'dibatalkan')
+                ->where('b.is_deleted', false)
                 ->whereDate('a.tgl_kedatangan', $date)
                 ->whereMonth('a.tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('a.tgl_kedatangan', Carbon::now()->year)
@@ -339,6 +354,7 @@ class AdminController extends Controller
                 ->join('barang as b', 'a.id_barang', '=', 'b.id')
                 ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->where('c.status', '!=', 'dibatalkan')
+                ->where('b.is_deleted', false)
                 ->whereMonth('a.tgl_kedatangan', Carbon::now()->month)
                 ->whereYear('a.tgl_kedatangan', Carbon::now()->year)
                 ->sum('a.jumlah');
@@ -348,6 +364,7 @@ class AdminController extends Controller
                 ->join('barang as b', 'a.id_barang', '=', 'b.id')
                 ->join('pengiriman_ho as c', 'a.no_faktur', '=', 'c.no_faktur')
                 ->where('c.status', '!=', 'dibatalkan')
+                ->where('b.is_deleted', false)
                 ->whereYear('a.tgl_kedatangan', $date)
                 ->sum('a.jumlah');
         }
@@ -428,6 +445,7 @@ class AdminController extends Controller
             $limaHariLalu = Carbon::now()->subDays(5);
 
             $data = DB::table('barang')
+                ->where('is_deleted', false)
                 ->where('tgl_kedatangan', '<', $limaHariLalu)
                 ->whereDate('tgl_kedatangan', $date)
                 ->whereMonth('tgl_kedatangan', Carbon::now()->month)
@@ -439,6 +457,7 @@ class AdminController extends Controller
             $limaHariLalu = Carbon::now()->subDays(5);
 
             $data = DB::table('barang')
+                ->where('is_deleted', false)
                 ->where('tgl_kedatangan', '<', $limaHariLalu)
                 ->whereMonth('tgl_kedatangan', $date)
                 ->whereYear('tgl_kedatangan', Carbon::now()->year)
@@ -450,6 +469,7 @@ class AdminController extends Controller
             $limaHariLalu = Carbon::now()->subDays(5);
 
             $data = DB::table('barang')
+                ->where('is_deleted', false)
                 ->where('tgl_kedatangan', '<', $limaHariLalu)
                 ->whereYear('tgl_kedatangan', $date)
                 ->sum('jumlah');
@@ -856,7 +876,7 @@ class AdminController extends Controller
             ->join('ms_perusahaan as b', 'a.id_perusahaan', '=', 'b.id')
             ->select('a.*', 'b.perusahaan')
             ->orderBy('a.tgl_kedatangan', 'DESC')
-            ->where('a.is_deleted',false)
+            ->where('a.is_deleted', false)
             ->get();
 
         return view('admin.item', compact('barang'));
@@ -922,7 +942,7 @@ class AdminController extends Controller
         if ($cek) {
             try {
                 Barang::where('id', $id)->update([
-                    'is_deleted' =>true
+                    'is_deleted' => true
                 ]);
             } catch (\Exception $e) {
                 // Validation failed, handle the error
@@ -1267,7 +1287,7 @@ class AdminController extends Controller
                 ->orderBy('a.tgl_kedatangan', 'DESC')
                 // ->where('a.tgl_kedatangan', '<=', $thresholdDate)
                 ->where('a.jumlah', '!=', 0)
-                ->where('a.is_deleted',false);
+                ->where('a.is_deleted', false);
 
             if (!empty($tgl_mulai) && !empty($tgl_selesai)) {
                 $query->whereBetween('a.tgl_kedatangan', [$tgl_mulai, $tgl_selesai]);
@@ -1379,7 +1399,7 @@ class AdminController extends Controller
                 ->orderBy('a.tgl_kedatangan', 'DESC')
                 // ->where('a.tgl_kedatangan', '<=', $thresholdDate);
                 ->where('a.jumlah', '!=', 0)
-                ->where('a.is_deleted',false);
+                ->where('a.is_deleted', false);
 
             if (!empty($tgl_mulai) && !empty($tgl_selesai)) {
                 $query->whereBetween('a.tgl_kedatangan', [$tgl_mulai, $tgl_selesai]);
