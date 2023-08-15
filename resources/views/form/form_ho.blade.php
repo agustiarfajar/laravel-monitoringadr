@@ -34,7 +34,7 @@
 
               <div class="col-md-6">
                 <label for="pic" class="form-label">PIC Perusahaan</label>
-                <input type="text" class="form-control" list="dataOptions" id="pic" name="pic" placeholder="Nama penerima">
+                <input type="text" class="form-control" list="dataOptions" id="pic" name="pic" placeholder="Nama Penerima">
                 <datalist id="dataOptions">
                     <option value="R. Basuki">
                     <option value="Wasis">

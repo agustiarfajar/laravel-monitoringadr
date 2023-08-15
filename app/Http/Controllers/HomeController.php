@@ -29,13 +29,14 @@ class HomeController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-
+    
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
             return redirect('/');
+        } else {
+            return redirect()->route('login')->with('error', 'Email atau kata sandi salah.');
         }
-    }
+    }    
 
     public function faq()
     {

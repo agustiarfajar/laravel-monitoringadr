@@ -62,7 +62,7 @@
                     <input type="text" name="email" id="email"
                         class="form-control @error('email') is-invalid
                     @enderror"
-                        placeholder="Masukkan email" autocomplete="off">
+                        placeholder="Masukkan Email" autocomplete="off">
                     @error('email')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -72,14 +72,14 @@
                 <div class="col-md-6">
                     <label for="pass" class="form-label">Password</label>
                     <input type="password" name="password" id="pass" class="form-control"
-                        placeholder="Masukkan password" autocomplete="off">
+                        placeholder="Masukkan Password" autocomplete="off">
                     <div class="invalid-feedback">
                         Minimal 8 karakter, mengandung angka, dan huruf kecil.
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="confirm" class="form-label">Konfirmasi Password</label>
-                    <input type="password" name="confirm" id="confirm" class="form-control" placeholder="Ulangi password"
+                    <input type="password" name="confirm" id="confirm" class="form-control" placeholder="Ulangi Password"
                         autocomplete="off">
                     <div class="invalid-feedback">
                         Konfirmasi password tidak sesuai dengan password.
@@ -146,7 +146,7 @@
                             <input type="text" name="email" id="emailEdit"
                                 class="form-control @error('email') is-invalid
                     @enderror"
-                                placeholder="Masukkan email" autocomplete="off">
+                                placeholder="Masukkan Email" autocomplete="off">
                             @error('email')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -156,7 +156,7 @@
                         <div class="form-group">
                             <label for="Edit" class="form-label">Password</label>
                             <input type="password" name="password" id="passEdit" class="form-control"
-                                placeholder="Masukkan password" autocomplete="off">
+                                placeholder="Masukkan Password" autocomplete="off">
                             <div class="invalid-feedback">
                                 Minimal 8 karakter, mengandung angka, dan huruf kecil.
                             </div>
@@ -164,7 +164,7 @@
                         <div class="form-group">
                             <label for="confirmEdit" class="form-label">Konfirmasi Password</label>
                             <input type="password" name="confirm" id="confirmEdit" class="form-control"
-                                placeholder="Ulangi password" autocomplete="off">
+                                placeholder="Ulangi Password" autocomplete="off">
                             <div class="invalid-feedback">
                                 Konfirmasi password tidak sesuai dengan password.
                             </div>

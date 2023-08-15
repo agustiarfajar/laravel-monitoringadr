@@ -56,6 +56,12 @@
                     <p class="text-center small">Masukan email dan password untuk Login</p>
                   </div>
 
+                  @if(session('error'))
+                  <div class="alert alert-danger">
+                      {{ session('error') }}
+                  </div>
+                  @endif
+
                   <form class="row g-3 needs-validation" method="POST" action="{{ url('prosesLogin') }}" novalidate>
                     @csrf
                     <div class="col-12">
@@ -71,13 +77,8 @@
                         <input type="password" name="password" class="form-control" id="yourPassword" required>
                         <div class="invalid-feedback">Masukan Password</div>
                     </div>
-
-                    <div class="col-12">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-                            <label class="form-check-label" for="rememberMe">Ingat Saya</label>
-                        </div>
-                    </div>
+                    
+                  
                     <div class="col-12">
                         <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
@@ -85,6 +86,8 @@
 
                 </div>
               </div>
+
+              
 
               <div class="credits">
                 Designed by <a>Tim Magang ADR</a>
