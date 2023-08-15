@@ -7,15 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function main()
-    {
-        return view('layout.home');
-    }
 
     public function login()
     {
         return view('layout.login');
     }
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -26,10 +23,7 @@ class HomeController extends Controller
 
         return redirect('/login');
     }
-    public function regist()
-    {
-        return view('layout.register');
-    }
+
     public function prosesLogin(Request $request){
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -42,28 +36,10 @@ class HomeController extends Controller
             return redirect('/');
         }
     }
+
     public function faq()
     {
         return view('layout.faq');
     }
 
-    public function userfaq()
-    {
-        return view('user.faq');
-    }
-
-    public function dashboard()
-    {
-        return view('user.dashboard');
-    }
-
-    public function status()
-    {
-        return view('user.status');
-    }
-
-    public function detail()
-    {
-        return view('user.detail');
-    }
 }

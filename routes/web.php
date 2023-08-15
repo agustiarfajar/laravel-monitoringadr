@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FormController;
-use App\Http\Controllers\DataController;
 use App\Http\Controllers\PrintController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
@@ -20,12 +19,6 @@ use App\Http\Controllers\RoleController;
 |
 */
 
-#Route::get('/', function () {
-#    return view('user.status');
-#});
-
-
-//Route::get('/', [HomeController::class, 'main']);
 Route::get('/', function () {
     if (auth()->user()->can('dashboard')) {
         return redirect('/admin-dashboard');
@@ -51,21 +44,18 @@ Route::get('/', function () {
     if (auth()->user()->can('laporan')) {
         return redirect('/laporan');
     }
-    // return redirect('/admin-dashboard');
+
 })->middleware('auth');
+
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::post('/logout', [HomeController::class, 'logout'])->name('logout');
 Route::post('/prosesLogin', [HomeController::class, 'prosesLogin']);
 Route::get('/register', [HomeController::class, 'regist']);
 Route::get('/faq', [HomeController::class, 'faq']);
 
-Route::get('/dashboard', [HomeController::class, 'dashboard']);
-Route::get('/status-pengiriman', [HomeController::class, 'status']);
-Route::get('/userfaq', [HomeController::class, 'userfaq']);
-
 Route::middleware(['auth'])->group(function () {
-    // Rute-rute yang memerlukan otentikasi
 
+    // Rute-rute yang memerlukan otentikasi
     Route::get('/admin-dashboard', [AdminController::class, 'dashboard']);
     Route::get('/adminstatus', [AdminController::class, 'adminstatus']);
     Route::post('/filter-pengiriman', [AdminController::class, 'filter_pengiriman']);
@@ -89,8 +79,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/delete-data/{id}', [FormController::class, 'deleteData'])->name('data.delete');
 
-    Route::get('/data', [DataController::class, 'index'])->name('data.index');
-
+    // Barang diterima di HO
     Route::get('/tambahitem', [AdminController::class, 'additem']);
     Route::post('/simpan-item', [AdminController::class, 'simpan_item']);
     Route::get('/edit-item/{id}', [AdminController::class, 'edit_item']);
@@ -106,11 +95,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-status/kirim/{id}', [AdminController::class, 'update_status_kirim']);
     Route::post('/update-status/terima/{id}', [AdminController::class, 'update_status_terima']);
     Route::post('/update-status/batal/{id}', [AdminController::class, 'update_status_batal_pemasok']);
+
     // Update status pengiriman HO
     Route::post('/update-status-ho/kirim/{id}', [AdminController::class, 'update_status_kirim_ho']);
     Route::post('/update-status-ho/terima/{id}', [AdminController::class, 'update_status_terima_ho']);
     Route::post('/update-status-ho/batal/{id}', [AdminController::class, 'update_status_batal_ho']);
-    //Route::post('/post', [FormController::class, 'post'])->name('admin.status');
+    // Route::post('/post', [FormController::class, 'post'])->name('admin.status');
 
     // Perusahaan
     Route::get('/perusahaan', [AdminController::class, 'view_perusahaan']);
@@ -136,17 +126,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/chart-update/periode', [AdminController::class, 'update_chart_periode']);
     Route::post('/chart-pengiriman-update/periode', [AdminController::class, 'update_chart_pengiriman_periode']);
 
+    // Print
     Route::get('/print/{id}', [PrintController::class, 'print']);
     Route::get('/printho/{id}', [PrintController::class, 'print_ho']);
 
-    //User
+    // User
     Route::get('/user-access', [UserController::class, 'view_user']);
     Route::get('/getUserDetailJson/{id}', [UserController::class, 'getUserDetailJson']);
     Route::post('/createUsers', [UserController::class, 'create_user']);
     Route::post('/updateUsers/{id}', [UserController::class, 'update_user']);
     Route::delete('/deleteUsers/{id}', [UserController::class, 'delete_user']);
 
-    //Role
+    // Role
     Route::get('/role-access', [RoleController::class, 'view_role']);
     Route::post('/saveRole', [RoleController::class, 'save_role']);
     Route::post('/updateRole/{id}', [RoleController::class, 'update_role']);

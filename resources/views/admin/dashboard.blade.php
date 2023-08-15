@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <!-- Sales Card -->
+            <!-- Barang Keluar Card -->
             <div class="col-xxl-3 col-md-3">
                 <div class="card info-card letter-card">
 
@@ -95,11 +95,11 @@
                     </div>
 
                 </div>
-            </div><!-- End Sales Card -->
+            </div><!-- End Barang Keluar Card -->
 
 
 
-            <!-- Sales Card -->
+            <!-- Sisa Barang Card -->
             <div class="col-xxl-3 col-md-3">
                 <div class="card info-card sales-card">
 
@@ -136,13 +136,13 @@
                     </div>
 
                 </div>
-            </div><!-- End Sales Card -->
+            </div><!-- End Sisa Barang Card -->
 
 
 
 
 
-            <!-- Customers Card -->
+            <!-- Barang Aging Card -->
             <div class="col-xxl-3 col-md-3">
 
                 <div class="card info-card void-card">
@@ -182,7 +182,7 @@
                     </div>
                 </div>
 
-            </div><!-- End Customers Card -->
+            </div><!-- End Barang Aging Card -->
 
             <div class="pagetitle">
                 <br>
@@ -194,7 +194,7 @@
             </div>
             <!-- End Page Title -->
 
-            <!-- Sales Card -->
+            <!-- Surat Pengiriman Card -->
             <div class="col-xxl-3 col-md-3">
                 <div class="card info-card sales-card">
 
@@ -232,9 +232,9 @@
                     </div>
 
                 </div>
-            </div><!-- End Sales Card -->
+            </div><!-- End Surat Pengiriman Card -->
 
-            <!-- Customers Card -->
+            <!-- Diproses Card -->
             <div class="col-xxl-3 col-md-3">
 
                 <div class="card info-card acc-card">
@@ -274,9 +274,9 @@
                     </div>
                 </div>
 
-            </div><!-- End Customers Card -->
+            </div><!-- End Diproses Card -->
 
-            <!-- Customers Card -->
+            <!-- Dikirim Card -->
             <div class="col-xxl-3 col-md-3">
 
                 <div class="card info-card letter-card">
@@ -316,9 +316,9 @@
                     </div>
                 </div>
 
-            </div><!-- End Customers Card -->
+            </div><!-- End Dikirim Card -->
 
-            <!-- Void Card -->
+            <!-- Diterima Card -->
             <div class="col-xxl-3 col-md-3">
                 <div class="card info-card confirm-card">
 
@@ -356,11 +356,11 @@
                     </div>
 
                 </div>
-            </div><!-- End Revenue Card -->
+            </div><!-- End Diterima Card -->
 
 
 
-            <!-- Website Traffic >
+            <!-- Surat Pengiriman Chart >
               <div class="col-xxl-12 col-md-12">
                 <div class="card">
                   <div class="filter">
@@ -382,8 +382,9 @@
 
                   </div>
                 </div>
-              </div><-- End Website Traffic -->
+              </div><-- End Surat Pengiriman Chart Traffic -->
 
+            <!-- Pengiriman Perusahaan Chart -->
             <div class="col-xxl-12 col-md-12">
                 <div class="card">
                     <div class="filter">
@@ -412,7 +413,7 @@
 
                     </div>
                 </div>
-            </div><!-- End Pie Chart -->
+            </div><!-- End Pengiriman Perusahaan Chart -->
 
         </div>
     </section>
@@ -613,7 +614,7 @@
         })
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Chart surat
+            // Chart Surat Pengiriman
             //echarts.init(document.querySelector("#trafficChart")).setOption({
             //  tooltip: {
             //    trigger: 'item'
@@ -657,7 +658,7 @@
             //  }]
             //});
 
-            // Chart pengiriman
+            // Chart Pengiriman Perusahaan
             var labels = @json($labelPerusahaan);
             var data = @json($dataPerusahaan);
             echarts.init(document.querySelector("#pieChart")).setOption({
