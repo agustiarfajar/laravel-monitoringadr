@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FormController;
-use App\Http\Controllers\DataController;
 use App\Http\Controllers\PrintController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
@@ -20,12 +19,6 @@ use App\Http\Controllers\RoleController;
 |
 */
 
-#Route::get('/', function () {
-#    return view('user.status');
-#});
-
-
-//Route::get('/', [HomeController::class, 'main']);
 Route::get('/', function () {
     if (auth()->user()->can('dashboard')) {
         return redirect('/admin-dashboard');
@@ -51,7 +44,7 @@ Route::get('/', function () {
     if (auth()->user()->can('laporan')) {
         return redirect('/laporan');
     }
-    // return redirect('/admin-dashboard');
+
 })->middleware('auth');
 Route::get('/no-access',function(){
     return view('admin.403');
@@ -61,10 +54,6 @@ Route::post('/logout', [HomeController::class, 'logout'])->name('logout');
 Route::post('/prosesLogin', [HomeController::class, 'prosesLogin']);
 Route::get('/register', [HomeController::class, 'regist']);
 Route::get('/faq', [HomeController::class, 'faq']);
-
-Route::get('/dashboard', [HomeController::class, 'dashboard']);
-Route::get('/status-pengiriman', [HomeController::class, 'status']);
-Route::get('/userfaq', [HomeController::class, 'userfaq']);
 
 Route::middleware(['auth'])->group(function () {
     // Rute-rute yang memerlukan otentikasi
@@ -168,10 +157,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-status/kirim/{id}', [AdminController::class, 'update_status_kirim']);
     Route::post('/update-status/terima/{id}', [AdminController::class, 'update_status_terima']);
     Route::post('/update-status/batal/{id}', [AdminController::class, 'update_status_batal_pemasok']);
+
     // Update status pengiriman HO
     Route::post('/update-status-ho/kirim/{id}', [AdminController::class, 'update_status_kirim_ho']);
     Route::post('/update-status-ho/terima/{id}', [AdminController::class, 'update_status_terima_ho']);
     Route::post('/update-status-ho/batal/{id}', [AdminController::class, 'update_status_batal_ho']);
-    //Route::post('/post', [FormController::class, 'post'])->name('admin.status');
+    // Route::post('/post', [FormController::class, 'post'])->name('admin.status');
 
 });

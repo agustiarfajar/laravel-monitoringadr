@@ -74,7 +74,7 @@
                     <input type="password" name="password" id="pass" class="form-control"
                         placeholder="Masukkan password" autocomplete="off">
                     <div class="invalid-feedback">
-                        Password harus minimal 8 karakter, mengandung angka, huruf besar, huruf kecil, dan karakter khusus.
+                        Minimal 8 karakter, mengandung angka, dan huruf kecil.
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -158,8 +158,7 @@
                             <input type="password" name="password" id="passEdit" class="form-control"
                                 placeholder="Masukkan password" autocomplete="off">
                             <div class="invalid-feedback">
-                                Password harus minimal 8 karakter, mengandung angka, huruf besar, huruf kecil, dan karakter
-                                khusus.
+                                Minimal 8 karakter, mengandung angka, dan huruf kecil.
                             </div>
                         </div>
                         <div class="form-group">
@@ -295,8 +294,8 @@
                 var confirmInput = $('#confirm');
                 var passwordInput = $('#pass');
 
-                const passwordRegex =
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,}$/;
+                const passwordRegex = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
+
 
                 if (!password.match(passwordRegex)) {
                     passwordInput.addClass("is-invalid");
@@ -315,8 +314,8 @@
                 var confirm = $('#confirmEdit').val();
                 var confirmInput = $('#confirmEdit');
                 var passwordInput = $('#passEdit');
-                const passwordRegex =
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,}$/;
+                const passwordRegex = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
+
 
                 if (!password.match(passwordRegex)) {
                     passwordInput.addClass("is-invalid");

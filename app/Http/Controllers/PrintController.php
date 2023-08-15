@@ -10,7 +10,6 @@ use App\Models\PengirimanHoDetail;
 use App\Models\Ekspedisi;
 use Illuminate\Http\Request;
 use PDF;
-
 use DB;
 
 class PrintController extends Controller
@@ -84,17 +83,4 @@ class PrintController extends Controller
         $pdf = PDF::loadView('admin.print', $data);
         return $pdf->download('suratjalan.pdf');
     }
-
-    //public function adminfaq()
-    //{
-    //    $data = ['row' => 1, 'barang' => 2];
-    //    $pdf = Pdf::loadView('admin.print', $data);
-    //    $pdf ->set_option('chroot', realpath(''));
-    //    $pdf ->set_option('isHtml5ParserEnabled', true);
-    //    $pdfContent = $pdf->output(); // generate the PDF content as a string
-    //    return response($pdfContent, 200, [
-    //        'Content-Type' => 'application/pdf',
-    //        'Content-Disposition' => 'inline; filename="surat_jalan.pdf"',
-    //    ]);
-    //}
 }
