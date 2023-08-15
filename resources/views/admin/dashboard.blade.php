@@ -166,7 +166,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Barang Aging <span class="txtBarangAging">| This Month</span> <i
                                 class="bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="top"
-                                title="Jumlah barang dalam Qty yang mengendap > 5 hari di HO"></i></h5>
+                                title="Jumlah barang dalam Qty yang mengendap > 4 hari di HO"></i></h5>
 
                         <div class="d-flex align-items-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -407,7 +407,7 @@
                         <h5 class="card-title">Chart Pengiriman Perusahaan <span class="txtPengirimanChart">| This
                                 Month</span> <i class="bi bi-info-circle" data-bs-toggle="tooltip"
                                 data-bs-placement="top"
-                                title="Chart pengiriman dari HO dan Pemasok ke perusahaan tujuan"></i></h5>
+                                title="Chart total jumlah pengiriman yang terjadi dari HO dan Pemasok ke perusahaan tujuan"></i></h5>
 
                         <div id="pieChart" style="min-height: 400px;"></div>
 
