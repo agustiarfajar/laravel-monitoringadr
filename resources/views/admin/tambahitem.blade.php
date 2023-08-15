@@ -27,7 +27,7 @@
                 @csrf
                 <div class="col-md-6">
                   <label for="user" class="form-label">Diminta Oleh</label>
-                  <input type="text" name="user" class="form-control" id="user" placeholder="Nama pemesan" required autocomplete="off" oninput="this.value = this.value.toUpperCase()">
+                  <input type="text" name="user" class="form-control" id="user" placeholder="Nama Pemesan" required autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                 </div>
 
                 <div class="col-md-6">

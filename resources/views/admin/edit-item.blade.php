@@ -43,7 +43,7 @@
 
                 <div class="col-md-12">
                   <label for="pemasok" class="form-label">Pemasok</label>
-                  <input type="text" class="form-control" name="pemasok" id="pemasok" placeholder="Nama Supplier" value="{{ $barang->pemasok }}" required>
+                  <input type="text" class="form-control" name="pemasok" id="pemasok" placeholder="Nama Pemasok" value="{{ $barang->pemasok }}" required>
                 </div>
 
                 <div class="col-md-8">

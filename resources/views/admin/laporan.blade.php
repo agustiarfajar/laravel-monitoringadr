@@ -29,12 +29,10 @@
                 ?>
                         <option value="barang_aging" <?= $_GET['type'] == 'barang_aging' ? 'selected' : '' ?>>Laporan Barang
                             Aging</option>
-                        <option value="laporan3" <?= $_GET['type'] == 'laporan3' ? 'selected' : '' ?>>Laporan 3</option>
                         <?php
               } else {
                 ?>
                         <option value="barang_aging">Laporan Barang Aging</option>
-                        <option value="laporan3">Laporan 3</option>
                         <?php
               }
 

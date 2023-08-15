@@ -46,19 +46,22 @@ Route::get('/', function () {
     }
 
 })->middleware('auth');
+
 Route::get('/no-access',function(){
     return view('admin.403');
 });
+
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::post('/logout', [HomeController::class, 'logout'])->name('logout');
 Route::post('/prosesLogin', [HomeController::class, 'prosesLogin']);
-Route::get('/register', [HomeController::class, 'regist']);
 Route::get('/faq', [HomeController::class, 'faq']);
 
 Route::middleware(['auth'])->group(function () {
+
     // Rute-rute yang memerlukan otentikasi
     Route::group(['middleware' => 'check.permission:dashboard'], function () {
         Route::get('/admin-dashboard', [AdminController::class, 'dashboard']);
+
         // Dashboard periode
         Route::post('/sisa-barang-ho-update/periode', [AdminController::class, 'update_sisa_barang_ho_periode']);
         Route::post('/barang-masuk-update/periode', [AdminController::class, 'update_barang_masuk']);
@@ -71,10 +74,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/chart-update/periode', [AdminController::class, 'update_chart_periode']);
         Route::post('/chart-pengiriman-update/periode', [AdminController::class, 'update_chart_pengiriman_periode']);
 
+        // Print
         Route::get('/print/{id}', [PrintController::class, 'print']);
         Route::get('/printho/{id}', [PrintController::class, 'print_ho']);
 
     });
+
     Route::group(['middleware' => 'check.permission:perusahaan'], function () {
         // Perusahaan
         Route::get('/perusahaan', [AdminController::class, 'view_perusahaan']);
@@ -82,23 +87,26 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/perusahaan/update/{id}', [AdminController::class, 'update_perusahaan']);
         Route::get('/perusahaan/delete/{id}', [AdminController::class, 'delete_perusahaan']);
     });
+
     Route::group(['middleware' => 'check.permission:ekspedisi'], function () {
-        /// Ekspedisi
+        // Ekspedisi
         Route::get('/ekspedisi', [AdminController::class, 'view_ekspedisi']);
         Route::post('/ekspedisi/save', [AdminController::class, 'save_ekspedisi']);
         Route::post('/ekspedisi/update/{id}', [AdminController::class, 'update_ekspedisi']);
         Route::get('/ekspedisi/delete/{id}', [AdminController::class, 'delete_ekspedisi']);
     });
+
     Route::group(['middleware' => 'check.permission:user'], function () {
-        //User
+        // User
         Route::get('/user-access', [UserController::class, 'view_user']);
         Route::get('/getUserDetailJson/{id}', [UserController::class, 'getUserDetailJson']);
         Route::post('/createUsers', [UserController::class, 'create_user']);
         Route::post('/updateUsers/{id}', [UserController::class, 'update_user']);
         Route::delete('/deleteUsers/{id}', [UserController::class, 'delete_user']);
     });
+
     Route::group(['middleware' => 'check.permission:role'], function () {
-        //Role
+        // Role
         Route::get('/role-access', [RoleController::class, 'view_role']);
         Route::post('/saveRole', [RoleController::class, 'save_role']);
         Route::post('/updateRole/{id}', [RoleController::class, 'update_role']);
@@ -107,6 +115,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/getRole/json/{id}', [RoleController::class, 'getRoleByJson']);
         Route::get('/getCountUser/json/{id}', [RoleController::class, 'getCountUser']);
     });
+
     Route::group(['middleware' => 'check.permission:barangHO'], function () {
         Route::get('/tambahitem', [AdminController::class, 'additem']);
         Route::post('/simpan-item', [AdminController::class, 'simpan_item']);
@@ -115,17 +124,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/delete-item/{id}', [AdminController::class, 'delete_item']);
         Route::get('/detail/pengiriman-site/{id}', [AdminController::class, 'detail_pengiriman_site']);
     });
+
     Route::group(['middleware' => 'check.permission:pengiriman'], function () {
         Route::get('/adminstatus', [AdminController::class, 'adminstatus']);
         Route::get('/tambah-pengiriman-site', [FormController::class, 'index'])->name('form.index');
         Route::post('/simpan-pengiriman-site', [FormController::class, 'save_barang']);
-
         Route::get('/tambah-pengiriman', [FormController::class, 'index2'])->name('form.index2');
         Route::post('/simpan-pengiriman-ho', [FormController::class, 'simpan_pengiriman_ho']);
         Route::post('/get-item', [FormController::class, 'get_item']);
-        Route::get('/detail/pengiriman-ho/{id}',
-            [AdminController::class, 'detail_pengiriman_ho']
-        );
+        Route::get('/detail/pengiriman-ho/{id}', [AdminController::class, 'detail_pengiriman_ho']);
         Route::get('/reset-form', [FormController::class, 'reset'])->name('form.reset');
         Route::get('/form', [FormController::class, 'form'])->name('form.first');
     });
@@ -136,9 +143,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/export-laporan-kpi', [AdminController::class, 'exportDataToCsv']);
     });
 
-
-
-
     Route::post('/filter-pengiriman', [AdminController::class, 'filter_pengiriman']);
     Route::get('/adminfaq', [AdminController::class, 'adminfaq']);
 
@@ -146,11 +150,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/daftar-barang', [AdminController::class, 'daftarbarang']);
     Route::get('/edit-ekspedisi', [AdminController::class, 'editekspedisi']);
 
-    //Route::get('/tambah-pengiriman', [AdminController::class, 'addpengiriman']);
-
     Route::delete('/delete-data/{id}', [FormController::class, 'deleteData'])->name('data.delete');
-
-    Route::get('/data', [DataController::class, 'index'])->name('data.index');
 
 
     // Update status pengiriman pemasok
@@ -162,6 +162,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-status-ho/kirim/{id}', [AdminController::class, 'update_status_kirim_ho']);
     Route::post('/update-status-ho/terima/{id}', [AdminController::class, 'update_status_terima_ho']);
     Route::post('/update-status-ho/batal/{id}', [AdminController::class, 'update_status_batal_ho']);
-    // Route::post('/post', [FormController::class, 'post'])->name('admin.status');
 
 });

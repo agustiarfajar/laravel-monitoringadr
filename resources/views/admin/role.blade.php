@@ -48,7 +48,7 @@
 
                 <div class="col-md-6">
                     <label for="role" class="form-label">Role</label>
-                    <input type="text" name="name" id="role" class="form-control" placeholder="Masukkan role"
+                    <input type="text" name="name" id="role" class="form-control" placeholder="Masukkan Role"
                         autocomplete="off">
                     <div class="invalid-feedback">
                         Nama role sudah digunakan
