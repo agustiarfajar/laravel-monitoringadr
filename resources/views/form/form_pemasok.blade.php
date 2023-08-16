@@ -41,7 +41,7 @@
 
                     <div class="col-md-6">
                       <label for="pic" class="form-label">PIC Perusahaan</label>
-                      <input type="text" class="form-control" list="dataOptions" id="pic" name="pic" placeholder="Nama Penerima" required>
+                      <input type="text" class="form-control" list="dataOptions" id="pic" name="pic" placeholder="Nama Penerima" required oninput="this.value = this.value.toUpperCase()">
                       <datalist id="dataOptions">
                           <option value="R. Basuki">
                           <option value="Wasis">
@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-md-6">
                       <label for="telp" class="form-label">No Telepon</label>
-                      <input type="text" class="form-control" id="telp" name="telpon" maxlength="13" placeholder="Nomor Telepon Pemasok" required autocomplete="off">
+                      <input type="text" class="form-control" id="telp" name="telpon" maxlength="13" placeholder="Nomor Telepon Pemasok" required autocomplete="off" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                     </div>
 
                     <div class="col-md-12">
@@ -87,7 +87,7 @@
                   <div class="row g-3">
                     <div class="col-md-12 ">
                       <label for="user" class="form-label">Diminta Oleh</label>
-                      <input type="text" class="form-control" id="user" placeholder="Nama Pemesan" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
+                      <input type="text" class="form-control" id="user" placeholder="Nama Pemesan" autocomplete="off" oninput="validateInput(this); this.value = this.value.toUpperCase();" >
                     </div>
 
                     <div class="col-md-8 ">
@@ -100,8 +100,8 @@
                     </div>
                     <div class="col-md-2 ">
                       <label for="unit" class="form-label">Unit</label>
-                      <select id="unit" class="form-select">
-                        <option hidden>Pilih Unit</option>
+                      <select id="unit" class="form-select" name="unit">
+                        <option hidden>Pilih Satuan Unit</option>
                         <option>UNIT</option>
                         <option>PCS</option>
                         <option>SET</option>
@@ -176,6 +176,11 @@
           theme: 'bootstrap-5'
         });
 
+        $('#pic').on('input', function() {	
+        var sanitizedInput = $(this).val().replace(/[^a-zA-Z\s]/g, ''); // Hapus karakter selain huruf dan spasi	
+        $(this).val(sanitizedInput);	
+        });	
+
         $('.select-ekspedisi').select2({
           theme: 'bootstrap-5'
         });
@@ -200,6 +205,12 @@
                 title: 'Warning',
                 text: 'Isikan jumlah dengan minimal 1'
               });
+          } else if (unit == '' || !["UNIT", "PCS", "SET", "BOX", "SHT", "LTR", "ROLL", "PACK", "BTG", "MTR", "BTL", "KG"].includes(unit)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Pilih unit yang valid'
+            });
           } else {
               jumlah = parseInt(jumlah);
               no = no+1;
@@ -223,49 +234,57 @@
           $('#data-index'+id).remove();
       }
 
-      // Sweetalert
-      function konfirmasiSimpan()
-      {
-          event.preventDefault();
-          var form = event.target.form;
-          // var id = $('name').val();
-          var perusahaan = $('#perusahaan').val();
-          var pic = $('#pic').val();
-          var id_ekspedisi = $('#ekspedisi').val();
-          var pemasok = $('#pemasok').val();
-          var telp = $('#telpon').val();
-          var id_barang_db = $('#id_barang').val();
-          var user = $('#user').val();
-          var item = $('#item').val();
-          var jumlah = $('#jumlah').val();
-          var unit = $('#unit').val();
-          var no_po = $('#nomor').val();
-          var jmlDetail = $('#table_detail tbody tr').length;
+      function validateInput(inputElement) {
+        const inputValue = inputElement.value;
+        const onlyLetters = /^[A-Za-z\s]+$/; // Regular expression for letters and spaces
 
-        if(perusahaan == '' || pic == '' || id_ekspedisi == '' || pemasok == '' || telp == '' || id_barang_db == '' || jmlDetail < 1)
-        {
-          Swal.fire({
+        if (!onlyLetters.test(inputValue)) {
+            inputElement.value = inputValue.replace(/[^A-Za-z\s]/g, ''); // Remove non-letter characters
+        }
+      }
+
+      // Sweetalert
+      function konfirmasiSimpan() {
+    event.preventDefault();
+    var form = event.target.form;
+    // var id = $('name').val();
+    var perusahaan = $('#perusahaan').val();
+    var pic = $('#pic').val();
+    var id_ekspedisi = $('#ekspedisi').val();
+    var pemasok = $('#pemasok').val();
+    var telp = $('#telpon').val();
+    var id_barang_db = $('#id_barang').val();
+    var user = $('#user').val();
+    var item = $('#item').val();
+    var jumlah = $('#jumlah').val();
+    var unit = $('#unit').val();
+    var no_po = $('#nomor').val();
+    var jmlDetail = $('#table_detail tbody tr').length;
+
+    if (perusahaan == '' || pic == '' || id_ekspedisi == '' || pemasok == '' || telp == '' || id_barang_db == '' || jmlDetail < 1) {
+        Swal.fire({
             icon: 'warning',
             title: 'Warning',
             text: 'Pastikan data terisi'
-          });
-        } else {
-          Swal.fire({
-              icon: "question",
-              title: "Konfirmasi",
-              text: "Apakah anda yakin ingin menyimpan data?",
-              showCancelButton: true,
-              confirmButtonText: "Simpan",
-              cancelButtonText: "Batal"
-          }).then((result) => {
-              if(result.value) {
-                  form.submit();
-              } else {
-                  Swal.fire("Informasi","Data batal disimpan","error");
-              }
-          });
-        }
-      }
+        });
+    } else {
+        Swal.fire({
+            icon: "question",
+            title: "Konfirmasi",
+            text: "Apakah anda yakin ingin menyimpan data?",
+            showCancelButton: true,
+            confirmButtonText: "Simpan",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.value) {
+                form.submit();
+            } else {
+                Swal.fire("Informasi", "Data batal disimpan", "error");
+            }
+        });
+    }
+}
+
     </script>
 
 

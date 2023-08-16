@@ -122,7 +122,7 @@
                                             class="form-control tanggal_dikirim_sitexxx"
                                             onchange="konfirmasiTglKirimSite({{ $row->id }}, $(this).val())"
                                             value="{{ $row->tgl_kirim_pemasok }}"
-                                            {{ $row->status == 'dikirim' || $row->status == 'diterima' || $row->status == 'dibatalkan' ? 'readonly' : '' }}>
+                                            {{ $row->status == 'dikirim' || $row->status == 'diterima' || $row->status == 'dibatalkan' ? 'readonly' : '' }} min="{{ date('Y-m-d') }}">
                                     @else
                                         -
                                     @endif
@@ -133,13 +133,13 @@
                                             class="form-control tanggal_diterima_hoxx"
                                             onchange="konfirmasiTglHO({{ $row->id }}, $(this).val())"
                                             value="{{ $row->tgl_diterima_site }}"
-                                            {{ $row->status == 'diterima' || $row->status == 'dibatalkan' ? 'readonly' : '' }}>
+                                            {{ $row->status == 'diterima' || $row->status == 'dibatalkan' ? 'readonly' : '' }} min="{{ date('Y-m-d') }}">
                                     @elseif(substr($row->no_faktur, 0, 2) == 'SP')
                                         <input type="date" data-id="{{ $row->id }}"
                                             class="form-control tanggal_diterima_sitexxx"
                                             onchange="konfirmasiTglSite({{ $row->id }}, $(this).val())"
                                             value="{{ $row->tgl_diterima_site }}"
-                                            {{ $row->status == 'diterima' || $row->status == 'diproses' || $row->status == 'dibatalkan' ? 'readonly' : '' }}>
+                                            {{ $row->status == 'diterima' || $row->status == 'diproses' || $row->status == 'dibatalkan' ? 'readonly' : '' }} min="{{ date('Y-m-d') }}">
                                     @endif
                                 </td>
                                 <td>
@@ -275,6 +275,7 @@
         function inputTglDiterimaHO() {
             // Update HO tanggal diterima
             $('.tanggal_diterima_ho').each(function() {
+                $(this).attr('min', new Date().toISOString().split('T')[0]);
                 $(this).on('change', function() {
                     const id = $(this).data('id');
                     const tgl = $(this).val();
@@ -286,6 +287,7 @@
         function inputTglDikirimSite() {
             // Update HO tanggal diterima
             $('.tanggal_dikirim_site').each(function() {
+                $(this).attr('min', new Date().toISOString().split('T')[0]);
                 $(this).on('change', function() {
                     const id = $(this).data('id');
                     const tgl = $(this).val();
@@ -297,6 +299,7 @@
         function inputTglDiterimaSite() {
             // Update HO tanggal diterima
             $('.tanggal_diterima_site').each(function() {
+                $(this).attr('min', new Date().toISOString().split('T')[0]);
                 $(this).on('change', function() {
                     const id = $(this).data('id');
                     const tgl = $(this).val();
@@ -714,94 +717,5 @@
             }
 
         });
-
-        // window.onscroll = function() {myFunction()};
-
-        // var button = document.querySelector('.floating-button');
-        // var buttonOffset = button.offsetTop;
-
-        // function myFunction() {
-        //   if (window.pageYOffset > buttonOffset) {
-        //     button.classList.add('fixed-button');
-        //   } else {
-        //     button.classList.remove('fixed-button');
-        //   }
-        // }
-
-
-        // Fungsi untuk mencetak halaman saat tombol diclick
-        //    function printPage() {
-        //    //  window.print();
-        //    alert()
-        //  }
-        //
-        //  //   // Mendapatkan referensi tombol print
-        //  //   const printButton = document.getElementById('printButton');
-        //  //   // console.log(printButton)
-        //
-        //  //   // // Menambahkan event listener untuk tombol print
-        //  //   // printButton.addEventListener('click', function(){
-        //  //   //   alert()
-        //  //   // });
-        //
-        //  //   $('#printButton').on('click', function() {
-        //  //   alert();
-        //  // });
-        //
-        //  //function print(a)
-        //  //{
-        //  //  alert(a)
-        //  //}
-        //
-        //  $.ajax({
-        //    method: "GET",
-        //    url: "/print/{id}"
-        //    })
-        //    .done(function(msg) {
-        //    alert("Data Saved: " + msg );
-        //    });
-        //
-        //    $(document).ready(function print() {
-        //      $("#printButton").click(function() {
-        //        var fileUrl = "/print/{id}";
-        //        window.location.href = fileUrl;
-        //      });
-        //    });
-        //
-        //
-        //
-        //    $(document).ready(function () {
-        //        $("#printButton").click(function () {
-        //            // Ganti "http://example.com/path/to/your/file.pdf" dengan URL PDF Anda
-        //            var pdfUrl = "/print/{id}"
-        //            // Menggunakan metode Ajax untuk mengambil data PDF
-        //            $.ajax({
-        //                url: pdfUrl,
-        //                type: "GET",
-        //                xhrFields: {
-        //                    responseType: 'blob' // Menentukan bahwa responsnya akan berupa Blob
-        //                },
-        //                success: function (data) {
-        //                    // Membuat objek URL dari Blob PDF
-        //                    var pdfBlob = new Blob([data], { type: 'application/pdf' });
-        //                    var pdfUrl = URL.createObjectURL(pdfBlob)
-        //                    // Membuat link sementara untuk diunduh
-        //                    var downloadLink = document.createElement('a');
-        //                    downloadLink.href = pdfUrl;
-        //                    downloadLink.download = 'downloaded_file.pdf';
-        //                    document.body.appendChild(downloadLink)
-        //                    // Simulasi klik pada link untuk memulai unduhan
-        //                    downloadLink.click()
-        //                    // Membersihkan objek URL dan link
-        //                    URL.revokeObjectURL(pdfUrl);
-        //                    document.body.removeChild(downloadLink);
-        //                },
-        //                error: function () {
-        //                    alert('Gagal mengunduh PDF.');
-        //                }
-        //            });
-        //        });
-        //    });
-        //
     </script>
 @endsection
