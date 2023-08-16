@@ -122,55 +122,62 @@
     return formattedToday;
   }
   // Sweetalert
-  function konfirmasiSimpan()
-  {
-      event.preventDefault();
-      var form = event.target.form;
-      var user = $('#user').val();
-      var perusahaan = $('#perusahaan').val();
-      var pemasok = $('#pemasok').val();
-      var item = $('#item').val();
-      var jumlah = $('#jumlah').val();
-      var unit = $('#unit').val();
-      var no_po = $('#nomor_po').val();
-      var tgl_kedatangan = $('#tgl_kedatangan').val();
-      console.log(dateNow());
+function konfirmasiSimpan() {
+    event.preventDefault();
+    var form = event.target.form;
+    var user = $('#user').val();
+    var perusahaan = $('#perusahaan').val();
+    var pemasok = $('#pemasok').val();
+    var item = $('#item').val();
+    var jumlah = $('#jumlah').val();
+    var unit = $('#unit').val();
+    var no_po = $('#nomor_po').val();
+    var tgl_kedatangan = $('#tgl_kedatangan').val();
+    console.log(dateNow());
 
-      if(user == '' || perusahaan == '' || pemasok == '' || item == '' || jumlah == '' || unit == '' || no_po == '' || tgl_kedatangan == '')
-      {
+    var allowedUnits = ["UNIT", "PCS", "SET", "BOX", "SHT", "LTR", "ROLL", "PACK", "BTG", "MTR", "BTL", "KG"];
+
+    if (user == '' || perusahaan == '' || pemasok == '' || item == '' || jumlah == '' || unit == '' || no_po == '' || tgl_kedatangan == '') {
         Swal.fire({
-          icon: 'warning',
-          title: 'Warning',
-          text: 'Pastikan semua data terisi'
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Pastikan semua data terisi'
         });
-      } else if(jumlah <= 0){
+    } else if (jumlah <= 0) {
         Swal.fire({
             icon: 'warning',
             title: 'Warning',
             text: 'Isikan jumlah dengan minimal 1'
-          });
-      } else if(tgl_kedatangan > dateNow()) {
+        });
+    } else if (!allowedUnits.includes(unit)) { // Check if selected unit is in the allowed list
+        Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Pilih satuan unit yang valid'
+        });
+    } else if (tgl_kedatangan > dateNow()) {
         Swal.fire({
             icon: 'warning',
             title: 'Warning',
             text: 'Isikan tanggal dengan benar'
-          });
-      } else {
+        });
+    } else {
         Swal.fire({
-          icon: "question",
-          title: "Konfirmasi",
-          text: "Apakah anda yakin ingin menyimpan data?",
-          showCancelButton: true,
-          confirmButtonText: "Simpan",
-          cancelButtonText: "Batal"
+            icon: "question",
+            title: "Konfirmasi",
+            text: "Apakah anda yakin ingin menyimpan data?",
+            showCancelButton: true,
+            confirmButtonText: "Simpan",
+            cancelButtonText: "Batal"
         }).then((result) => {
-            if(result.value) {
+            if (result.value) {
                 form.submit();
             } else {
-                Swal.fire("Informasi","Data batal disimpan","error");
+                Swal.fire("Informasi", "Data batal disimpan", "error");
             }
         });
-      }
-  }
+    }
+}
+
 </script>
 @endsection

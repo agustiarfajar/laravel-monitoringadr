@@ -34,7 +34,7 @@
 
               <div class="col-md-6">
                 <label for="pic" class="form-label">PIC Perusahaan</label>
-                <input type="text" class="form-control" list="dataOptions" id="pic" name="pic" placeholder="Nama Penerima">
+                <input type="text" class="form-control" list="dataOptions" id="pic" name="pic" placeholder="Nama Penerima" oninput="this.value = this.value.toUpperCase()">
                 <datalist id="dataOptions">
                     <option value="R. Basuki">
                     <option value="Wasis">
@@ -188,41 +188,49 @@
         })
 
         $('#btnSubmit').on('click', function() {
-          $('.cek-barang').each(function() {
-            if($(this).is(':checked')) {
-              var row = $(this).closest('tr');
-              var id_barang = row.find('#id_barang');
-              var user = row.find('#user');
-              var pemasok = row.find('#pemasok');
-              var item = row.find('#item');
-              var jumlah = row.find('.jml_kirim');
-              var unit = row.find('#unit');
-              var nomor_po = row.find('#nomor_po');
-              var tgl_kedatangan = row.find('#tgl_kedatangan');
+    $('.cek-barang').each(function() {
+        if($(this).is(':checked')) {
+            var row = $(this).closest('tr');
+            var id_barang = row.find('#id_barang');
+            var user = row.find('#user');
+            var pemasok = row.find('#pemasok');
+            var item = row.find('#item');
+            var jumlah = row.find('.jml_kirim');
+            var unit = row.find('#unit');
+            var nomor_po = row.find('#nomor_po');
+            var tgl_kedatangan = row.find('#tgl_kedatangan');
+            var jumlahTersedia = parseFloat(jumlah.attr('max')); // Ambil nilai maksimum dari atribut max
 
-              if(jumlah.val() == '') {
+            if(jumlah.val() == '') {
                 return Swal.fire({
-                  icon: 'warning',
-                  title: 'Warning',
-                  text: 'Isi jumlah barang yang akan dikirim'
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Isi jumlah barang yang akan dikirim'
                 });
-              } else if(jumlah.val() <= 0) {
+            } else if(jumlah.val() <= 0) {
                 return Swal.fire({
-                  icon: 'warning',
-                  title: 'Warning',
-                  text: 'Isikan jumlah dengan minimal 1'
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Isikan jumlah dengan minimal 1'
                 });
-              } else {
+            } else if(parseFloat(jumlah.val()) > jumlahTersedia) {
+                return Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Jumlah kirim melebihi jumlah yang tersedia'
+                });
+            } else {
                 var items = {
-                  id: id_barang.val(),
-                  user: user.val(),
-                  pemasok: pemasok.val(),
-                  item: item.val(),
-                  jumlah: jumlah.val(),
-                  unit: unit.val(),
-                  nomor_po: nomor_po.val(),
-                  tgl_kedatangan: tgl_kedatangan.val()
+                    id: id_barang.val(),
+                    user: user.val(),
+                    pemasok: pemasok.val(),
+                    item: item.val(),
+                    jumlah: jumlah.val(),
+                    unit: unit.val(),
+                    nomor_po: nomor_po.val(),
+                    tgl_kedatangan: tgl_kedatangan.val()
                 }
+
 
                 var uniqueKey = Object.keys(myObject).length;
                 myObject[uniqueKey] = items;
@@ -252,6 +260,11 @@
           myObject = {};
         });
       })
+
+      $('#pic').on('input', function() {
+        var sanitizedInput = $(this).val().replace(/[^a-zA-Z\s]/g, ''); // Hapus karakter selain huruf dan spasi
+        $(this).val(sanitizedInput);
+    });
 
       function hapusBarang(id)
       {

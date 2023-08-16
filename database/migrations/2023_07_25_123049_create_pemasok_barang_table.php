@@ -25,11 +25,11 @@ class CreatePemasokBarangTable extends Migration
             $table->date('tgl_surat_jalan')->nullable();
             $table->date('tgl_kirim_pemasok')->nullable();
             $table->date('tgl_diterima_site')->nullable();     
-            $table->enum('status', ['diproses', 'dikirim', 'diterima', 'dibatalkan']);     
-
-            $table->foreign('id_perusahaan')->references('id')->on('ms_perusahaan')->onDelete('restrict');
-            $table->foreign('id_ekspedisi')->references('id')->on('ms_ekspedisi')->onDelete('restrict');
+            $table->string('status'); // Enum types not supported, using string instead
             $table->timestamps();
+
+            $table->foreign('id_perusahaan')->references('id')->on('ms_perusahaan');
+            $table->foreign('id_ekspedisi')->references('id')->on('ms_ekspedisi');
         });
     }
 
